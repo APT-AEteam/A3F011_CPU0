@@ -1,0 +1,40 @@
+name: sdk_011_CPU0
+version: v0.0.0
+description: ""
+tag: ""
+keywords: 
+author:
+  name: ""
+license: ""
+homepage: 
+type: sdk
+depends:
+  - A3F011_CPU0_chip: v0.0.0
+  - A3F011_CPU0_evb: v0.0.0
+  - apt_console: v0.0.0
+  - apt_csi: v0.0.0
+hw_info:
+  cpu_id: ""
+  cpu_name: ""
+  vendor_name: ""
+  chip_name: ""
+  board_name: ""
+  ld_script: ""
+  flash_program: ""
+build_config:
+  include: 
+  internal_include: 
+  cflag: ""
+  cxxflag: ""
+  asmflag: ""
+  define: 
+  libs: 
+  libpath: 
+source_file: 
+def_config: 
+install: 
+depends_forward:
+  - A3F011_CPU0_chip: v0.0.0
+  - A3F011_CPU0_evb: v0.0.0
+  - apt_console: v0.0.0
+  - apt_csi: v0.0.0
