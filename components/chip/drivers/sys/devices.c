@@ -27,7 +27,7 @@
 const csi_irqmap_t irq_map[] = {
 	
 	{CORE_ADDR_BASE,			CORET_IRQn		},
-    {SYSCON_ADDR_BASE,			SYSCON_IRQ_NUM		},
+    {AHB_SYSCON_BASE,			SYSCON_IRQ_NUM		},
     {AHB_ADC0_BASE,             ADC0_IRQn		},
     {AHB_ADC1_BASE,             ADC0_IRQn		},
 	{AHB_DMA0_BASE,             DMA0_IRQn		},
@@ -47,7 +47,7 @@ const csi_irqmap_t irq_map[] = {
 	{APB_UART0_BASE,           	UART0_IRQn		},
 	{APB_UART1_BASE,           	UART1_IRQn		},
 	{APB_UART2_BASE,           	UART2_IRQn		},
-	{QSPI_ADDR_BASE,           	QSPI_IRQn		},
+	{AHB_QSPI_BASE,           	QSPI_IRQn		},
 	{APB_SIO0_BASE,             SIO0_IRQn		},
 	{APB_SIO1_BASE,             SIO1_IRQn		},
 	{APB_I2C0_BASE,             I2C_IRQn		},

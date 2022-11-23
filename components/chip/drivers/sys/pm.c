@@ -105,7 +105,7 @@ csi_error_t csi_pm_config_wakeup_source(csi_wakeup_src_e eWkupSrc, bool bEnable)
 {
     uint32_t wIrqNum;
 	csi_error_t ret = CSI_OK;
-	csp_syscon_t *ptSysconBase  = (csp_syscon_t*)SYSCON_ADDR_BASE;
+	csp_syscon_t *ptSysconBase  = (csp_syscon_t*)AHB_SYSCON_BASE;
 	switch (eWkupSrc)
 		{
 			case (WKUP_IWDT):
@@ -167,7 +167,7 @@ csi_error_t csi_pm_config_wakeup_source(csi_wakeup_src_e eWkupSrc, bool bEnable)
  */
 void csi_pm_clk_enable(csi_pm_clk_e eOsc, bool bEnable)
 {
-	csp_syscon_t *ptSysconBase  = (csp_syscon_t*)SYSCON_ADDR_BASE;
+	csp_syscon_t *ptSysconBase  = (csp_syscon_t*)AHB_SYSCON_BASE;
 	
 	if(bEnable)
 	{
@@ -188,7 +188,7 @@ void csi_pm_clk_enable(csi_pm_clk_e eOsc, bool bEnable)
  */
 void csi_pm_clr_wkint(uint8_t byWkInt)
 {
-	csp_syscon_t *ptSysconBase  = (csp_syscon_t*)SYSCON_ADDR_BASE;
+	csp_syscon_t *ptSysconBase  = (csp_syscon_t*)AHB_SYSCON_BASE;
 	ptSysconBase->ICR = ((byWkInt & 0x0f) << 24);				//PA00/PB011/PA12/PB011
 }
 /** \brief clear wkalv int status
@@ -198,6 +198,6 @@ void csi_pm_clr_wkint(uint8_t byWkInt)
  */
 uint8_t csi_pm_get_wkint(void)
 {
-	csp_syscon_t *ptSysconBase  = (csp_syscon_t*)SYSCON_ADDR_BASE;
+	csp_syscon_t *ptSysconBase  = (csp_syscon_t*)AHB_SYSCON_BASE;
 	return (uint8_t)((ptSysconBase->RISR >> 24) & 0x0f);
 }
