@@ -138,7 +138,7 @@ typedef enum {
 	BT3_IRQn      					= 63U,
 	I2S0_IRQn      					= 64U,
 	I2S1_IRQn      					= 65U,
-	MBOX0_INT1_IRQn      			= 66U,  //CPU1 GENERATE
+	MBOX1_INT1_IRQn      			= 66U,  //CPU1 GENERATE
 //	MBOX1_IRQn      				= 67U,
 	TRNG_IRQn      					= 68U,
 	AES_IRQn      					= 69U,
@@ -1018,7 +1018,7 @@ typedef enum{
 #define APB_TKEY_BASE		(APB1_PERI_BASE + 0xB0000)
 #define APB_TKDATA_BASE		(APB1_PERI_BASE + 0xB1000)
 #define APB_TKEYSEQ_BASE	(APB1_PERI_BASE + 0xB2000)
-#define APB_MBOX0_BASE		(APB1_PERI_BASE + 0xC0000)
+
 
 
 //AHB1-APB2 for A3F011_CPU0
@@ -1065,6 +1065,7 @@ typedef enum{
 
 #define AHB_USB_BASE  		0x43000000UL 
 #define AHB_USBUF_BASE  	0x44000000UL 
+#define AHB_MBOX0_BASE		0x45000000UL 
 
 //AHB2
 #define AHB_GPIO_BASE 		0x50000000UL
@@ -1100,11 +1101,17 @@ typedef enum{
 #define CORE_ADDR_BASE  	0xE0000000//0xE0004000
 #define CLIC_ADDR_BASE      0xE0800000 	
 
+
+
 //CPU1 BASE ADDR
 #define CPU1_APB_PERI_BASE			0x92000000UL 
 #define CPU1_APB_SPI0_BASE  		(CPU1_APB_PERI_BASE + 0x00000)
 #define CPU1_APB_BT0_BASE       	(CPU1_APB_PERI_BASE + 0x10000)
-#define CPU1_APB_MBOX1_BASE  		(CPU1_APB_PERI_BASE + 0x20000)
+
+
+#define CPU1_AHB_SRAM1_BASE      	0x90000000UL   //CODE SRAM
+#define CPU1_AHB_SRAM2_BASE     	0x91000000UL   //DATA SRAM
+#define CPU1_AHB_MBOX1_BASE  		0x93000000UL
 
 
 
@@ -1226,7 +1233,7 @@ void bt3_int_handler(void);				//BT3 interrupt
 void i2s0_int_handler(void);				//i2s0 interrupt
 void i2s1_int_handler(void);				//i2s1 interrupt
 
-void mbox0_int1_int_handler(void);      //mailbox0_int1 interrupt
+void mbox1_int1_int_handler(void);      //mailbox1_int1 interrupt
 void trng_int_handler(void);            //trng      
 void aes_int_handler(void);             //AES
 void rsa_int_handler(void);             //RSA

@@ -734,13 +734,13 @@ I2S1_IRQHandler:
 	jal		Irq_Exit
 	
 	.align  2
-    .global MBOX0_INT1_IRQHandler
-    .weak   MBOX0_INT1_IRQHandler
-    .type   MBOX0_INT1_IRQHandler, %function
-MBOX0_INT1_IRQHandler:
+    .global MBOX1_INT1_IRQHandler
+    .weak   MBOX1_INT1_IRQHandler
+    .type   MBOX1_INT1_IRQHandler, %function
+MBOX1_INT1_IRQHandler:
 	ipush
     jal		Irq_Entry
-    jal     mbox0_int1_int_handler
+    jal     mbox1_int1_int_handler
 	jal		Irq_Exit
 	
 	.align  2

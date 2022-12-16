@@ -451,9 +451,9 @@ void i2s1_int_handler(void)
 #endif	
 }
 
-void mbox0_int1_int_handler(void) 
+void mbox1_int1_int_handler(void) 
 {
-#if	MBOX0_INT1_INT_HANDLE_EN
+#if	MBOX1_INT1_INT_HANDLE_EN
     // ISR content ...
 #endif	
 }

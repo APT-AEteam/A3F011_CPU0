@@ -88,7 +88,7 @@ void irq_vectors_init(void)
 	g_irqvector[I2S0_IRQn] 			= i2s0_int_handler;
 	g_irqvector[I2S1_IRQn] 			= i2s1_int_handler;
 	
-	g_irqvector[MBOX0_INT1_IRQn] 	= mbox0_int1_int_handler; //CPU1 generate
+	g_irqvector[MBOX1_INT1_IRQn] 	= mbox1_int1_int_handler; //CPU1 generate
 //	g_irqvector[MBOX1_IRQn] 		= mbox1_int_handler;		
 	
 	g_irqvector[TRNG_IRQn] 			= trng_int_handler;

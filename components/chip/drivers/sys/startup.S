@@ -166,7 +166,7 @@ __Vectors:
     .long   BT3_IRQHandler
 	.long   I2S0_IRQHandler
     .long   I2S1_IRQHandler     //65
-	.long   MBOX0_INT1_IRQHandler  
+	.long   MBOX1_INT1_IRQHandler  
     .long   Default_Handler			//67
     .long   TRNG_IRQHandler			
     .long   AES_IRQHandler

@@ -70,7 +70,7 @@ const csi_irqmap_t irq_map[] = {
     {APB_BT3_BASE,            	BT3_IRQn		},
 	{APB_I2S0_BASE,             I2S0_IRQn		},
     {APB_I2S1_BASE,            	I2S1_IRQn		},
-	{CPU1_APB_MBOX1_BASE,       MBOX0_INT1_IRQn	},
+	{CPU1_AHB_MBOX1_BASE,       MBOX1_INT1_IRQn	},
     {AHB_TRNG_BASE,            	TRNG_IRQn		},
 	{AHB_AES_BASE,      		AES_IRQn		},
     {AHB_RSA_BASE,            	RSA_IRQn		},

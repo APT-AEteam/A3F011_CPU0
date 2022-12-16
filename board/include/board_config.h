@@ -147,7 +147,7 @@ extern "C" {
 #define	CMP1_INT_HANDLE_EN				1		//CMP1
 #define	CMP2_INT_HANDLE_EN				1		//CMP2
 //#define	LED_INT_HANDLE_EN				1		//LED
-#define MBOX0_INT1_INT_HANDLE_EN		1      //mailbox0_int1
+#define MBOX1_INT1_INT_HANDLE_EN		1      //mailbox1_int1
 #define TRNG_INT_HANDLE_EN				1      //trng
 #define AES_INT_HANDLE_EN				1		//AES
 #define RSA_INT_HANDLE_EN				1     //RSA
