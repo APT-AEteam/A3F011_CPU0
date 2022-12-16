@@ -113,12 +113,14 @@ extern "C" {
 //#define	GPTB3_INT_HANDLE_EN             1       //GPTB3
 //#define	GPTB4_INT_HANDLE_EN             1       //GPTB4
 //#define	GPTB5_INT_HANDLE_EN             1       //GPTB5
+#define TKEY_INT_HANDLE_EN				1       //TKEY
 #define	DAC0_INT_HANDLE_EN	            1       //DAC0
 #define	RTC_INT_HANDLE_EN				1		//RTC
 #define	UART0_INT_HANDLE_EN				1		//UART0
 #define	UART1_INT_HANDLE_EN				1		//UART1
 #define	UART2_INT_HANDLE_EN				1		//UART2
 #define	USART0_INT_HANDLE_EN			1		//USART0
+#define	EPT_INT_HANDLE_EN				1		//EPT
 #define	USART1_INT_HANDLE_EN			1		//USART1
 #define	SIO0_INT_HANDLE_EN				1		//SIO0
 #define	SIO1_INT_HANDLE_EN				1		//SIO1
@@ -134,6 +136,7 @@ extern "C" {
 #define	CNTA_INT_HANDLE_EN				1		//CNTA
 #define	CAN_INT_HANDLE_EN				1		//CAN
 #define	LPT_INT_HANDLE_EN				1		//LPT
+#define	CORDIC_INT_HANDLE_EN			1		//CORDIC
 #define	BT0_INT_HANDLE_EN				1		//BT0
 #define	BT1_INT_HANDLE_EN				1		//BT1
 #define	BT2_INT_HANDLE_EN				1		//BT2
@@ -144,8 +147,14 @@ extern "C" {
 #define	CMP1_INT_HANDLE_EN				1		//CMP1
 #define	CMP2_INT_HANDLE_EN				1		//CMP2
 //#define	LED_INT_HANDLE_EN				1		//LED
-#define	TKEY_INT_HANDLE_EN				1		//TOUCH
-
+#define MBOX0_INT1_INT_HANDLE_EN		1      //mailbox0_int1
+#define TRNG_INT_HANDLE_EN				1      //trng
+#define AES_INT_HANDLE_EN				1		//AES
+#define RSA_INT_HANDLE_EN				1     //RSA
+#define SHA_INT_HANDLE_EN				1     //SHA
+#define USB_INT_HANDLE_EN				1     //USB
+#define CPU1_BT_INT_HANDLE_EN			1     //CPU1_BT
+#define CPU1_SPI_INT_HANDLE_EN			1     //CPU1_SPI
 
 __attribute__((weak)) void board_init(void);
 

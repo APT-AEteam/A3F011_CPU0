@@ -197,7 +197,12 @@ void gpta3_int_handler(void)
 //#endif	
 //}
 
-
+void tkey_int_handler(void) 
+{
+#if TKEY_INT_HANDLE_EN		
+    // ISR content ...
+#endif
+}
 
 void dac0_int_handler(void) 
 {
@@ -206,6 +211,12 @@ void dac0_int_handler(void)
 #endif
 }
 
+void ept_int_handler(void) 
+{
+#if	EPT_INT_HANDLE_EN	
+
+#endif	
+}
 
 void usart0_int_handler(void) 
 {
@@ -383,6 +394,14 @@ void cmp2_int_handler(void)
 #endif
 }
 
+void cordic_int_handler(void) 
+{
+#if	CORDIC_INT_HANDLE_EN
+    // ISR content ...
+
+#endif
+}
+
 void bt0_int_handler(void) 
 {
 #if	BT0_INT_HANDLE_EN
@@ -429,6 +448,62 @@ void i2s1_int_handler(void)
 #if	I2S1_INT_HANDLE_EN
     // ISR content ...
 	bt_irqhandler(I2S1);
+#endif	
+}
+
+void mbox0_int1_int_handler(void) 
+{
+#if	MBOX0_INT1_INT_HANDLE_EN
+    // ISR content ...
+#endif	
+}
+
+void trng_int_handler(void) 
+{
+#if	TRNG_INT_HANDLE_EN
+    // ISR content ...
+#endif	
+}
+
+void aes_int_handler(void) 
+{
+#if	AES_INT_HANDLE_EN
+    // ISR content ...
+#endif	
+}
+
+void rsa_int_handler(void) 
+{
+#if	RSA_INT_HANDLE_EN
+    // ISR content ...
+#endif	
+}
+
+void sha_int_handler(void) 
+{
+#if	SHA_INT_HANDLE_EN
+    // ISR content ...
+#endif	
+}
+
+void usb_int_handler(void) 
+{
+#if	USB_INT_HANDLE_EN
+    // ISR content ...
+#endif	
+}
+
+void cpu1_bt_int_handler(void) 
+{
+#if	CPU1_BT_INT_HANDLE_EN
+    // ISR content ...
+#endif	
+}
+
+void cpu1_spi_int_handler(void) 
+{
+#if	CPU1_SPI_INT_HANDLE_EN
+    // ISR content ...
 #endif	
 }
 /*************************************************************/

@@ -402,6 +402,16 @@ GPTA3_IRQHandler:
 //	jal 	Irq_Entry
 //    jal		gptb5_int_handler
 //	jal 	Irq_Exit
+
+	.align  2
+    .global TKEY_IRQHandler
+    .weak   TKEY_IRQHandler
+    .type   TKEY_IRQHandler, %function
+TKEY_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		tkey_int_handler
+	jal 	Irq_Exit
 	
 	.align  2
     .global DAC0_IRQHandler
@@ -411,6 +421,16 @@ DAC0_IRQHandler:
 	ipush
 	jal 	Irq_Entry
     jal		dac0_int_handler
+	jal 	Irq_Exit
+	
+	.align  2
+    .global EPT_IRQHandler
+    .weak   EPT_IRQHandler
+    .type   EPT_IRQHandler, %function
+EPT_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal 	ept_int_handler
 	jal 	Irq_Exit
 	
 	.align  2
@@ -643,6 +663,15 @@ CMP2_IRQHandler:
 //	jal 	Irq_Entry
 //    jal		led_int_handler
 //	jal 	Irq_Exit
+    .align  2
+    .global CORDIC_IRQHandler
+    .weak   CORDIC_IRQHandler
+    .type   CORDIC_IRQHandler, %function
+CORDIC_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+	jal     cordic_int_handler
+	jal 	Irq_Exit
 	
     .align  2
     .global BT0_IRQHandler
@@ -703,6 +732,87 @@ I2S1_IRQHandler:
     jal		Irq_Entry
     jal     i2s1_int_handler
 	jal		Irq_Exit
+	
+	.align  2
+    .global MBOX0_INT1_IRQHandler
+    .weak   MBOX0_INT1_IRQHandler
+    .type   MBOX0_INT1_IRQHandler, %function
+MBOX0_INT1_IRQHandler:
+	ipush
+    jal		Irq_Entry
+    jal     mbox0_int1_int_handler
+	jal		Irq_Exit
+	
+	.align  2
+    .global TRNG_IRQHandler
+    .weak   TRNG_IRQHandler
+    .type   TRNG_IRQHandler, %function
+TRNG_IRQHandler:
+	ipush
+    jal		Irq_Entry
+    jal     trng_int_handler
+	jal		Irq_Exit	
+	
+	.align  2
+    .global AES_IRQHandler
+    .weak   AES_IRQHandler
+    .type   AES_IRQHandler, %function
+AES_IRQHandler:
+	ipush
+    jal		Irq_Entry
+    jal     aes_int_handler
+	jal		Irq_Exit	
+
+	.align  2
+    .global RSA_IRQHandler
+    .weak   RSA_IRQHandler
+    .type   RSA_IRQHandler, %function
+RSA_IRQHandler:
+	ipush
+    jal		Irq_Entry
+    jal     rsa_int_handler
+	jal		Irq_Exit
+
+	.align  2
+    .global SHA_IRQHandler
+    .weak   SHA_IRQHandler
+    .type   SHA_IRQHandler, %function
+SHA_IRQHandler:
+	ipush
+    jal		Irq_Entry
+    jal     sha_int_handler
+	jal		Irq_Exit
+
+	.align  2
+    .global USB_IRQHandler
+    .weak   USB_IRQHandler
+    .type   USB_IRQHandler, %function
+USB_IRQHandler:
+	ipush
+    jal		Irq_Entry
+    jal     usb_int_handler
+	jal		Irq_Exit
+
+	.align  2
+    .global CPU1_BT_IRQHandler
+    .weak   CPU1_BT_IRQHandler
+    .type   CPU1_BT_IRQHandler, %function
+CPU1_BT_IRQHandler:
+	ipush
+    jal		Irq_Entry
+    jal     cpu1_bt_int_handler
+	jal		Irq_Exit
+	
+	.align  2
+    .global CPU1_SPI_IRQHandler
+    .weak   CPU1_SPI_IRQHandler
+    .type   CPU1_SPI_IRQHandler, %function
+CPU1_SPI_IRQHandler:
+	ipush
+    jal		Irq_Entry
+    jal     cpu1_spi_int_handler
+	jal		Irq_Exit
+	
 #endif
 
 /******************************************************************************

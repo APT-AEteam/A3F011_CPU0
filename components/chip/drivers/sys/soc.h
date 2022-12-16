@@ -88,14 +88,14 @@ typedef enum {
 	NMI_EXPn                        = -2,      /* NMI Exception */
 	SOFTWARE_IRQn					= 3U,
 	CORET_IRQn						= 7U,
-	SYSCON_IRQ_NUM				        = 16U,						 					
+	SYSCON_IRQ_NUM				    = 16U,						 					
 	IFC_IRQn						= 17U,
 	ADC0_IRQn						= 18U,						 					
 	ADC1_IRQn						= 19U,
 	DMA0_IRQn						= 20U,
 	DMA1_IRQn						= 21U,
-	EXI0_IRQ_NUM						= 22U,
-	EXI1_IRQ_NUM						= 23U,
+	EXI0_IRQ_NUM					= 22U,
+	EXI1_IRQ_NUM					= 23U,
 	GPTA0_IRQn						= 24U,	
 	GPTA1_IRQn						= 25U,
 	GPTA2_IRQn						= 26U,
@@ -105,9 +105,9 @@ typedef enum {
 //	GPTB2_IRQn      				= 30U,
 //	GPTB3_IRQn      				= 31U,
 //	GPTB4_IRQn      				= 32U,
-//	GPTB5_IRQn      				= 33U,
+	TKEY_IRQn      					= 33U,
 	DAC0_IRQn     					= 34U,
-	//DUMMY0_IRQn    				= 35U,
+	EPT_IRQn    					= 35U,
 	USART0_IRQn    					= 36U,
 	USART1_IRQn    					= 37U,
 	UART0_IRQn      				= 38U,
@@ -120,9 +120,9 @@ typedef enum {
 	SPI0_IRQn						= 45U,
 	SPI1_IRQn						= 46U,
 	CAN_IRQn      					= 47U,
-	EXI2_IRQ_NUM	    				= 48U,
-	EXI3_IRQ_NUM	    				= 49U,
-	EXI4_IRQ_NUM		   				= 50U,
+	EXI2_IRQ_NUM	    			= 48U,
+	EXI3_IRQ_NUM	    			= 49U,
+	EXI4_IRQ_NUM		   			= 50U,
 	CNTA_IRQn						= 51U,
 	LPT_IRQn						= 52U,
 	WWDT_IRQn						= 53U,
@@ -131,13 +131,24 @@ typedef enum {
 	CMP1_IRQn      					= 56U,
 	CMP2_IRQn     					= 57U,
 //	LED_IRQn     					= 58U,
-	//DUMMY1_IRQn     				= 59U,
+	CORDIC_IRQn     				= 59U,
 	BT0_IRQn      					= 60U,
 	BT1_IRQn      					= 61U,
 	BT2_IRQn      					= 62U,
 	BT3_IRQn      					= 63U,
 	I2S0_IRQn      					= 64U,
 	I2S1_IRQn      					= 65U,
+	MBOX0_INT1_IRQn      			= 66U,  //CPU1 GENERATE
+//	MBOX1_IRQn      				= 67U,
+	TRNG_IRQn      					= 68U,
+	AES_IRQn      					= 69U,
+	RSA_IRQn      					= 70U,
+	SHA_IRQn      					= 71U,
+	USB_IRQn      					= 72U,
+//	CPU1_MBOX0_IRQn      			= 73U,  //CPU1 GENERATE
+//	CPU1_MBOX1_IRQn      			= 74U,  //CPU1 GENERATE
+	CPU1_BT_IRQn      				= 75U,  //CPU1 GENERATE
+	CPU1_SPI_IRQn      				= 76U,  //CPU1 GENERATE
 } irqn_type_e;
 
 typedef enum {
@@ -1007,7 +1018,7 @@ typedef enum{
 #define APB_TKEY_BASE		(APB1_PERI_BASE + 0xB0000)
 #define APB_TKDATA_BASE		(APB1_PERI_BASE + 0xB1000)
 #define APB_TKEYSEQ_BASE	(APB1_PERI_BASE + 0xB2000)
-
+#define APB_MBOX0_BASE		(APB1_PERI_BASE + 0xC0000)
 
 
 //AHB1-APB2 for A3F011_CPU0
@@ -1074,7 +1085,9 @@ typedef enum{
 #define AHB_CORDIC_BASE     0x53000000UL
 
 #define AHB_TRNG_BASE        0x54000000UL
-#define AHB_SHA_BASE		 0x55000000UL
+#define AHB_AES_BASE		 0x55000000UL
+#define AHB_RSA_BASE		 0x56000000UL
+#define AHB_SHA_BASE		 0x57000000UL
 
 //AHB
 #define AHB_QSPI_BASE		0x60000000UL
@@ -1086,6 +1099,13 @@ typedef enum{
 
 #define CORE_ADDR_BASE  	0xE0000000//0xE0004000
 #define CLIC_ADDR_BASE      0xE0800000 	
+
+//CPU1 BASE ADDR
+#define CPU1_APB_PERI_BASE			0x92000000UL 
+#define CPU1_APB_SPI0_BASE  		(CPU1_APB_PERI_BASE + 0x00000)
+#define CPU1_APB_BT0_BASE       	(CPU1_APB_PERI_BASE + 0x10000)
+#define CPU1_APB_MBOX1_BASE  		(CPU1_APB_PERI_BASE + 0x20000)
+
 
 
 //--Interrupt Bit Position
@@ -1170,7 +1190,9 @@ void gpta3_int_handler(void);			//GPTA3 Interrupt
 //void gptb3_int_handler(void);			//GPTB3 Interrupt
 //void gptb4_int_handler(void);			//GPTB2 Interrupt
 //void gptb5_int_handler(void);			//GPTB3 Interrupt
+void tkey_int_handler(void);			//TKEY Interrupt
 void dac0_int_handler(void);			//DAC0 interrupt
+void ept_int_handler(void);				//EPT interrupt
 void usart0_int_handler(void);			//USART0 interrupt
 void usart1_int_handler(void);			//USART1 interrupt
 void uart0_int_handler(void);			//UART0 interrupt
@@ -1196,6 +1218,7 @@ void cmp0_int_handler(void);			//CMP0 interrupt
 void cmp1_int_handler(void);			//CMP1 interrupt
 void cmp2_int_handler(void);			//CMP2 interrupt
 /*void led_int_handler(void);				//LED controller interrupt*/
+void cordic_int_handler(void); 			//CORDIC 
 void bt0_int_handler(void);				//BT0 interrupt
 void bt1_int_handler(void);				//BT1interrupt
 void bt2_int_handler(void);				//BT2 interrupt
@@ -1203,6 +1226,15 @@ void bt3_int_handler(void);				//BT3 interrupt
 void i2s0_int_handler(void);				//i2s0 interrupt
 void i2s1_int_handler(void);				//i2s1 interrupt
 
+void mbox0_int1_int_handler(void);      //mailbox0_int1 interrupt
+void trng_int_handler(void);            //trng      
+void aes_int_handler(void);             //AES
+void rsa_int_handler(void);             //RSA
+void sha_int_handler(void);				//SHA
+void usb_int_handler(void);				//USB
+void cpu1_bt_int_handler(void);			//CPU1_BT
+void cpu1_spi_int_handler(void);		//CPU1_SPI 
+ 
 
 #ifdef __cplusplus
 }

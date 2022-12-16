@@ -48,9 +48,10 @@ void irq_vectors_init(void)
 //	g_irqvector[GPTB2_IRQn] 	= gptb2_int_handler;
 //	g_irqvector[GPTB3_IRQn] 	= gptb3_int_handler;
 //	g_irqvector[GPTB4_IRQn] 	= gptb4_int_handler;
-//	g_irqvector[GPTB5_IRQn] 	= gptb5_int_handler;
+	g_irqvector[TKEY_IRQn] 		= tkey_int_handler;
 	g_irqvector[DAC0_IRQn] 		= dac0_int_handler;
 	
+	g_irqvector[EPT_IRQn] 		= ept_int_handler;
 	g_irqvector[USART0_IRQn] 	= usart0_int_handler;
 	g_irqvector[USART1_IRQn] 	= usart1_int_handler;
 	g_irqvector[UART0_IRQn] 	= uart0_int_handler;
@@ -70,21 +71,37 @@ void irq_vectors_init(void)
 	g_irqvector[EXI3_IRQ_NUM] 		= exi4_9_int_handler;
 	g_irqvector[EXI4_IRQ_NUM] 		= exi10_15_int_handler;
 	
-	g_irqvector[CNTA_IRQn] 		= cnta_int_handler;
-	g_irqvector[LPT_IRQn] 		= lpt_int_handler;
-	g_irqvector[WWDT_IRQn] 		= wwdt_int_handler;
-	g_irqvector[RTC_IRQn] 		= rtc_int_handler;
-	g_irqvector[CMP0_IRQn] 		= cmp0_int_handler;
-	g_irqvector[CMP1_IRQn] 		= cmp1_int_handler;
-	g_irqvector[CMP2_IRQn] 		= cmp2_int_handler;
-//	g_irqvector[LED_IRQn] 		= led_int_handler;
-	g_irqvector[BT0_IRQn] 		= bt0_int_handler;
-	g_irqvector[BT1_IRQn] 		= bt1_int_handler;
-	g_irqvector[BT2_IRQn] 		= bt2_int_handler;
-	g_irqvector[BT3_IRQn] 		= bt3_int_handler;
+	g_irqvector[CNTA_IRQn] 			= cnta_int_handler;
+	g_irqvector[LPT_IRQn] 			= lpt_int_handler;
+	g_irqvector[WWDT_IRQn] 			= wwdt_int_handler;
+	g_irqvector[RTC_IRQn] 			= rtc_int_handler;
+	g_irqvector[CMP0_IRQn] 			= cmp0_int_handler;
+	g_irqvector[CMP1_IRQn] 			= cmp1_int_handler;
+	g_irqvector[CMP2_IRQn] 			= cmp2_int_handler;
+//	g_irqvector[LED_IRQn] 			= led_int_handler;
+	g_irqvector[CORDIC_IRQn] 		= cordic_int_handler;
+	g_irqvector[BT0_IRQn] 			= bt0_int_handler;
+	g_irqvector[BT1_IRQn] 			= bt1_int_handler;
+	g_irqvector[BT2_IRQn] 			= bt2_int_handler;
+	g_irqvector[BT3_IRQn] 			= bt3_int_handler;
 	
-	g_irqvector[I2S0_IRQn] 		= i2s0_int_handler;
-	g_irqvector[I2S1_IRQn] 		= i2s1_int_handler;
+	g_irqvector[I2S0_IRQn] 			= i2s0_int_handler;
+	g_irqvector[I2S1_IRQn] 			= i2s1_int_handler;
+	
+	g_irqvector[MBOX0_INT1_IRQn] 	= mbox0_int1_int_handler; //CPU1 generate
+//	g_irqvector[MBOX1_IRQn] 		= mbox1_int_handler;		
+	
+	g_irqvector[TRNG_IRQn] 			= trng_int_handler;
+	g_irqvector[AES_IRQn] 			= aes_int_handler;
+	g_irqvector[RSA_IRQn] 			= rsa_int_handler;
+	g_irqvector[SHA_IRQn] 			= sha_int_handler;
+	
+	g_irqvector[USB_IRQn] 			= usb_int_handler;
+	
+//	g_irqvector[CPU1_MBOX0_IRQn] 	= cpu1_mbox0_int_handler;
+//	g_irqvector[CPU1_MBOX1_IRQn] 	= cpu1_mbox1_int_handler;
+	g_irqvector[CPU1_BT_IRQn] 		= cpu1_bt_int_handler;  //CPU1 generate
+	g_irqvector[CPU1_SPI_IRQn] 		= cpu1_spi_int_handler; //CPU1 generate
 
 //#endif
 
