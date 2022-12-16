@@ -53,7 +53,7 @@ csp_gpta_t 		*GPTA3     	= (csp_gpta_t 	*)(APB_GPTA3_BASE);
 //csp_gptb_t 		*GPTB4     	= (csp_gptb_t 	*)(APB_GPTB4_BASE);
 
 
-//csp_ept_t 		*EPT0     	= (csp_ept_t    *)(APB_EPT0_BASE);
+csp_ept_t 		*EPT     	= (csp_ept_t    *)(APB_EPT_BASE);
 csp_lpt_t 		*LPT     	= (csp_lpt_t 	*)(APB_LPT_BASE) ;
 csp_wwdt_t 		*WWDT      	= (csp_wwdt_t 	*)(APB_WWDT_BASE);
 csp_bt_t  		*BT0 	   	= (csp_bt_t 	*)(APB_BT0_BASE) ;

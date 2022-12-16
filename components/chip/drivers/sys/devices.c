@@ -43,7 +43,7 @@ const csi_irqmap_t irq_map[] = {
 //	{APB_GPTB3_BASE,           	GPTB3_IRQn		},
 	{APB_TKEY_BASE,           	TKEY_IRQn		},
 	{AHB_DAC_BASE,           	DAC0_IRQn		},
-	{APB_EPT0_BASE,      	    EPT_IRQn		},
+	{APB_EPT_BASE,      	    EPT_IRQn		},
 	{APB_USART0_BASE,           USART0_IRQn		},
     {APB_USART1_BASE,           USART1_IRQn		},
 	{APB_UART0_BASE,           	UART0_IRQn		},
@@ -103,7 +103,7 @@ const csi_clkmap_t clk_map[] = {
     {APB_BT0_BASE,				BT0_SYS_CLK		},
     {APB_BT1_BASE,				BT1_SYS_CLK		},
     {APB_GPTA0_BASE,			GPT_SYS_CLK		},
-    {APB_EPT0_BASE,				EPT_SYS_CLK		},
+    {APB_EPT_BASE,				EPT_SYS_CLK		},
     {0x00U, 					0xFFFFFFFFU		}
 };
 
