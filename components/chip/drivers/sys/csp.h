@@ -66,16 +66,16 @@ extern csp_i2c_t  		*I2C0;
 extern csp_can_t 		*CAN0; 
 extern csp_cnta_t  		*CA0;
 extern csp_gpta_t 		*GPTA0,*GPTA1,*GPTA2,*GPTA3;
-//extern csp_ept_t 		*EPT0;
+extern csp_ept_t 		*EPT;
 extern csp_lpt_t 		*LPT;
 extern csp_wwdt_t 		*WWDT;
 extern csp_led_t 		*LED;
-extern csp_bt_t  		*BT0, *BT1, *BT2, *BT3;
+extern csp_bt_t  		*BT0, *BT1, *BT2, *BT3;//, *CPU1_BT;
 extern csp_crc_t 		*CRC;
 extern csp_rtc_t 		*RTC;
 extern csp_iwdt_t		*IWDT;
 //extern csp_gptb_t       *GPTB0, *GPTB1, *GPTB2, *GPTB3, *GPTB4, *GPTB5;
-extern csp_bt_t  		*I2S0,*I2S1;
+//extern csp_i2s_t  		*I2S0,*I2S1; 增加i2s驱动之后打开
 
 #endif
 

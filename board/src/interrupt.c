@@ -439,7 +439,7 @@ void i2s0_int_handler(void)
 {
 #if	I2S0_INT_HANDLE_EN
     // ISR content ...
-	bt_irqhandler(I2S0);	
+
 #endif
 }
 
@@ -447,7 +447,7 @@ void i2s1_int_handler(void)
 {
 #if	I2S1_INT_HANDLE_EN
     // ISR content ...
-	bt_irqhandler(I2S1);
+
 #endif	
 }
 
@@ -497,6 +497,8 @@ void cpu1_bt_int_handler(void)
 {
 #if	CPU1_BT_INT_HANDLE_EN
     // ISR content ...
+	csi_pin_toggle(PA6);
+	bt_irqhandler(CPU1_BT);
 #endif	
 }
 

@@ -12,7 +12,6 @@
   <VendorInfo>
     <VendorName>new_soc_project_c_solution_e906fdp</VendorName>
   </VendorInfo>
-  <PackPathes>$(ProjectPath)/../../A3F011_CPU0|$(ProjectPath)/../components|</PackPathes>
   <MonitorProgress>
     <DebugLaunch>40</DebugLaunch>
   </MonitorProgress>
@@ -224,8 +223,9 @@
       </Flash>
     </BuildConfig>
   </BuildConfigs>
+  <PackPathes>$(ProjectPath)/../../A3F011_CPU0|$(ProjectPath)/../components|$(ProjectPath)/../board|</PackPathes>
   <DebugSessions>
-    <watchExpressions>ePinName:1;_end_stack:1</watchExpressions>
+    <watchExpressions>ePinName:1;_end_stack:1;tClkConfig:1;CPU1_BT:1</watchExpressions>
     <memoryExpressions>0xe6c;0x200008c0;;</memoryExpressions>
     <statistics>;;32;;MHZ;</statistics>
     <peripheralTabs/>
