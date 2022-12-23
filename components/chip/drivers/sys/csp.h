@@ -40,6 +40,7 @@
 #include "csp_can.h"
 #include "csp_cmp.h"
 #include "csi_core.h"
+#include "csp_mbox.h"
 
 
 typedef csp_syscon_t 	csp_iwdt_t;
@@ -77,6 +78,7 @@ extern csp_iwdt_t		*IWDT;
 //extern csp_gptb_t       *GPTB0, *GPTB1, *GPTB2, *GPTB3, *GPTB4, *GPTB5;
 //extern csp_i2s_t  		*I2S0,*I2S1; 增加i2s驱动之后打开
 
+extern csp_mbox_t 		*MBOX0,*MBOX1;
 #endif
 
 /******************* (C) COPYRIGHT 2020 APT Chip *****END OF FILE****/

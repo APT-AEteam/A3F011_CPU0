@@ -66,3 +66,6 @@ csp_bt_t  		*BT3 	   	= (csp_bt_t 	*)(APB_BT3_BASE) ;
 csp_crc_t 		*CRC      	= (csp_crc_t 	*)(AHB_CRC_BASE);
 csp_rtc_t 		*RTC      	= (csp_rtc_t 	*)(APB_RTC_BASE);
 csp_iwdt_t 		*IWDT		= (csp_iwdt_t 	*)(AHB_SYSCON_BASE);
+
+csp_mbox_t 		*MBOX0		= (csp_mbox_t 	*)(AHB_MBOX0_BASE);
+csp_mbox_t 		*MBOX1		= (csp_mbox_t 	*)(CPU1_AHB_MBOX1_BASE);
