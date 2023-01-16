@@ -128,11 +128,11 @@ extern "C" {
 #define	SPI0_INT_HANDLE_EN				1		//SPI0
 #define	SPI1_INT_HANDLE_EN				1		//SPI1
 #define	QSPI_INT_HANDLE_EN				1		//QSPI
-#define	EXI0_INT_HANDLE_EN				1		//EXI0(GPIO external interrupt), EXI GROUP0 or GROUP16
-#define	EXI1_INT_HANDLE_EN				1		//EXI1(GPIO external interrupt), EXI GROUP1 or GROUP17
-#define	EXI2_3_INT_HANDLE_EN			1		//EXI2~3(GPIO external interrupt), EXI GROUP2~3 or GROUP18~19
-#define	EXI4_9_INT_HANDLE_EN			1		//EXI4~9(GPIO external interrupt), EXI GROUP4~9 
-#define	EXI10_15_INT_HANDLE_EN			1		//EXI10~15(GPIO external interrupt), EXI GROUP10~15 
+#define	EXILINE0_INT_HANDLE_EN			1		//EXI0(GPIO external interrupt), EXI GROUP0 or GROUP16
+#define	EXILINE1_INT_HANDLE_EN			1		//EXI1(GPIO external interrupt), EXI GROUP1 or GROUP17
+#define	EXILINE2_INT_HANDLE_EN			1		//EXI2~3(GPIO external interrupt), EXI GROUP2~3 or GROUP18~19
+#define	EXILINE3_INT_HANDLE_EN			1		//EXI4~9(GPIO external interrupt), EXI GROUP4~9 
+#define	EXILINE4_INT_HANDLE_EN			1		//EXI10~15(GPIO external interrupt), EXI GROUP10~15 
 #define	CNTA_INT_HANDLE_EN				1		//CNTA
 #define	CAN_INT_HANDLE_EN				1		//CAN
 #define	LPT_INT_HANDLE_EN				1		//LPT
@@ -147,14 +147,26 @@ extern "C" {
 #define	CMP1_INT_HANDLE_EN				1		//CMP1
 #define	CMP2_INT_HANDLE_EN				1		//CMP2
 //#define	LED_INT_HANDLE_EN				1		//LED
-#define MBOX1_INT1_INT_HANDLE_EN		1      //mailbox1_int1
-#define TRNG_INT_HANDLE_EN				1      //trng
+#define MBOX1_INT1_INT_HANDLE_EN		1      	//mailbox1_int1
+#define TRNG_INT_HANDLE_EN				1      	//trng
 #define AES_INT_HANDLE_EN				1		//AES
-#define RSA_INT_HANDLE_EN				1     //RSA
-#define SHA_INT_HANDLE_EN				1     //SHA
-#define USB_INT_HANDLE_EN				1     //USB
-#define CPU1_BT_INT_HANDLE_EN			1     //CPU1_BT
-#define CPU1_SPI_INT_HANDLE_EN			1     //CPU1_SPI
+#define RSA_INT_HANDLE_EN				1     	//RSA
+#define SHA_INT_HANDLE_EN				1     	//SHA
+#define USB_INT_HANDLE_EN				1     	//USB
+#define CPU1_BT_INT_HANDLE_EN			1     	//CPU1_BT
+#define CPU1_SPI_INT_HANDLE_EN			1     	//CPU1_SPI
+
+#define	EXILINE5_INT_HANDLE_EN			1		//EXI0(GPIO external interrupt), EXI GROUP0 or GROUP16
+#define	EXILINE6_INT_HANDLE_EN			1		//EXI1(GPIO external interrupt), EXI GROUP1 or GROUP17
+#define	EXILINE7_INT_HANDLE_EN			1		//EXI2~3(GPIO external interrupt), EXI GROUP2~3 or GROUP18~19
+#define	EXILINE8_INT_HANDLE_EN			1		//EXI4~9(GPIO external interrupt), EXI GROUP4~9 
+#define	EXILINE9_INT_HANDLE_EN			1		//EXI10~15(GPIO external interrupt), EXI GROUP10~15 
+#define	EXILINE10_INT_HANDLE_EN			1		//EXI0(GPIO external interrupt), EXI GROUP0 or GROUP16
+#define	EXILINE11_INT_HANDLE_EN			1		//EXI1(GPIO external interrupt), EXI GROUP1 or GROUP17
+#define	EXILINE12_INT_HANDLE_EN			1		//EXI2~3(GPIO external interrupt), EXI GROUP2~3 or GROUP18~19
+#define	EXILINE13_INT_HANDLE_EN			1		//EXI4~9(GPIO external interrupt), EXI GROUP4~9 
+#define	EXILINE14_INT_HANDLE_EN			1		//EXI10~15(GPIO external interrupt), EXI GROUP10~15 
+#define	EXILINE15_INT_HANDLE_EN			1		//EXI10~15(GPIO external interrupt), EXI GROUP10~15 
 
 __attribute__((weak)) void board_init(void);
 
