@@ -308,39 +308,116 @@ void spi1_int_handler(void)
 #endif
 }
 
-void exi0_int_handler(void) 
+void exiline0_int_handler(void) 
 {
-#if	EXI0_INT_HANDLE_EN
+#if	EXILINE0_INT_HANDLE_EN
     // ISR content ...
 	gpio_irqhandler(0);
 #endif
 }
-void exi1_int_handler(void) 
+void exiline1_int_handler(void) 
 {
-#if	EXI1_INT_HANDLE_EN
+#if	EXILINE1_INT_HANDLE_EN
     // ISR content ...
 	gpio_irqhandler(1);
 #endif
 }
-void exi2_3_int_handler(void) 
+void exiline2_int_handler(void) 
 {
-#if	EXI2_3_INT_HANDLE_EN
+#if	EXILINE2_INT_HANDLE_EN
     // ISR content ...
 	gpio_irqhandler(2);
 #endif
 }
-void exi4_9_int_handler(void) 
+void exiline3_int_handler(void) 
 {
-#if	EXI4_9_INT_HANDLE_EN
+#if	EXILINE3_INT_HANDLE_EN
     // ISR content ...
 	gpio_irqhandler(3);
 #endif
 }
-void exi10_15_int_handler(void) 
+void exiline4_int_handler(void) 
 {
-#if	EXI10_15_INT_HANDLE_EN
+#if	EXILINE4_INT_HANDLE_EN
     // ISR content ...
 	gpio_irqhandler(4);
+#endif
+}
+
+void exiline5_int_handler(void) 
+{
+#if	EXILINE5_INT_HANDLE_EN
+
+#endif
+}
+
+void exiline6_int_handler(void) 
+{
+#if	EXILINE6_INT_HANDLE_EN
+
+#endif
+}
+
+void exiline7_int_handler(void) 
+{
+#if	EXILINE7_INT_HANDLE_EN
+
+#endif
+}
+
+void exiline8_int_handler(void) 
+{
+#if	EXILINE8_INT_HANDLE_EN
+
+#endif
+}
+
+void exiline9_int_handler(void) 
+{
+#if	EXILINE9_INT_HANDLE_EN
+
+#endif
+}
+
+void exiline10_int_handler(void) 
+{
+#if	EXILINE10_INT_HANDLE_EN
+
+#endif
+}
+
+void exiline11_int_handler(void) 
+{
+#if	EXILINE11_INT_HANDLE_EN
+
+#endif
+}
+
+void exiline12_int_handler(void) 
+{
+#if	EXILINE12_INT_HANDLE_EN
+
+#endif
+}
+
+void exiline13_int_handler(void) 
+{
+#if	EXILINE13_INT_HANDLE_EN
+
+#endif
+}
+
+void exiline14_int_handler(void) 
+{
+#if	EXILINE14_INT_HANDLE_EN
+
+#endif
+}
+
+void exiline15_int_handler(void) 
+{
+#if	EXILINE15_INT_HANDLE_EN
+
 #endif
 }
 
