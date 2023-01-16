@@ -94,8 +94,8 @@ typedef enum {
 	ADC1_IRQn						= 19U,
 	DMA0_IRQn						= 20U,
 	DMA1_IRQn						= 21U,
-	EXI0_IRQ_NUM					= 22U,
-	EXI1_IRQ_NUM					= 23U,
+	EXILINE0_IRQ_NUM				= 22U,
+	EXILINE1_IRQ_NUM				= 23U,
 	GPTA0_IRQn						= 24U,	
 	GPTA1_IRQn						= 25U,
 	GPTA2_IRQn						= 26U,
@@ -120,9 +120,9 @@ typedef enum {
 	SPI0_IRQn						= 45U,
 	SPI1_IRQn						= 46U,
 	CAN_IRQn      					= 47U,
-	EXI2_IRQ_NUM	    			= 48U,
-	EXI3_IRQ_NUM	    			= 49U,
-	EXI4_IRQ_NUM		   			= 50U,
+	EXILINE2_IRQ_NUM	    		= 48U,
+	EXILINE3_IRQ_NUM	    		= 49U,
+	EXILINE4_IRQ_NUM		   		= 50U,
 	CNTA_IRQn						= 51U,
 	LPT_IRQn						= 52U,
 	WWDT_IRQn						= 53U,
@@ -149,6 +149,17 @@ typedef enum {
 //	CPU1_MBOX1_IRQn      			= 74U,  //CPU1 GENERATE
 	CPU1_BT_IRQn      				= 75U,  //CPU1 GENERATE
 	CPU1_SPI_IRQn      				= 76U,  //CPU1 GENERATE
+	EXILINE5_IRQ_NUM	    		= 77U,
+	EXILINE6_IRQ_NUM	    		= 78U,
+	EXILINE7_IRQ_NUM		   		= 79U,
+	EXILINE8_IRQ_NUM	    		= 80U,
+	EXILINE9_IRQ_NUM	    		= 81U,
+	EXILINE10_IRQ_NUM		   		= 82U,
+	EXILINE11_IRQ_NUM	    		= 83U,
+	EXILINE12_IRQ_NUM		   		= 84U,
+	EXILINE13_IRQ_NUM	    		= 85U,
+	EXILINE14_IRQ_NUM	    		= 86U,
+	EXILINE15_IRQ_NUM		   		= 87U,
 } irqn_type_e;
 
 typedef enum {
@@ -1212,11 +1223,11 @@ void i2c_int_handler(void);				//I2C  interrupt
 void spi0_int_handler(void);			//SPI0 interrupt
 void spi1_int_handler(void);			//SPI1 interrupt
 void can_int_handler(void);				//CAN interrupt
-void exi0_int_handler(void);			//External interrupt GROUP0, GROUP16 
-void exi1_int_handler(void);			//External interrupt GROUP1, GROUP17 
-void exi2_3_int_handler(void);			//External Interrupt GROUP2 ~ 3, GROUP18~19
-void exi4_9_int_handler(void);			//External Interrupt GROUP4 ~ 9
-void exi10_15_int_handler(void);		//External Interrupt GROUP10 ~ 15
+void exiline0_int_handler(void);		//External interrupt line0
+void exiline1_int_handler(void);		//External interrupt line1 
+void exiline2_int_handler(void);		//External Interrupt line2
+void exiline3_int_handler(void);		//External Interrupt line3
+void exiline4_int_handler(void);		//External Interrupt line4
 void cnta_int_handler(void);			//COUNTER A interrupt
 void lpt_int_handler(void);				//Low power timer interrupt
 void wwdt_int_handler(void);			//Window watchdog timer interrupt
@@ -1224,14 +1235,14 @@ void rtc_int_handler(void);				//Real timer clock interrupt
 void cmp0_int_handler(void);			//CMP0 interrupt
 void cmp1_int_handler(void);			//CMP1 interrupt
 void cmp2_int_handler(void);			//CMP2 interrupt
-/*void led_int_handler(void);				//LED controller interrupt*/
+/*void led_int_handler(void);			//LED controller interrupt*/
 void cordic_int_handler(void); 			//CORDIC 
 void bt0_int_handler(void);				//BT0 interrupt
 void bt1_int_handler(void);				//BT1interrupt
 void bt2_int_handler(void);				//BT2 interrupt
 void bt3_int_handler(void);				//BT3 interrupt
-void i2s0_int_handler(void);				//i2s0 interrupt
-void i2s1_int_handler(void);				//i2s1 interrupt
+void i2s0_int_handler(void);			//i2s0 interrupt
+void i2s1_int_handler(void);			//i2s1 interrupt
 
 void mbox1_int1_int_handler(void);      //mailbox1_int1 interrupt
 void trng_int_handler(void);            //trng      
@@ -1241,6 +1252,18 @@ void sha_int_handler(void);				//SHA
 void usb_int_handler(void);				//USB
 void cpu1_bt_int_handler(void);			//CPU1_BT
 void cpu1_spi_int_handler(void);		//CPU1_SPI 
+
+void exiline5_int_handler(void);		//External interrupt line5
+void exiline6_int_handler(void);		//External interrupt line6 
+void exiline7_int_handler(void);		//External Interrupt line7
+void exiline8_int_handler(void);		//External Interrupt line8
+void exiline9_int_handler(void);		//External Interrupt line9
+void exiline10_int_handler(void);		//External interrupt line10
+void exiline11_int_handler(void);		//External interrupt line11 
+void exiline12_int_handler(void);		//External Interrupt line12
+void exiline13_int_handler(void);		//External Interrupt line13
+void exiline14_int_handler(void);		//External Interrupt line14
+void exiline15_int_handler(void);		//External Interrupt line15
  
 
 #ifdef __cplusplus

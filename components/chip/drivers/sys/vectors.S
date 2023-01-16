@@ -284,23 +284,23 @@ DMA1_IRQHandler:
 	jal 	Irq_Exit
 	
 	.align  2
-    .global EXI0_IRQHandler
-    .weak   EXI0_IRQHandler
-    .type   EXI0_IRQHandler, %function
-EXI0_IRQHandler:
+    .global EXILINE0_IRQHandler
+    .weak   EXILINE0_IRQHandler
+    .type   EXILINE0_IRQHandler, %function
+EXILINE0_IRQHandler:
 	ipush
 	jal 	Irq_Entry
-    jal     exi0_int_handler
+    jal     exiline0_int_handler
 	jal 	Irq_Exit
 
 	.align  2
-    .global EXI1_IRQHandler
-    .weak   EXI1_IRQHandler
-    .type   EXI1_IRQHandler, %function
-EXI1_IRQHandler:
+    .global EXILINE1_IRQHandler
+    .weak   EXILINE1_IRQHandler
+    .type   EXILINE1_IRQHandler, %function
+EXILINE1_IRQHandler:
 	ipush
 	jal 	Irq_Entry
-    jal     exi1_int_handler
+    jal     exiline1_int_handler
 	jal 	Irq_Exit
 	
 	.align  2
@@ -555,33 +555,33 @@ CAN_IRQHandler:
 	jal 	Irq_Exit
 
 	.align  2
-    .global EXI2_3_IRQHandler
-    .weak   EXI2_3_IRQHandler
-    .type   EXI2_3_IRQHandler, %function
-EXI2_3_IRQHandler:
+    .global EXILINE2_IRQHandler
+    .weak   EXILINE2_IRQHandler
+    .type   EXILINE2_IRQHandler, %function
+EXILINE2_IRQHandler:
 	ipush
 	jal 	Irq_Entry
-    jal		exi2_3_int_handler
+    jal		exiline2_int_handler
 	jal 	Irq_Exit
 
 	.align  2
-    .global EXI4_9_IRQHandler
-    .weak   EXI4_9_IRQHandler
-    .type   EXI4_9_IRQHandler, %function
-EXI4_9_IRQHandler:
+    .global EXILINE3_IRQHandler
+    .weak   EXILINE3_IRQHandler
+    .type   EXILINE3_IRQHandler, %function
+EXILINE3_IRQHandler:
 	ipush
 	jal 	Irq_Entry
-    jal		exi4_9_int_handler
+    jal		exiline3_int_handler
 	jal 	Irq_Exit
 	
 	.align  2
-    .global EXI10_15_IRQHandler
-    .weak   EXI10_15_IRQHandler
-    .type   EXI10_15_IRQHandler, %function
-EXI10_15_IRQHandler:
+    .global EXILINE4_IRQHandler
+    .weak   EXILINE4_IRQHandler
+    .type   EXILINE4_IRQHandler, %function
+EXILINE4_IRQHandler:
 	ipush
 	jal 	Irq_Entry
-    jal		exi10_15_int_handler
+    jal		exiline4_int_handler
 	jal 	Irq_Exit
 	
 	.align  2
@@ -792,6 +792,116 @@ USB_IRQHandler:
     jal		Irq_Entry
     jal     usb_int_handler
 	jal		Irq_Exit
+
+	.align  2
+    .global EXILINE5_IRQHandler
+    .weak   EXILINE5_IRQHandler
+    .type   EXILINE5_IRQHandler, %function
+EXILINE5_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		exiline5_int_handler
+	jal 	Irq_Exit
+
+	.align  2
+    .global EXILINE6_IRQHandler
+    .weak   EXILINE6_IRQHandler
+    .type   EXILINE6_IRQHandler, %function
+EXILINE6_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		exiline6_int_handler
+	jal 	Irq_Exit
+	
+	.align  2
+    .global EXILINE7_IRQHandler
+    .weak   EXILINE7_IRQHandler
+    .type   EXILINE7_IRQHandler, %function
+EXILINE7_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		exiline7_int_handler
+	jal 	Irq_Exit
+
+	.align  2
+    .global EXILINE8_IRQHandler
+    .weak   EXILINE8_IRQHandler
+    .type   EXILINE8_IRQHandler, %function
+EXILINE8_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		exiline8_int_handler
+	jal 	Irq_Exit
+
+	.align  2
+    .global EXILINE9_IRQHandler
+    .weak   EXILINE9_IRQHandler
+    .type   EXILINE9_IRQHandler, %function
+EXILINE9_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		exiline9_int_handler
+	jal 	Irq_Exit
+	
+	.align  2
+    .global EXILINE10_IRQHandler
+    .weak   EXILINE10_IRQHandler
+    .type   EXILINE10_IRQHandler, %function
+EXILINE10_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		exiline10_int_handler
+	jal 	Irq_Exit
+
+	.align  2
+    .global EXILINE11_IRQHandler
+    .weak   EXILINE11_IRQHandler
+    .type   EXILINE11_IRQHandler, %function
+EXILINE11_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		exiline11_int_handler
+	jal 	Irq_Exit
+
+	.align  2
+    .global EXILINE12_IRQHandler
+    .weak   EXILINE12_IRQHandler
+    .type   EXILINE12_IRQHandler, %function
+EXILINE12_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		exiline12_int_handler
+	jal 	Irq_Exit
+	
+	.align  2
+    .global EXILINE13_IRQHandler
+    .weak   EXILINE13_IRQHandler
+    .type   EXILINE13_IRQHandler, %function
+EXILINE13_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		exiline13_int_handler
+	jal 	Irq_Exit
+
+	.align  2
+    .global EXILINE14_IRQHandler
+    .weak   EXILINE14_IRQHandler
+    .type   EXILINE14_IRQHandler, %function
+EXILINE14_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		exiline14_int_handler
+	jal 	Irq_Exit
+	
+	.align  2
+    .global EXILINE15_IRQHandler
+    .weak   EXILINE15_IRQHandler
+    .type   EXILINE15_IRQHandler, %function
+EXILINE15_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		exiline15_int_handler
+	jal 	Irq_Exit
 
 	.align  2
     .global CPU1_BT_IRQHandler

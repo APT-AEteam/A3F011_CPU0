@@ -122,19 +122,19 @@ __Vectors:
     .long   ADC1_IRQHandler
     .long   DMA0_IRQHandler			
     .long   DMA1_IRQHandler
-    .long   EXI0_IRQHandler
-    .long   EXI1_IRQHandler
+    .long   EXILINE0_IRQHandler		
+    .long   EXILINE1_IRQHandler
     .long   GPTA0_IRQHandler		//24
     .long   GPTA1_IRQHandler
     .long   GPTA2_IRQHandler
     .long   GPTA3_IRQHandler
-    .long   Default_Handler		  //28
+    .long   Default_Handler		  	//28
 	.long   Default_Handler
     .long   Default_Handler
     .long   Default_Handler
-    .long   Default_Handler		//32
+    .long   Default_Handler			//32
     .long   TKEY_IRQHandler
-    .long   DAC0_IRQHandler		//34	
+    .long   DAC0_IRQHandler			//34	
     .long   EPT_IRQHandler			
     .long   USART0_IRQHandler
     .long   USART1_IRQHandler
@@ -148,9 +148,9 @@ __Vectors:
     .long   SPI0_IRQHandler
     .long   SPI1_IRQHandler
     .long   CAN_IRQHandler		
-	.long   EXI2_3_IRQHandler		//48
-    .long   EXI4_9_IRQHandler
-    .long   EXI10_15_IRQHandler
+	.long   EXILINE2_IRQHandler		//48
+    .long   EXILINE3_IRQHandler
+    .long   EXILINE4_IRQHandler
     .long   CNTA_IRQHandler			
     .long   LPT_IRQHandler
     .long   WWDT_IRQHandler
@@ -158,7 +158,7 @@ __Vectors:
     .long   CMP0_IRQHandler
     .long   CMP1_IRQHandler			//56
     .long   CMP2_IRQHandler			
-    .long   Default_Handler      //LED
+    .long   Default_Handler      	//LED
     .long   CORDIC_IRQHandler			
     .long   BT0_IRQHandler			
     .long   BT1_IRQHandler

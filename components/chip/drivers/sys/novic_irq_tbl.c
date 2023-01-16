@@ -65,11 +65,11 @@ void irq_vectors_init(void)
 	g_irqvector[SPI1_IRQn] 		= spi0_int_handler;
 	g_irqvector[CAN_IRQn] 		= can_int_handler;
 	
-	g_irqvector[EXI0_IRQ_NUM] 		= exi0_int_handler;
-	g_irqvector[EXI1_IRQ_NUM] 		= exi1_int_handler;
-	g_irqvector[EXI2_IRQ_NUM] 		= exi2_3_int_handler;
-	g_irqvector[EXI3_IRQ_NUM] 		= exi4_9_int_handler;
-	g_irqvector[EXI4_IRQ_NUM] 		= exi10_15_int_handler;
+	g_irqvector[EXILINE0_IRQ_NUM] 	= exiline0_int_handler;
+	g_irqvector[EXILINE1_IRQ_NUM] 	= exiline1_int_handler;
+	g_irqvector[EXILINE2_IRQ_NUM] 	= exiline2_int_handler;
+	g_irqvector[EXILINE3_IRQ_NUM] 	= exiline3_int_handler;
+	g_irqvector[EXILINE4_IRQ_NUM] 	= exiline4_int_handler;
 	
 	g_irqvector[CNTA_IRQn] 			= cnta_int_handler;
 	g_irqvector[LPT_IRQn] 			= lpt_int_handler;
@@ -102,6 +102,18 @@ void irq_vectors_init(void)
 //	g_irqvector[CPU1_MBOX1_IRQn] 	= cpu1_mbox1_int_handler;
 	g_irqvector[CPU1_BT_IRQn] 		= cpu1_bt_int_handler;  //CPU1 generate
 	g_irqvector[CPU1_SPI_IRQn] 		= cpu1_spi_int_handler; //CPU1 generate
+	
+	g_irqvector[EXILINE5_IRQ_NUM] 	= exiline5_int_handler;
+	g_irqvector[EXILINE6_IRQ_NUM] 	= exiline6_int_handler;
+	g_irqvector[EXILINE7_IRQ_NUM] 	= exiline7_int_handler;
+	g_irqvector[EXILINE8_IRQ_NUM] 	= exiline8_int_handler;
+	g_irqvector[EXILINE9_IRQ_NUM] 	= exiline9_int_handler;
+	g_irqvector[EXILINE10_IRQ_NUM] 	= exiline10_int_handler;
+	g_irqvector[EXILINE11_IRQ_NUM] 	= exiline11_int_handler;
+	g_irqvector[EXILINE12_IRQ_NUM] 	= exiline12_int_handler;
+	g_irqvector[EXILINE13_IRQ_NUM] 	= exiline13_int_handler;
+	g_irqvector[EXILINE14_IRQ_NUM] 	= exiline14_int_handler;
+	g_irqvector[EXILINE15_IRQ_NUM] 	= exiline15_int_handler;
 
 //#endif
 
