@@ -130,6 +130,58 @@ typedef enum{
 }csi_exi_grp_e;
 
 /**
+ * \enum     csi_exi_line_grp_e
+ * \brief    GPIO exi trigger source
+ */
+typedef enum
+{
+	EXI_LINE_GROUP0	= (0x01ul << 0),	
+	EXI_LINE_GROUP1	= (0x01ul << 1),	
+	EXI_LINE_GROUP2	= (0x01ul << 2),	
+	EXI_LINE_GROUP3	= (0x01ul << 3),					
+}csi_exi_line_grp_e;
+
+/**
+ * \enum     csi_exi_line_grp_mode_e
+ * \brief    GPIO exi trigger source
+ */
+typedef enum
+{
+	EXI_LINE_MODE_OR  = 0,	
+	EXI_LINE_MODE_AND = 1,	
+}csi_exi_line_mode_e;
+
+/**
+ * \enum     csi_gpio_irq_mode_e
+ * \brief    GPIO irq triger type
+ */
+typedef enum {
+    EXI_LINE_RISING_EDGE  = 0, //rising edge
+	EXI_LINE_FALLING_EDGE,     //falling edge
+	EXI_LINE_BOTH_EDGE,        //both edge
+} csi_exi_line_adge_e;
+
+typedef enum
+{
+	EXI_LINE0		= 0,						
+	EXI_LINE1,
+	EXI_LINE2,
+	EXI_LINE3,
+	EXI_LINE4,
+	EXI_LINE5,
+	EXI_LINE6,
+	EXI_LINE7,
+	EXI_LINE8,
+	EXI_LINE9,
+	EXI_LINE10,
+	EXI_LINE11,
+	EXI_LINE12,
+	EXI_LINE13,
+	EXI_LINE14,
+	EXI_LINE15,
+}csi_exi_line_e;
+
+/**
  * \enum     csi_exi_trgsrc_e
  * \brief    GPIO exi trigger source
  */
@@ -155,6 +207,8 @@ typedef enum {
 	TRGSRC_EXI18,
 	TRGSRC_EXI19, 
 }csi_exi_trgsrc_e;
+
+
 
 /**
  * \enum     csi_exi_status_e
