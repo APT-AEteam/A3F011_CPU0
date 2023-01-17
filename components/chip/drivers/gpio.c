@@ -17,6 +17,8 @@
 /* externs function---------------------------------------------------*/
 extern void apt_gpio_intgroup_set(csp_gpio_t *ptGpioBase, uint8_t byPinNum, gpio_igrp_e eExiGrp);
 extern void apt_exi_trg_edge_set(csp_syscon_t *ptSysconBase,gpio_igrp_e eExiGrp, exi_trigger_e eGpioTrg);
+
+extern void apt_exi_line_set_edge(csp_exi_t *ptExiBase,csi_exi_line_e eLine, exi_trigger_e eGpioTrg);
 /* externs variablesr-------------------------------------------------*/
 /* Private variablesr-------------------------------------------------*/
 const uint32_t  wExiStateMap[] = 
@@ -26,7 +28,7 @@ const uint32_t  wExiStateMap[] =
 
 const uint8_t  byExiNumMap[] = 
 {    
-	EXI0_IRQ_NUM, EXI1_IRQ_NUM, EXI2_IRQ_NUM, EXI3_IRQ_NUM, EXI4_IRQ_NUM,
+	EXILINE0_IRQ_NUM, EXILINE1_IRQ_NUM, EXILINE2_IRQ_NUM, EXILINE3_IRQ_NUM, EXILINE4_IRQ_NUM,
 };
 
 /** \brief gpio interrupt handle function
@@ -119,7 +121,7 @@ __attribute__((weak)) void gpio_irqhandler(uint8_t byExiNum)
  *  \param[in] ptGpioBase: pointer of gpio register structure
  *  \return gpio port total number(16/6) or error(0xff)
  */ 
-static uint8_t apt_get_gpio_port_num(csp_gpio_t *ptGpioBase)
+static uint8_t apt_gpio_get_port_num(csp_gpio_t *ptGpioBase)
 {
 	switch((uint32_t)ptGpioBase)
 	{
@@ -144,7 +146,7 @@ csi_error_t csi_gpio_port_dir(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_gpi
 {
 	csi_error_t ret = CSI_OK;
 	uint8_t byDirData = 0x00, i;
-	uint8_t byPortNum =  apt_get_gpio_port_num(ptGpioBase);
+	uint8_t byPortNum =  apt_gpio_get_port_num(ptGpioBase);
 	
 	if(byPortNum > 16)
 		return CSI_ERROR;
@@ -189,7 +191,7 @@ csi_error_t csi_gpio_port_dir(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_gpi
 csi_error_t csi_gpio_port_pull_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_gpio_pull_mode_e ePullMode)
 {
 	csi_error_t	ret = CSI_OK;
-	uint8_t i, byPortNum =  apt_get_gpio_port_num(ptGpioBase);	
+	uint8_t i, byPortNum =  apt_gpio_get_port_num(ptGpioBase);	
 
 	if(byPortNum > 16)
 		return CSI_ERROR;
@@ -256,7 +258,7 @@ csi_error_t csi_gpio_port_output_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask,
 csi_error_t csi_gpio_port_input_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_gpio_input_mode_e eInputMode)
 {
 	csi_error_t	ret = CSI_OK;
-	uint8_t i, byPortNum =  apt_get_gpio_port_num(ptGpioBase);	
+	uint8_t i, byPortNum =  apt_gpio_get_port_num(ptGpioBase);	
 
 	if(byPortNum > 16)
 		return CSI_ERROR;
@@ -283,6 +285,92 @@ csi_error_t csi_gpio_port_input_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, 
 	
 	return ret;
 }
+/** \brief Get the value of  selected pin 
+ *  \param[in] ePinName: gpio pin name, defined in soc.h.
+ *  \return According to the bit mask, the corresponding pin status is obtained
+*/
+uint8_t apt_gpio_port_exi_line_get_input(csp_gpio_t *ptGpioBase)
+{
+	uint8_t byInput;
+	
+	switch((uint32_t)ptGpioBase)
+	{
+		case AHB_GPIOA_BASE:
+			byInput = 0;
+			break;
+		case AHB_GPIOB_BASE:
+			byInput = 2;
+			break;
+		case AHB_GPIOC_BASE:
+			byInput = 4;
+			break;
+		case AHB_GPIOD_BASE:
+			byInput = 6;
+			break;
+		default:
+			return 0x0f;			//error
+	}
+	return byInput;
+}
+/** \brief Get the value of  selected pin 
+ *  \param[in] ePinName: gpio pin name, defined in soc.h.
+ *  \return According to the bit mask, the corresponding pin status is obtained
+*/
+uint8_t apt_gpio_port_exi_line_get_group(csi_exi_line_e eLine)
+{
+	uint8_t byGroup;
+	
+	if(eLine < EXI_LINE4)
+		byGroup = 0x01 << eLine;
+	else if(eLine < EXI_LINE8)
+		byGroup = 0x01 << (eLine - EXI_LINE4);
+	else if(eLine < EXI_LINE12)
+		byGroup = 0x01 << (eLine - EXI_LINE8);
+	else
+		byGroup = 0x01 << (eLine - EXI_LINE12);
+	
+	return byGroup;
+}
+/** \brief config gpio irq mode
+ * 
+ *  \param[in] ptGpioBase: pointer of gpio register structure
+ *  \param[in] wPinMask: pin mask,0x0001~0xffff
+ *  \param[in] eTrgEdge: rising edge; falling edge;	both edge;
+ *  \return error code \ref csi_error_t
+ */ 
+csi_error_t csi_gpio_port_set_exi_line(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_exi_line_grp_e eGroup, csi_exi_line_mode_e eMode, csi_exi_line_adge_e eEdge)
+{
+	uint8_t i, byPortNum =  apt_gpio_get_port_num(ptGpioBase);	
+	uint8_t byGroup,byInput = apt_gpio_port_exi_line_get_input(ptGpioBase);
+	
+	if((byPortNum > 16) || (byInput == 0x0f))
+		return CSI_ERROR;
+		
+		
+	for(i = 0; i < byPortNum; i++)
+	{
+		if(wPinMask & 0x01)
+		{
+			byGroup = apt_gpio_port_exi_line_get_group(i);
+			csp_exi_set_linecfg(EXI, i, byGroup, eMode, byInput);
+			apt_exi_line_set_edge(EXI,i, eEdge);
+		}
+		wPinMask = (wPinMask >> 1);
+	}
+	
+	return CSI_OK;
+}
+/** \brief pin vic irq enable
+ * 
+ *  \param[in] eExiGrp: exi group(exi line); EXI_GRP0 ~EXI_GRP19
+ *  \param[in] bEnable: ENABLE OR DISABLE
+ *  \return error code \ref csi_error_t
+ */ 
+void csi_exi_line_port_irq_enable(uint32_t wPinMask, bool bEnable)
+{
+	csp_exi_line_port_int_enable(EXI, wPinMask, bEnable);
+	csp_exi_line_port_clr_isr(EXI, wPinMask);
+}
 /** \brief config gpio irq mode
  * 
  *  \param[in] ptGpioBase: pointer of gpio register structure
@@ -292,7 +380,7 @@ csi_error_t csi_gpio_port_input_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, 
  */ 
 csi_error_t csi_gpio_port_irq_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_gpio_irq_mode_e eTrgEdge)
 {
-	uint8_t i, byPortNum =  apt_get_gpio_port_num(ptGpioBase);	
+	uint8_t i, byPortNum =  apt_gpio_get_port_num(ptGpioBase);	
 
 	if((byPortNum > 16) || (eTrgEdge >  GPIO_IRQ_BOTH_EDGE))
 		return CSI_ERROR;
@@ -320,28 +408,7 @@ csi_error_t csi_gpio_port_irq_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, cs
  */ 
 void csi_gpio_port_irq_enable(csp_gpio_t *ptGpioBase, uint32_t wPinMask, bool bEnable)
 {
-	uint8_t  i,k = 0;
-	uint8_t  byIrqbuf[5];
-	
-	csp_gpio_set_port_irq(ptGpioBase, wPinMask, bEnable);	//GPIO INT enable Control reg(setting IEER)
-	csp_exi_set_port_irq(SYSCON,wPinMask, bEnable);			//EXI INT enable
-	csp_exi_clr_port_irq(SYSCON,wPinMask);					//clear interrput status before enable irq 
-	
-	for(i = 0; i < 5; i++)
-	{
-		if(wPinMask & wExiStateMap[i])
-		{
-			byIrqbuf[k++] = byExiNumMap[i];
-		}
-	}
-	
-	for(i = 0; i < k; i++)
-	{
-		if(bEnable)
-			csi_vic_enable_irq((uint32_t)byIrqbuf[i]);
-		else
-			csi_vic_disable_irq((uint32_t)byIrqbuf[i]);
-	}
+	csp_gpio_port_int_enable(ptGpioBase, wPinMask, bEnable);	//GPIO INT enable Control reg(setting IEER)
 }
 /** \brief  set gpio toggle
  * 

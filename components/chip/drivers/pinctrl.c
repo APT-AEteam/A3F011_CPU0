@@ -11,7 +11,6 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <drv/pin.h>
-#include <drv/pin.h>
 
 /* Private macro------------------------------------------------------*/
 /* externs function---------------------------------------------------*/
@@ -140,6 +139,32 @@ void apt_exi_trg_edge_set(csp_syscon_t *ptSysconBase,gpio_igrp_e eExiGrp, exi_tr
 		case EXI_EDGE_BOTH:
 			ptSysconBase->EXIRT |= wPinMsak;
 			ptSysconBase->EXIFT |= wPinMsak;
+			break;
+		default:
+			break;
+	}
+}
+
+void apt_exi_line_set_edge(csp_exi_t *ptExiBase,csi_exi_line_e eLine, exi_trigger_e eGpioTrg)
+{
+	uint16_t hwExiLine = (0x01ul << eLine);
+	
+	ptExiBase->EXIRT &= (~hwExiLine);			//trig edg
+	ptExiBase->EXIFT &= (~hwExiLine);
+	
+	switch(eGpioTrg)
+	{
+		case EXI_EDGE_IRT:
+			ptExiBase->EXIRT |= hwExiLine;
+			ptExiBase->EXIFT &= ~hwExiLine;
+			break;
+		case EXI_EDGE_IFT:
+			ptExiBase->EXIFT |= hwExiLine;
+			ptExiBase->EXIRT &= ~hwExiLine;
+			break;
+		case EXI_EDGE_BOTH:
+			ptExiBase->EXIRT |= hwExiLine;
+			ptExiBase->EXIFT |= hwExiLine;
 			break;
 		default:
 			break;
@@ -372,6 +397,86 @@ uint32_t csi_pin_read(pin_name_e ePinName)
 		
 	return (csp_gpio_read_input_port(ptGpioBase) & (0x01ul << ePinName));
 }
+
+/** \brief Get the value of  selected pin 
+ *  \param[in] ePinName: gpio pin name, defined in soc.h.
+ *  \return According to the bit mask, the corresponding pin status is obtained
+*/
+uint8_t apt_pin_exi_line_get_input(pin_name_e ePinName, csi_exi_line_e eLine)
+{
+	uint8_t byInput;
+	unsigned int *pwPinMess = apt_get_pin_name_addr(ePinName);
+	
+	if((eLine > EXI_LINE7) && ((ePinName == PA0) || (ePinName == PB0) || (ePinName == PA1) || (ePinName == PB1)))
+	{
+		if(eLine < EXI_LINE12)
+		{
+			if(ePinName == PA0)
+				byInput = 0x08;
+			else if(ePinName == PB0)
+				byInput = 0x0a;
+		}
+		else 
+		{
+			if(ePinName == PA1)
+				byInput = 0x08;
+			else if(ePinName == PB1)
+				byInput = 0x0a;
+		}
+	}
+	else
+	{
+		switch(pwPinMess[0])
+		{
+			case AHB_GPIOA_BASE:
+				byInput = 0x00;
+				break;
+			case AHB_GPIOB_BASE:
+				byInput = 0x02;
+				break;
+			case AHB_GPIOC_BASE:
+				byInput = 0x04;
+				break;
+			case AHB_GPIOD_BASE:
+				byInput = 0x06;
+				break;
+			default:
+				byInput = 0x0f;
+				break;
+		}
+	}
+	return byInput;
+}
+
+/** \brief set gpio interrupt group
+ * 
+ *  \param[in] ptGpioBase: pointer of gpio register structure
+ *  \param[in] byPinNum: pin0~15
+ *  \param[in] eExiGrp:	EXI_IGRP0 ~ EXI_IGRP19
+ *  \return none
+ */ 
+csi_error_t csi_pin_set_exi_line(pin_name_e ePinName, csi_exi_line_e eLine, csi_exi_line_grp_e eGroup, csi_exi_line_mode_e eMode, csi_exi_line_adge_e eEdge)
+{
+	uint8_t byInput = 0x0f;
+	
+	byInput = apt_pin_exi_line_get_input(ePinName, eLine);
+	if(byInput == 0x0f)
+		return CSI_ERROR;
+	csp_exi_set_linecfg(EXI, eLine, eGroup, eMode,byInput);
+	apt_exi_line_set_edge(EXI,eLine, eEdge);
+	
+	return CSI_OK;
+}
+/** \brief pin vic irq enable
+ * 
+ *  \param[in] eExiGrp: exi group(exi line); EXI_GRP0 ~EXI_GRP19
+ *  \param[in] bEnable: ENABLE OR DISABLE
+ *  \return error code \ref csi_error_t
+ */ 
+void csi_exi_line_irq_enable(csi_exi_line_e eLine, bool bEnable)
+{
+	csp_exi_line_int_enable(EXI, eLine, bEnable);
+}
 /** \brief config pin irq mode(assign exi group)
  * 
  *  \param[in] ePinName: pin name
@@ -388,7 +493,6 @@ csi_error_t csi_pin_irq_mode(pin_name_e ePinName, csi_exi_grp_e eExiGrp, csi_gpi
 	ptGpioBase = (csp_gpio_t *)pwPinMess[0];			//pin addr
 	ePinName = (pin_name_e)pwPinMess[1];				//pin			
 		
-	csp_gpio_irq_en(ptGpioBase, ePinName);							//enable gpio interrupt 
 	apt_gpio_intgroup_set(ptGpioBase,ePinName,eExiGrp);					//interrupt group
 	
 	if(eTrgEdge >  GPIO_IRQ_BOTH_EDGE)
@@ -404,52 +508,39 @@ csi_error_t csi_pin_irq_mode(pin_name_e ePinName, csi_exi_grp_e eExiGrp, csi_gpi
  *  \param[in] bEnable: true or false
  *  \return error code \ref csi_error_t
  */ 
-csi_error_t csi_pin_irq_enable(pin_name_e ePinName, csi_exi_grp_e eExiGrp, bool bEnable)
+void csi_pin_irq_enable(pin_name_e ePinName, csi_exi_grp_e eExiGrp, bool bEnable)
 {
 	csp_gpio_t *ptGpioBase = NULL;
-	uint32_t byIrqNum = EXI0_IRQ_NUM;
-	unsigned int *pwPinMess = apt_get_pin_name_addr(ePinName);
+	unsigned int *ptPinInfo = NULL;
 	
-	ptGpioBase = (csp_gpio_t *)pwPinMess[0];			//pin addr
-	ePinName = (pin_name_e)pwPinMess[1];				//pin	
-		
-	csp_gpio_set_port_irq(ptGpioBase, (0x01ul << ePinName), bEnable);	//GPIO INT enable Control reg(setting IEER)
-	csp_exi_set_port_irq(SYSCON,(0x01ul << ePinName), bEnable);			//EXI INT enable
-	csp_exi_clr_port_irq(SYSCON,(0x01ul << ePinName));					//clear interrput status before enable irq 
+	ptPinInfo = apt_get_pin_name_addr(ePinName);
+	ptGpioBase = (csp_gpio_t *)ptPinInfo[0];	
+	ePinName = (pin_name_e)ptPinInfo[1];
 	
-	switch(eExiGrp)
-	{
-		case EXI_GRP0:
-		case EXI_GRP16:
-			byIrqNum = EXI0_IRQ_NUM;
-			break;
-		case EXI_GRP1:
-		case EXI_GRP17:
-			byIrqNum = EXI1_IRQ_NUM;
-			break;
-		case EXI_GRP2:
-		case EXI_GRP3:
-		case EXI_GRP18:
-		case EXI_GRP19:
-			byIrqNum = EXI2_IRQ_NUM;
-			break;
-		default:
-			if(eExiGrp < EXI_GRP10)				//group4->9
-				byIrqNum = EXI3_IRQ_NUM;
-			else if(eExiGrp < EXI_GRP16)		//group10->15
-				byIrqNum = EXI4_IRQ_NUM;
-			else
-				return CSI_ERROR;
-				
-			break;
-	}
+	csp_gpio_int_enable(ptGpioBase, ePinName, bEnable);
+}
+/** \brief pin vic irq enable
+ * 
+ *  \param[in] eExiGrp: exi group(exi line); EXI_GRP0 ~EXI_GRP19
+ *  \param[in] bEnable: ENABLE OR DISABLE
+ *  \return error code \ref csi_error_t
+ */ 
+void csi_exi_line_vic_irq_enable(csi_exi_line_e eLine, bool bEnable)
+{
+	uint8_t byIrqNum;
+	
+	if(eLine < EXI_LINE2)
+		byIrqNum = EXILINE0_IRQ_NUM + eLine;
+	else if(eLine < EXI_LINE5)
+		byIrqNum = EXILINE2_IRQ_NUM + eLine - EXI_LINE2;
+	else
+		byIrqNum = EXILINE5_IRQ_NUM + eLine - EXI_LINE5;
 	
 	if(bEnable)
 		csi_vic_enable_irq(byIrqNum);
 	else
 		csi_vic_disable_irq(byIrqNum);
-	
-	return CSI_OK;
+		
 }
 /** \brief  gpio pin toggle
  * 
