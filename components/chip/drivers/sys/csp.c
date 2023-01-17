@@ -26,6 +26,7 @@ csp_gpio_t 		*GPIOA		= (csp_gpio_t	*)(AHB_GPIOA_BASE);
 csp_gpio_t 		*GPIOB		= (csp_gpio_t 	*)(AHB_GPIOB_BASE);
 csp_gpio_t 		*GPIOC		= (csp_gpio_t 	*)(AHB_GPIOC_BASE);
 csp_gpio_t 		*GPIOD		= (csp_gpio_t 	*)(AHB_GPIOD_BASE);
+csp_exi_t 		*EXI		= (csp_exi_t 	*)(AHB_EXI_BASE);
 csp_igrp_t		*GPIOGRP  	= (csp_igrp_t 	*)(AHB_IGRP_BASE);
 csp_usart_t 	*USART0   	= (csp_usart_t 	*)(APB_USART0_BASE);
 csp_usart_t 	*USART1   	= (csp_usart_t 	*)(APB_USART1_BASE);

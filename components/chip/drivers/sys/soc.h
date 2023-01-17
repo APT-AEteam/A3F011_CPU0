@@ -1108,6 +1108,7 @@ typedef enum{
 
 #define AHB_SYSCON_BASE	    0x80000000UL
 
+#define AHB_EXI_BASE	    0x80000000UL
 
 #define CORE_ADDR_BASE  	0xE0000000//0xE0004000
 #define CLIC_ADDR_BASE      0xE0800000 	
