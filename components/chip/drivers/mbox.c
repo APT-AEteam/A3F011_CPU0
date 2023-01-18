@@ -95,7 +95,7 @@ csi_error_t mbox_generate_intx(csp_mbox_t *ptMboxBase,csi_mbox_int_ch_e ch,csi_m
 	csi_error_t ret = CSI_OK;
 	csp_mbox_t *ptMboxChBase;
 	
-	csi_irq_enable(ptMboxBase); //enable mbox0/mbox1 irq
+	csi_irq_enable((uint32_t *)ptMboxBase); //enable mbox0/mbox1 irq
 	
 	
 	ptMboxChBase = (csp_mbox_t *)MBOX_REG_BASE(ptMboxBase, ch);
