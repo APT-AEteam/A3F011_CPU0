@@ -72,14 +72,15 @@ extern csp_ept_t 		*EPT;
 extern csp_lpt_t 		*LPT;
 extern csp_wwdt_t 		*WWDT;
 extern csp_led_t 		*LED;
-extern csp_bt_t  		*BT0, *BT1, *BT2, *BT3;//, *CPU1_BT;
+extern csp_bt_t  		*BT0, *BT1, *BT2, *BT3, *CPU1_BT;
 extern csp_crc_t 		*CRC;
 extern csp_rtc_t 		*RTC;
 extern csp_iwdt_t		*IWDT;
+extern csp_bt_t  		*CPU1_SPI;
+extern csp_mbox_t      *MBOX0,*MBOX1;
 //extern csp_gptb_t       *GPTB0, *GPTB1, *GPTB2, *GPTB3, *GPTB4, *GPTB5;
 //extern csp_i2s_t  		*I2S0,*I2S1; 增加i2s驱动之后打开
 
-extern csp_mbox_t 		*MBOX0,*MBOX1;
 #endif
 
 /******************* (C) COPYRIGHT 2020 APT Chip *****END OF FILE****/

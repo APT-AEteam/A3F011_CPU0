@@ -85,13 +85,21 @@ void csi_mbox_set_generate(csp_mbox_t *ptMboxBase, mbox_gen_e eGen)
 
 /** \brief write CPUx_INFOx register, and generate INT0/INT1 interrupt
  *  \param[in] ptMboxChBase : pointer of csp_mbox_t
+ *  \param[in] ch: channel of mailbox interrupt
  *  \param[in] wInfoSn: CPU_INFOx serial num.  
  * 	\param[in] wData: data to write
  *  \return error code \ref csi_error_t
  */
-csi_error_t mbox_generate_intx(csp_mbox_t *ptMboxChBase,csi_mbox_info_sn_e wInfoSn, uint32_t wData)
+csi_error_t mbox_generate_intx(csp_mbox_t *ptMboxBase,csi_mbox_int_ch_e ch,csi_mbox_info_sn_e wInfoSn, uint32_t wData)
 {
 	csi_error_t ret = CSI_OK;
+	csp_mbox_t *ptMboxChBase;
+	
+	csi_irq_enable(ptMboxBase); //enable mbox0/mbox1 irq
+	
+	
+	ptMboxChBase = (csp_mbox_t *)MBOX_REG_BASE(ptMboxBase, ch);
+	
 	
 	if(csp_mbox_get_risr(ptMboxChBase))    //Get raw interrupt status
 	{
@@ -102,6 +110,7 @@ csi_error_t mbox_generate_intx(csp_mbox_t *ptMboxChBase,csi_mbox_info_sn_e wInfo
 	
 	if(wData == csp_mbox_get_info(ptMboxChBase,wInfoSn)) //Read back
 	{
+		csp_mbox_int_enable(ptMboxChBase, ENABLE); //Enable corresponding INTx 
 		csp_mbox_set_gen(ptMboxChBase, (0x01<<wInfoSn)); //Generate corresponding INTx 
 		
 	}
