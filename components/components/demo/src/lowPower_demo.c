@@ -358,7 +358,7 @@ void lp_wakeup_demo(void)
 	csi_pin_pull_mode(PB1, GPIO_PULLUP);						//PB01 上拉
 	csi_pin_irq_mode(PB1,EXI_GRP1, GPIO_IRQ_FALLING_EDGE);		//PB01 下降沿产生中断
 	csi_pin_irq_enable(PB1, EXI_GRP1, ENABLE);					//PB01 中断使能，选择中断组0	
-	csi_vic_get_pending_irq(EXI1_IRQ_NUM);
+	csi_vic_get_pending_irq(EXILINE1_IRQ_NUM);
 	
 	csi_pm_clk_enable(SP_IDLE_PCLK, DISABLE);					//sleep模式下关闭PCLK
 	csi_pm_clk_enable(SP_IDLE_HCLK, DISABLE);					//sleep模式下关闭HCLK
