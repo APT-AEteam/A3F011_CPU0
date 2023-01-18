@@ -139,27 +139,24 @@ typedef enum {
 	I2S0_IRQn      					= 64U,
 	I2S1_IRQn      					= 65U,
 	MBOX1_INT1_IRQn      			= 66U,  //CPU1 GENERATE
-//	MBOX1_IRQn      				= 67U,
+	EXILINE5_IRQ_NUM	    		= 67U,	//EXI LINE5
 	TRNG_IRQn      					= 68U,
 	AES_IRQn      					= 69U,
 	RSA_IRQn      					= 70U,
 	SHA_IRQn      					= 71U,
 	USB_IRQn      					= 72U,
-//	CPU1_MBOX0_IRQn      			= 73U,  //CPU1 GENERATE
-//	CPU1_MBOX1_IRQn      			= 74U,  //CPU1 GENERATE
+	EXILINE6_IRQ_NUM	    		= 73U,	//EXI LINE6
+	EXILINE7_IRQ_NUM		   		= 74U,	//EXI LINE7
 	CPU1_BT_IRQn      				= 75U,  //CPU1 GENERATE
 	CPU1_SPI_IRQn      				= 76U,  //CPU1 GENERATE
-	EXILINE5_IRQ_NUM	    		= 77U,
-	EXILINE6_IRQ_NUM	    		= 78U,
-	EXILINE7_IRQ_NUM		   		= 79U,
-	EXILINE8_IRQ_NUM	    		= 80U,
-	EXILINE9_IRQ_NUM	    		= 81U,
-	EXILINE10_IRQ_NUM		   		= 82U,
-	EXILINE11_IRQ_NUM	    		= 83U,
-	EXILINE12_IRQ_NUM		   		= 84U,
-	EXILINE13_IRQ_NUM	    		= 85U,
-	EXILINE14_IRQ_NUM	    		= 86U,
-	EXILINE15_IRQ_NUM		   		= 87U,
+	EXILINE8_IRQ_NUM	    		= 77U,
+	EXILINE9_IRQ_NUM	    		= 78U,
+	EXILINE10_IRQ_NUM		   		= 79U,
+	EXILINE11_IRQ_NUM	    		= 80U,
+	EXILINE12_IRQ_NUM		   		= 81U,
+	EXILINE13_IRQ_NUM	    		= 82U,
+	EXILINE14_IRQ_NUM	    		= 83U,
+	EXILINE15_IRQ_NUM		   		= 84U,
 } irqn_type_e;
 
 typedef enum {
