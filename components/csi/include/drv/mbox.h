@@ -70,12 +70,13 @@ void csi_mbox_int_enable(csp_mbox_t *ptMboxBase, bool bEnable);
 void csi_mbox_set_generate(csp_mbox_t *ptMboxBase, mbox_gen_e eGen);
 
 /** \brief write CPUx_INFOx register, and generate INT0/INT1 interrupt
- *  \param[in] ptMboxChBase : pointer of csp_mbox_t
+ *  \param[in] ptMboxBase : pointer of csp_mbox_t
+ * 	\param[in] ch: channel of mailbox interrupt
  *  \param[in] wInfoSn: CPU_INFOx serial num.  
  * 	\param[in] wData: data to write
  *  \return error code \ref csi_error_t
  */
-csi_error_t mbox_generate_intx(csp_mbox_t *ptMboxChBase,csi_mbox_info_sn_e wInfoSn, uint32_t wData);
+csi_error_t mbox_generate_intx(csp_mbox_t *ptMboxBase,csi_mbox_int_ch_e ch,csi_mbox_info_sn_e wInfoSn, uint32_t wData);
 
 
 #ifdef __cplusplus
