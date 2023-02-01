@@ -96,7 +96,15 @@ __Vectors:
     .long   Default_IRQHandler
     .long   Default_IRQHandler
     .long   Default_IRQHandler
+    .long   Default_IRQHandler			//76
+	.long   Default_IRQHandler
+    .long   Default_IRQHandler	
+	.long   Default_IRQHandler
+    .long   Default_IRQHandler			//80
     .long   Default_IRQHandler
+    .long   Default_IRQHandler
+    .long   Default_IRQHandler
+    .long   Default_IRQHandler			//84
 #else									//Handling interrupts separately 
     .long   Default_Handler				
     .long   Default_Handler
@@ -122,19 +130,19 @@ __Vectors:
     .long   ADC1_IRQHandler
     .long   DMA0_IRQHandler			
     .long   DMA1_IRQHandler
-    .long   EXILINE0_IRQHandler		
+    .long   EXILINE0_IRQHandler
     .long   EXILINE1_IRQHandler
     .long   GPTA0_IRQHandler		//24
     .long   GPTA1_IRQHandler
     .long   GPTA2_IRQHandler
     .long   GPTA3_IRQHandler
-    .long   Default_Handler		  	//28
+    .long   Default_Handler		  //28
 	.long   Default_Handler
     .long   Default_Handler
     .long   Default_Handler
-    .long   Default_Handler			//32
+    .long   Default_Handler		//32
     .long   TKEY_IRQHandler
-    .long   DAC0_IRQHandler			//34	
+    .long   DAC0_IRQHandler		//34	
     .long   EPT_IRQHandler			
     .long   USART0_IRQHandler
     .long   USART1_IRQHandler
@@ -158,25 +166,33 @@ __Vectors:
     .long   CMP0_IRQHandler
     .long   CMP1_IRQHandler			//56
     .long   CMP2_IRQHandler			
-    .long   Default_Handler      	//LED
+    .long   Default_Handler     	 //LED
     .long   CORDIC_IRQHandler			
     .long   BT0_IRQHandler			
     .long   BT1_IRQHandler
     .long   BT2_IRQHandler
     .long   BT3_IRQHandler
 	.long   I2S0_IRQHandler
-    .long   I2S1_IRQHandler     //65
+    .long   I2S1_IRQHandler     	//65
 	.long   MBOX1_INT1_IRQHandler  
-    .long   Default_Handler			//67
+    .long   EXILINE5_IRQHandler		//67
     .long   TRNG_IRQHandler			
     .long   AES_IRQHandler
     .long   RSA_IRQHandler			
     .long   SHA_IRQHandler			
     .long   USB_IRQHandler
-    .long   Default_Handler
-    .long   Default_Handler
+    .long   EXILINE6_IRQHandler
+    .long   EXILINE7_IRQHandler
 	.long   CPU1_BT_IRQHandler
     .long   CPU1_SPI_IRQHandler     //76
+	.long   EXILINE8_IRQHandler		
+    .long   EXILINE9_IRQHandler
+    .long   EXILINE10_IRQHandler
+	.long   EXILINE11_IRQHandler		
+    .long   EXILINE12_IRQHandler	//81
+    .long   EXILINE13_IRQHandler
+	.long   EXILINE14_IRQHandler	
+    .long   EXILINE15_IRQHandler	//84
 #endif
 
     .text

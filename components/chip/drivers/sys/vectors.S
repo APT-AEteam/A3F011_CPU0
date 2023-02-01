@@ -732,7 +732,17 @@ I2S1_IRQHandler:
     jal		Irq_Entry
     jal     i2s1_int_handler
 	jal		Irq_Exit
-	
+
+	.align  2
+    .global EXILINE5_IRQHandler
+    .weak   EXILINE5_IRQHandler
+    .type   EXILINE5_IRQHandler, %function
+EXILINE5_IRQHandler:
+	ipush
+	jal 	Irq_Entry
+    jal		exiline5_int_handler
+	jal 	Irq_Exit
+
 	.align  2
     .global MBOX1_INT1_IRQHandler
     .weak   MBOX1_INT1_IRQHandler
@@ -792,17 +802,7 @@ USB_IRQHandler:
     jal		Irq_Entry
     jal     usb_int_handler
 	jal		Irq_Exit
-
-	.align  2
-    .global EXILINE5_IRQHandler
-    .weak   EXILINE5_IRQHandler
-    .type   EXILINE5_IRQHandler, %function
-EXILINE5_IRQHandler:
-	ipush
-	jal 	Irq_Entry
-    jal		exiline5_int_handler
-	jal 	Irq_Exit
-
+	
 	.align  2
     .global EXILINE6_IRQHandler
     .weak   EXILINE6_IRQHandler
@@ -812,7 +812,7 @@ EXILINE6_IRQHandler:
 	jal 	Irq_Entry
     jal		exiline6_int_handler
 	jal 	Irq_Exit
-	
+
 	.align  2
     .global EXILINE7_IRQHandler
     .weak   EXILINE7_IRQHandler
@@ -824,6 +824,26 @@ EXILINE7_IRQHandler:
 	jal 	Irq_Exit
 
 	.align  2
+    .global CPU1_BT_IRQHandler
+    .weak   CPU1_BT_IRQHandler
+    .type   CPU1_BT_IRQHandler, %function
+CPU1_BT_IRQHandler:
+	ipush
+    jal		Irq_Entry
+    jal     cpu1_bt_int_handler
+	jal		Irq_Exit
+	
+	.align  2
+    .global CPU1_SPI_IRQHandler
+    .weak   CPU1_SPI_IRQHandler
+    .type   CPU1_SPI_IRQHandler, %function
+CPU1_SPI_IRQHandler:
+	ipush
+    jal		Irq_Entry
+    jal     cpu1_spi_int_handler
+	jal		Irq_Exit
+
+.align  2
     .global EXILINE8_IRQHandler
     .weak   EXILINE8_IRQHandler
     .type   EXILINE8_IRQHandler, %function
@@ -903,26 +923,6 @@ EXILINE15_IRQHandler:
     jal		exiline15_int_handler
 	jal 	Irq_Exit
 
-	.align  2
-    .global CPU1_BT_IRQHandler
-    .weak   CPU1_BT_IRQHandler
-    .type   CPU1_BT_IRQHandler, %function
-CPU1_BT_IRQHandler:
-	ipush
-    jal		Irq_Entry
-    jal     cpu1_bt_int_handler
-	jal		Irq_Exit
-	
-	.align  2
-    .global CPU1_SPI_IRQHandler
-    .weak   CPU1_SPI_IRQHandler
-    .type   CPU1_SPI_IRQHandler, %function
-CPU1_SPI_IRQHandler:
-	ipush
-    jal		Irq_Entry
-    jal     cpu1_spi_int_handler
-	jal		Irq_Exit
-	
 #endif
 
 /******************************************************************************

@@ -94,8 +94,8 @@ typedef enum {
 	ADC1_IRQn						= 19U,
 	DMA0_IRQn						= 20U,
 	DMA1_IRQn						= 21U,
-	EXILINE0_IRQ_NUM				= 22U,
-	EXILINE1_IRQ_NUM				= 23U,
+	EXI0_IRQ_NUM					= 22U,
+	EXI1_IRQ_NUM					= 23U,
 	GPTA0_IRQn						= 24U,	
 	GPTA1_IRQn						= 25U,
 	GPTA2_IRQn						= 26U,
@@ -120,9 +120,9 @@ typedef enum {
 	SPI0_IRQn						= 45U,
 	SPI1_IRQn						= 46U,
 	CAN_IRQn      					= 47U,
-	EXILINE2_IRQ_NUM	    		= 48U,
-	EXILINE3_IRQ_NUM	    		= 49U,
-	EXILINE4_IRQ_NUM		   		= 50U,
+	EXI2_IRQ_NUM	    			= 48U,
+	EXI3_IRQ_NUM	    			= 49U,
+	EXI4_IRQ_NUM		   			= 50U,
 	CNTA_IRQn						= 51U,
 	LPT_IRQn						= 52U,
 	WWDT_IRQn						= 53U,
@@ -139,24 +139,24 @@ typedef enum {
 	I2S0_IRQn      					= 64U,
 	I2S1_IRQn      					= 65U,
 	MBOX1_INT1_IRQn      			= 66U,  //CPU1 GENERATE
-	EXILINE5_IRQ_NUM	    		= 67U,	//EXI LINE5
+	EXI5_IRQ_NUM      				= 67U,
 	TRNG_IRQn      					= 68U,
 	AES_IRQn      					= 69U,
 	RSA_IRQn      					= 70U,
 	SHA_IRQn      					= 71U,
 	USB_IRQn      					= 72U,
-	EXILINE6_IRQ_NUM	    		= 73U,	//EXI LINE6
-	EXILINE7_IRQ_NUM		   		= 74U,	//EXI LINE7
+	EXI6_IRQ_NUM      				= 73U,  
+	EXI7_IRQ_NUM      				= 74U,  
 	CPU1_BT_IRQn      				= 75U,  //CPU1 GENERATE
 	CPU1_SPI_IRQn      				= 76U,  //CPU1 GENERATE
-	EXILINE8_IRQ_NUM	    		= 77U,
-	EXILINE9_IRQ_NUM	    		= 78U,
-	EXILINE10_IRQ_NUM		   		= 79U,
-	EXILINE11_IRQ_NUM	    		= 80U,
-	EXILINE12_IRQ_NUM		   		= 81U,
-	EXILINE13_IRQ_NUM	    		= 82U,
-	EXILINE14_IRQ_NUM	    		= 83U,
-	EXILINE15_IRQ_NUM		   		= 84U,
+	EXI8_IRQ_NUM	    			= 77U,
+	EXI9_IRQ_NUM	    			= 78U,
+	EXI10_IRQ_NUM		   			= 79U,
+	EXI11_IRQ_NUM	    			= 80U,
+	EXI12_IRQ_NUM		   			= 81U,
+	EXI13_IRQ_NUM	    			= 82U,
+	EXI14_IRQ_NUM	    			= 83U,
+	EXI15_IRQ_NUM		   			= 84U,
 } irqn_type_e;
 
 typedef enum {
@@ -1079,8 +1079,8 @@ typedef enum{
 #define AHB_GPIO_BASE 		0x50000000UL
 #define AHB_GPIOA_BASE  	(AHB_GPIO_BASE + 0x0000) 	//A0  
 #define AHB_GPIOB_BASE  	(AHB_GPIO_BASE + 0x20000) 	//B0 
-#define AHB_GPIOC_BASE  	(AHB_GPIO_BASE + 0x40000) 	//C0  
-#define AHB_GPIOD_BASE  	(AHB_GPIO_BASE + 0x60000) 	//D0 
+#define AHB_GPIOC_BASE  	(AHB_GPIO_BASE + 0x40000) 	//A0  
+#define AHB_GPIOD_BASE  	(AHB_GPIO_BASE + 0x60000) 	//B0 
 #define AHB_EXI_BASE	    (AHB_GPIO_BASE + 0xF0000)	//EXI
 #define AHB_IGRP_BASE		(AHB_GPIO_BASE + 0xF0000)
 
@@ -1105,6 +1105,7 @@ typedef enum{
 #define AHB_HWDIV_BASE		0x70000000UL
 
 #define AHB_SYSCON_BASE	    0x80000000UL
+
 
 #define CORE_ADDR_BASE  	0xE0000000//0xE0004000
 #define CLIC_ADDR_BASE      0xE0800000 	
@@ -1220,11 +1221,11 @@ void i2c_int_handler(void);				//I2C  interrupt
 void spi0_int_handler(void);			//SPI0 interrupt
 void spi1_int_handler(void);			//SPI1 interrupt
 void can_int_handler(void);				//CAN interrupt
-void exiline0_int_handler(void);		//External interrupt line0
-void exiline1_int_handler(void);		//External interrupt line1 
-void exiline2_int_handler(void);		//External Interrupt line2
-void exiline3_int_handler(void);		//External Interrupt line3
-void exiline4_int_handler(void);		//External Interrupt line4
+void exiline0_int_handler(void);		//External interrupt GROUP0, GROUP16 
+void exiline1_int_handler(void);		//External interrupt GROUP1, GROUP17 
+void exiline2_int_handler(void);		//External Interrupt GROUP2 ~ 3, GROUP18~19
+void exiline3_int_handler(void);		//External Interrupt GROUP4 ~ 9
+void exiline4_int_handler(void);		//External Interrupt GROUP10 ~ 15
 void cnta_int_handler(void);			//COUNTER A interrupt
 void lpt_int_handler(void);				//Low power timer interrupt
 void wwdt_int_handler(void);			//Window watchdog timer interrupt
@@ -1232,14 +1233,14 @@ void rtc_int_handler(void);				//Real timer clock interrupt
 void cmp0_int_handler(void);			//CMP0 interrupt
 void cmp1_int_handler(void);			//CMP1 interrupt
 void cmp2_int_handler(void);			//CMP2 interrupt
-/*void led_int_handler(void);			//LED controller interrupt*/
+/*void led_int_handler(void);				//LED controller interrupt*/
 void cordic_int_handler(void); 			//CORDIC 
 void bt0_int_handler(void);				//BT0 interrupt
 void bt1_int_handler(void);				//BT1interrupt
 void bt2_int_handler(void);				//BT2 interrupt
 void bt3_int_handler(void);				//BT3 interrupt
-void i2s0_int_handler(void);			//i2s0 interrupt
-void i2s1_int_handler(void);			//i2s1 interrupt
+void i2s0_int_handler(void);				//i2s0 interrupt
+void i2s1_int_handler(void);				//i2s1 interrupt
 
 void mbox1_int1_int_handler(void);      //mailbox1_int1 interrupt
 void trng_int_handler(void);            //trng      
@@ -1249,6 +1250,7 @@ void sha_int_handler(void);				//SHA
 void usb_int_handler(void);				//USB
 void cpu1_bt_int_handler(void);			//CPU1_BT
 void cpu1_spi_int_handler(void);		//CPU1_SPI 
+ 
 
 void exiline5_int_handler(void);		//External interrupt line5
 void exiline6_int_handler(void);		//External interrupt line6 
@@ -1261,7 +1263,6 @@ void exiline12_int_handler(void);		//External Interrupt line12
 void exiline13_int_handler(void);		//External Interrupt line13
 void exiline14_int_handler(void);		//External Interrupt line14
 void exiline15_int_handler(void);		//External Interrupt line15
- 
 
 #ifdef __cplusplus
 }
