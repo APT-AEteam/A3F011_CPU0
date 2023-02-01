@@ -42,7 +42,7 @@ void system_init(void)		//__attribute__((weak))
 	/* get interrupt level from info */
     CLIC->CLICCFG = (((CLIC->CLICINFO & CLIC_INFO_CLICINTCTLBITS_Msk) >> CLIC_INFO_CLICINTCTLBITS_Pos) << CLIC_CLICCFG_NLBIT_Pos);
 
-    for (i = 0; i < 85; i++) {
+    for (i = 0; i <= 84; i++) {
         CLIC->CLICINT[i].IP = 0;
         CLIC->CLICINT[i].ATTR = 1; /* use vector interrupt */
     }
@@ -58,9 +58,9 @@ void system_init(void)		//__attribute__((weak))
 //	csi_reliability_init();
 //	csi_iwdt_close();				//close iwdt
 //	csi_sysclk_config();			//sysclk config	
-	csi_get_sclk_freq();
-	csi_get_pclk_freq();
-//	csi_tick_init();
+//	csi_get_sclk_freq();
+//	csi_get_pclk_freq();
+	csi_tick_init();
 	
 	__enable_excp_irq();
 	
