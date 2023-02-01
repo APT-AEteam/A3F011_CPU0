@@ -28,7 +28,7 @@ const uint32_t  wExiStateMap[] =
 
 const uint8_t  byExiNumMap[] = 
 {    
-	EXILINE0_IRQ_NUM, EXILINE1_IRQ_NUM, EXILINE2_IRQ_NUM, EXILINE3_IRQ_NUM, EXILINE4_IRQ_NUM,
+	EXI0_IRQ_NUM, EXI1_IRQ_NUM, EXI2_IRQ_NUM, EXI3_IRQ_NUM, EXI4_IRQ_NUM,
 };
 
 /** \brief gpio interrupt handle function

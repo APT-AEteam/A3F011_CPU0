@@ -530,11 +530,11 @@ void csi_exi_line_vic_irq_enable(csi_exi_line_e eLine, bool bEnable)
 	uint8_t byIrqNum;
 	
 	if(eLine < EXI_LINE2)
-		byIrqNum = EXILINE0_IRQ_NUM + eLine;
+		byIrqNum = EXI0_IRQ_NUM + eLine;
 	else if(eLine < EXI_LINE5)
-		byIrqNum = EXILINE2_IRQ_NUM + eLine - EXI_LINE2;
+		byIrqNum = EXI2_IRQ_NUM + eLine - EXI_LINE2;
 	else
-		byIrqNum = EXILINE5_IRQ_NUM + eLine - EXI_LINE5;
+		byIrqNum = EXI5_IRQ_NUM + eLine - EXI_LINE5;
 	
 	if(bEnable)
 		csi_vic_enable_irq(byIrqNum);
