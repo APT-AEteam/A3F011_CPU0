@@ -95,12 +95,17 @@ int pin_input_demo(void)
 int pin_irq_demo(void)
 {
 	int iRet = 0;
-	csi_imosc_enable(2);
-	//csi_exi_flt_enable(EXI_FLT_CKDIV4, ENABLE);					//EXI 去抖滤波
-	csi_pin_set_mux(PB1, PB1_INPUT);							//PB01 配置为输入
-	csi_pin_pull_mode(PB1, GPIO_PULLUP);						//PB01 上拉
-	csi_pin_irq_mode(PB1, EXI_GRP18, GPIO_IRQ_FALLING_EDGE);	//PB01 下降沿产生中断
-	csi_pin_irq_enable(PB1, EXI_GRP18, ENABLE);				//PB01 中断使能，选择中断组5	
+	
+	csi_pin_set_mux(PA3, PA3_INPUT);												//PB01 配置为输入
+	csi_pin_pull_mode(PA3, GPIO_PULLUP);											//PB01 上拉
+	csi_pin_irq_enable(PA3, EXI_GRP18, ENABLE);
+	
+	csi_pin_set_exi_line(PA3, EXI_LINE3, EXI_LINE_GRP0 ,EXI_LINE_MODE_OR, EXI_LINE_BOTH_EDGE);
+	csi_exi_line_irq_enable(EXI_LINE3, ENABLE);
+	csi_exi_line_vic_irq_enable(EXI_LINE3, ENABLE);
+	
+	//csi_pin_irq_mode(PB1, EXI_GRP18, GPIO_IRQ_FALLING_EDGE);					//PB01 下降沿产生中断
+	//csi_pin_irq_enable(PB1, EXI_GRP18, ENABLE);								//PB01 中断使能，选择中断组5	
 	
 	return iRet;
 }
