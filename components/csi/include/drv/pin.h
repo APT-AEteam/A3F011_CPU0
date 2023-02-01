@@ -139,6 +139,11 @@ csi_error_t csi_pin_irq_mode(pin_name_e ePinName, csi_exi_grp_e eExiGrp, csi_gpi
  */ 
 void csi_pin_irq_enable(pin_name_e ePinName, csi_exi_grp_e eExiGrp, bool bEnable);
 
+csi_error_t csi_pin_set_exi_line(pin_name_e ePinName, csi_exi_line_e eLine, csi_exi_line_grp_e eGroup, csi_exi_line_mode_e eMode, csi_exi_line_adge_e eEdge);
+
+void csi_exi_line_irq_enable(csi_exi_line_e eLine, bool bEnable);
+void csi_exi_line_vic_irq_enable(csi_exi_line_e eLine, bool bEnable);
+
 /** 
   \brief  	   gpio toggle
   \param[in]   pin_name		gpio pin name

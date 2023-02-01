@@ -135,10 +135,10 @@ typedef enum{
  */
 typedef enum
 {
-	EXI_LINE_GROUP0	= (0x01ul << 0),	
-	EXI_LINE_GROUP1	= (0x01ul << 1),	
-	EXI_LINE_GROUP2	= (0x01ul << 2),	
-	EXI_LINE_GROUP3	= (0x01ul << 3),					
+	EXI_LINE_GRP0	= (0x01ul << 0),	
+	EXI_LINE_GRP1	= (0x01ul << 1),	
+	EXI_LINE_GRP2	= (0x01ul << 2),	
+	EXI_LINE_GRP3	= (0x01ul << 3),					
 }csi_exi_line_grp_e;
 
 /**
