@@ -54,7 +54,7 @@ typedef volatile struct
 
 typedef volatile struct
 {
-	__IM   uint32_t  RSVD;      //0x0000 	                
+	__IM   uint32_t  RSVD0;     //0x0000 	                
     __IOM  uint32_t  LINECFG0;	//0x0004	EXI Line Config Register0                  
 	__IOM  uint32_t  LINECFG1;	//0x0008	EXI Line Config Register1  
 	__IOM  uint32_t  LINECFG2;	//0x000C	EXI Line Config Register2
@@ -70,15 +70,16 @@ typedef volatile struct
 	__IOM  uint32_t  LINECFG12;	//0x0034	EXI Line Config Register12 
 	__IOM  uint32_t  LINECFG13;	//0x0038	EXI Line Config Register13  
 	__IOM  uint32_t  LINECFG14;	//0x003C	EXI Line Config Register14   
-	__IOM  uint32_t  LINECFG15;	//0x0040	EXI Line Config Register15  
-    __IOM  uint32_t  IO_CLKEN;	//0x0044 	Gpio Group Clk Enable Control Register
-	__IOM  uint32_t  EXIRT;		//0x0048 	EXI Rising edge Register
-	__IOM  uint32_t  EXIFT;		//0x004C 	EXI Falling edge Register
-	__IOM  uint32_t  EXIMCR;	//0x0050 	EXI Interrupt Enable Register 
-	__IM   uint32_t  EXIMSR;	//0x0054 	EXI Interrupt Status Register 
-	__OM   uint32_t  EXICR;		//0x0058 	EXI Interrupt Status Clear Register 
-	__IM   uint32_t  EXIRSR;	//0x005C 	EXI Raw Interrupt Status Register 
-	__IOM  uint32_t  EXIEVTRG;	//0x0060 	EXI Trigger Config Register
+	__IOM  uint32_t  LINECFG15;	//0x0040	EXI Line Config Register15 
+	__IM   uint32_t  RSVD1[2];  //0x0044~48  
+    __IOM  uint32_t  IO_CLKEN;	//0x004C 	Gpio Group Clk Enable Control Register
+	__IOM  uint32_t  EXIRT;		//0x0050 	EXI Rising edge Register
+	__IOM  uint32_t  EXIFT;		//0x0054 	EXI Falling edge Register
+	__IOM  uint32_t  EXIMCR;	//0x0058 	EXI Interrupt Enable Register 
+	__IM   uint32_t  EXIMSR;	//0x005C 	EXI Interrupt Status Register 
+	__OM   uint32_t  EXICR;		//0x0060 	EXI Interrupt Status Clear Register 
+	__IM   uint32_t  EXIRSR;	//0x0064 	EXI Raw Interrupt Status Register 
+	__IOM  uint32_t  EXIEVTRG;	//0x0068 	EXI Trigger Config Register
 } csp_exi_t; 
 
 /******************************************************************************
@@ -204,10 +205,10 @@ typedef enum
 
 typedef enum
 {
-	EXI_LINE_GRP0	= (0x01ul << 0),	
-	EXI_LINE_GRP1	= (0x01ul << 1),	
-	EXI_LINE_GRP2	= (0x01ul << 2),	
-	EXI_LINE_GRP3	= (0x01ul << 3),					
+	EXI_LINE_GROUP0	= (0x01ul << 0),	
+	EXI_LINE_GROUP1	= (0x01ul << 1),	
+	EXI_LINE_GROUP2	= (0x01ul << 2),	
+	EXI_LINE_GROUP3	= (0x01ul << 3),					
 }exi_line_grp_e;
 
 
