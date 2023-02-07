@@ -54,7 +54,6 @@ extern csp_dma_t   		*DMA0, *DMA1;
 extern csp_adc_t 		*ADC0,*ADC1;
 extern csp_gpio_t 		*GPIOA, *GPIOB, *GPIOC, *GPIOD;
 extern csp_exi_t 		*EXI;
-extern csp_igrp_t		*GPIOGRP;
 extern csp_usart_t 		*USART0, *USART1;
 extern csp_uart_t 		*UART0, *UART1, *UART2;
 extern csp_spi_t  		*SPI0;
