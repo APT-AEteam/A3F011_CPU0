@@ -18,7 +18,7 @@
 /* externs function---------------------------------------------------*/
 /* externs variablesr-------------------------------------------------*/
 /* Private variablesr-------------------------------------------------*/
-static uint32_t csi_etb_alloc_status[1];
+static uint32_t csi_etb_alloc_status[1]={0};
 
 
 /** \brief etb channel[0->7] check
