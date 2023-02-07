@@ -113,7 +113,7 @@ int gpio_port_irq_demo(void)
 
 	csi_gpio_port_dir(GPIOA, wPinMask, GPIO_DIR_INPUT);			//端口配置为输入
 	csi_gpio_port_pull_mode(GPIOA, wPinMask, GPIO_PULLUP);			//上拉
-	csi_gpio_port_irq_mode(GPIOA,wPinMask,GPIO_IRQ_FALLING_EDGE);	//下降沿
+	//csi_gpio_port_irq_mode(GPIOA,wPinMask,GPIO_IRQ_FALLING_EDGE);	//下降沿
 	csi_gpio_port_irq_enable(GPIOA,wPinMask,ENABLE);				//使能GPIOA0端口对应外部中断
 	
 	return iRet;

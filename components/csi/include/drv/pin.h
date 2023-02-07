@@ -132,16 +132,45 @@ uint32_t csi_pin_read(pin_name_e ePinName);
 csi_error_t csi_pin_irq_mode(pin_name_e ePinName, csi_exi_grp_e eExiGrp, csi_gpio_irq_mode_e eTrgEdge);
 
 /** 
-  \brief       pinirq enable
-  \param[in]   ePinName		pin mask,0x0001~0xffff
-  \param[in]   bEnable		true or false
-  \return      none
+  \brief pin irq enable
+  \param[in] ePinName: pio pin name, defined in soc.h.
+  \param[in] bEnable: ENABLE OR DISABLE
+  \return none
  */ 
-void csi_pin_irq_enable(pin_name_e ePinName, csi_exi_grp_e eExiGrp, bool bEnable);
+void csi_pin_irq_enable(pin_name_e ePinName, bool bEnable);
 
-csi_error_t csi_pin_set_exi_line(pin_name_e ePinName, csi_exi_line_e eLine, csi_exi_line_grp_e eGroup, csi_exi_line_mode_e eMode, csi_exi_line_adge_e eEdge);
+/** 
+  \brief exi line group select
+  \param[in] exi line: exi line; EXI_LINE0~15
+  \param[in] eGroup: \ref csi_exi_line_grp_e 
+  \param[in] ePinName: pio pin name, defined in soc.h.
+  \return none
+ */ 
+csi_error_t csi_exi_line_set_group(csi_exi_line_e eLine, csi_exi_line_grp_e eGroup, pin_name_e ePinName);
 
+/** 
+  \brief exi line irq mode config
+  \param[in] eLine: exi line; EXI_LINE0~15
+  \param[in] eMode: or/and \ref csi_exi_line_mode_e
+  \param[in] eEdge: rising/falling/both
+  \return none
+ */ 
+void csi_exi_line_irq_mode(csi_exi_line_e eLine, csi_exi_line_mode_e eMode, csi_exi_line_adge_e eEdge);
+
+/** 
+  \brief exi line irq enable
+  \param[in] eLine: exi line; EXI_LINE0~15
+  \param[in] bEnable: ENABLE OR DISABLE
+  \return none
+ */ 
 void csi_exi_line_irq_enable(csi_exi_line_e eLine, bool bEnable);
+
+/** \brief pin vic irq enable
+ * 
+ *  \param[in] eLine: exi line, EXI_LINE0 ~EXI_LINE15
+ *  \param[in] bEnable: ENABLE OR DISABLE
+ *  \return none
+ */
 void csi_exi_line_vic_irq_enable(csi_exi_line_e eLine, bool bEnable);
 
 /** 
@@ -167,12 +196,19 @@ void csi_pin_set_low(pin_name_e ePinName);
 
 /** \brief  set exi as trigger Event(EV0~5) 
   \param[in]   byTrgOut		output Event select(TRGOUT0~5)
-  \param[in]   eExiTrgSrc 	event source (TRGSRC_EXI0~19)
-  \param       byTrgPrd 	accumulated EXI events to output trigger 
+  \param[in]   eTrgSrc 	event source (TRGSRC_EXI0~19)
+  \param       eTrgAdge 	accumulated EXI events to output trigger 
   \return 	   error code \ref csi_error_t
  */ 
-csi_error_t csi_exi_set_evtrg(uint8_t byTrgOut, csi_exi_trgsrc_e eExiTrgSrc, uint8_t byTrgPrd);
+csi_error_t csi_exi_set_evtrg(csi_exi_trgout_e eTrgOut, csi_exi_trgsrc_e eTrgSrc, csi_exi_trgadge_e eTrgAdge);
 
+/** 
+  \brief exi evtrg output enable/disable
+  \param[in] eTrgOut: exi evtrg out port (0~5)
+  \param[in] bEnable: ENABLE/DISABLE
+  \return error code \ref csi_error_t
+ */
+csi_error_t csi_exi_evtrg_enable(csi_exi_trgout_e eTrgOut, bool bEnable);
 
 
 //__ALWAYS_STATIC_INLINE uint32_t csi_pin_get_gpio_devidx(pin_name_e pin_name)

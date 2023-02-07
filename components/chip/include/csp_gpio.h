@@ -43,13 +43,13 @@ typedef struct
 } csp_gpio_t; 
 
 
-typedef volatile struct
-{
-	__IOM  uint32_t  IGRPL;     //0x0000 	EXI Group Config Register L                  
-    __IOM  uint32_t  IGRPH;	    //0x0004	EXI Group Config Register H                   
-	__IOM  uint32_t  IGREX;		//0x0008	EXI Group Expand Config Register  
-    __IOM  uint32_t  IO_CLKEN;	//0x000C 	Gpio Group Clk Enable Control Register
-} csp_igrp_t; 
+//typedef volatile struct
+//{
+//	__IOM  uint32_t  IGRPL;     //0x0000 	EXI Group Config Register L                  
+//    __IOM  uint32_t  IGRPH;	    //0x0004	EXI Group Config Register H                   
+//	__IOM  uint32_t  IGREX;		//0x0008	EXI Group Expand Config Register  
+//    __IOM  uint32_t  IO_CLKEN;	//0x000C 	Gpio Group Clk Enable Control Register
+//} csp_igrp_t; 
 
 
 typedef volatile struct
@@ -156,53 +156,12 @@ typedef enum
 	GPIO_INT14	= 14,
 	GPIO_INT15	= 15,
 }gpio_int_e;
-/******************************************************************************
-* IGRPL: IGRPH: IGRPH: Group Config Register
-******************************************************************************/
-typedef enum
-{
-    GRP_GPIOA0 	= 0,
-    GRP_GPIOB0 	= 2,
-}gpio_group_e;
-
-
-typedef enum
-{
-	EXI_IGRP0		= (uint32_t)(0),						
-	EXI_IGRP1		= (uint32_t)(1),
-	EXI_IGRP2		= (uint32_t)(2),
-	EXI_IGRP3		= (uint32_t)(3),
-	EXI_IGRP4		= (uint32_t)(4),
-	EXI_IGRP5		= (uint32_t)(5),
-	EXI_IGRP6		= (uint32_t)(6),
-	EXI_IGRP7		= (uint32_t)(7),
-	EXI_IGRP8		= (uint32_t)(8),
-	EXI_IGRP9		= (uint32_t)(9),
-	EXI_IGRP10		= (uint32_t)(10),
-	EXI_IGRP11		= (uint32_t)(11),
-	EXI_IGRP12		= (uint32_t)(12),
-	EXI_IGRP13		= (uint32_t)(13),
-	EXI_IGRP14		= (uint32_t)(14),
-	EXI_IGRP15		= (uint32_t)(15),
-	EXI_IGRP16		= (uint32_t)(16),
-	EXI_IGRP17		= (uint32_t)(17),
-	EXI_IGRP18		= (uint32_t)(18),
-	EXI_IGRP19		= (uint32_t)(19)
-}gpio_igrp_e;
 
 /******************************************************************************
 * GPIO EXI LINECFG: 
 ******************************************************************************/
-typedef enum
-{
-	EXI0_IRQ_MAP	= 0x01,			
-	EXI1_IRQ_MAP	= 0x02,	
-	EXI2_IRQ_MAP	= 0x0c,
-	EXI3_IRQ_MAP	= 0x3f0,
-	EXI4_IRQ_MAP	= 0xfc00
-}exi_map_e;
-
-
+#define EXI_LINE_GPR_POS	(0)
+#define EXI_LINE_GPR_MSK	(0x0F << EXI_LINE_GPR_POS)
 typedef enum
 {
 	EXI_LINE_GROUP0	= (0x01ul << 0),	
@@ -212,16 +171,17 @@ typedef enum
 }exi_line_grp_e;
 
 
-#define EXI_LINE_MODE_POS	(5)
+#define EXI_LINE_MODE_POS	(4)
 #define EXI_LINE_MODE_MSK	(0x01 << EXI_LINE_MODE_POS)
 typedef enum
 {
-	EXI_LINE_MODE_0	 = 0,	
-	EXI_LINE_MODE_1 = 1,	
+	EXI_LINE_MODE0	 = 0,	
+	EXI_LINE_MODE1 = 1,	
 }exi_line_mode_e;
 
-#define EXI_INPUT_POS	(8)
-#define EXI_INPUT_MSK	(0x0F << EXI_INPUT_POS)
+
+#define EXI_LINE_INPUT_POS	(8)
+#define EXI_LINE_INPUT_MSK	(0x0F << EXI_LINE_INPUT_POS)
 
 
 typedef enum
@@ -251,27 +211,17 @@ typedef enum
 	EXI_EDGE_BOTH	= 2
 }exi_trigger_e;
 
-
 /******************************************************************************
-************************** Exported functions ************************
+* GPIO EXI EVENT TRIGGER: 
 ******************************************************************************/
-//extern void csp_gpio_default_Init(csp_gpio_t *ptGpioBase);
-//extern void csp_igrp_default_Init(csp_igrp_t *igrp_base);
-//extern void csp_gpio_mux_init(csp_gpio_t *ptGpioBase,gpio_byte_e eByte,uint32_t wVal);
-//extern int  csp_gpio_mux_set(csp_gpio_t *ptGpioBase,uint8_t byPinNum,uint8_t af_mode);
-//extern int  csp_gpio_mux_get(csp_gpio_t *ptGpioBase,uint8_t byPinNum);
-//extern void csp_gpio_dir_set(csp_gpio_t *ptGpioBase, uint8_t byPinNum,gpio_dir_e eDir);
-//extern void csp_gpio_inputoutput_dis(csp_gpio_t *ptGpioBase,uint8_t byPinNum);
-////
-//extern void csp_gpio_set_value(csp_gpio_t *ptGpioBase,uint8_t byPinNum,gpio_pin_state_e eState);
-//extern void csp_gpio_toggle(csp_gpio_t *ptGpioBase,uint8_t byPinNum);
-////
-//extern uint32_t get_gpio_exi_intnum(gpio_igrp_e eExiGrp);
-////extern void csp_gpio_set_port_irq(csp_gpio_t *ptGpioBase, uint32_t wValue, bool bEnable);
-//extern void csp_gpio_intgroup_set(csp_gpio_t *ptGpioBase, uint8_t byPinNum, gpio_igrp_e eExiGrp);
-//extern void csp_gpio_exi_config(csp_gpio_t *ptGpioBase,uint8_t byPinNum,gpio_igrp_e eExiGrp,exi_trigger_e eGpioTrig, bool bExiEn);
-////extern void csp_exi_set_port_irq(csp_syscon_t *ptSysconBase,uint32_t wValue,bool bEnable);
-//extern void csp_exi_trigger_set(csp_syscon_t *ptSysconBase,gpio_igrp_e eExiGrp, exi_trigger_e eGpioTrig);
+#define EXI_TRG_EN_POS(n)	(n+28)
+#define EXI_TRG_EN_MSK(n)	(0x01 << EXI_TRG_EN_POS(n))
+
+#define EXI_TRG_ADGE_POS(n)	(2*n +16)
+#define EXI_TRG_ADGE_MSK(n)	(0x03 << EXI_TRG_ADGE_POS(n))
+
+#define EXI_TRG_SRC_POS(n)	(n*4)
+#define EXI_TRG_SRC_MSK(n)	(0x0F << EXI_TRG_SRC_POS(n))
 
 /******************************************************************************
 ********************* gpio inline Functions Declaration ***********************
@@ -322,11 +272,23 @@ static inline void csp_gpio_port_int_enable(csp_gpio_t *ptGpioBase, uint32_t wVa
 //	ptGpioBase->IEER  =  (1 << eExiIo);
 //}
 
+static inline void csp_exi_line_set_grp(csp_exi_t *ptExiBase, uint8_t byLine, exi_line_grp_e eGrp, uint8_t byInput)
+{
+	uint32_t *ptExiLineBase = (uint32_t *)((uint32_t)ptExiBase + (byLine + 1) * 0x04);
+	*ptExiLineBase = ((*ptExiLineBase) & ~(EXI_LINE_GPR_MSK | EXI_LINE_INPUT_MSK)) | eGrp | (byInput << EXI_LINE_INPUT_POS);
+}
+
+static inline void csp_exi_line_mode(csp_exi_t *ptExiBase, uint8_t byLine, exi_line_mode_e eMode)
+{
+	uint32_t *ptExiLineBase = (uint32_t *)((uint32_t)ptExiBase + (byLine + 1) * 0x04);
+	*ptExiLineBase = ((*ptExiLineBase) & ~EXI_LINE_MODE_MSK) | (eMode << EXI_LINE_MODE_POS);
+}
+
 static inline void csp_exi_set_linecfg(csp_exi_t *ptExiBase, uint8_t byLine, exi_line_grp_e eGrp, exi_line_mode_e eMode, uint8_t byInput)
 {
 	uint32_t *ptExiLineBase = (uint32_t *)((uint32_t)ptExiBase + (byLine + 1) * 0x04);
 	
-	*ptExiLineBase = eGrp | (eMode << EXI_LINE_MODE_POS) | ((byInput & 0x0f) << EXI_INPUT_POS);
+	*ptExiLineBase = eGrp | (eMode << EXI_LINE_MODE_POS) | ((byInput & 0x0f) << EXI_LINE_INPUT_POS);
 }
 
 static inline void csp_exi_line_int_enable(csp_exi_t *ptExiBase, exi_line_e eLine, bool bEnable)
@@ -345,9 +307,9 @@ static inline void csp_exi_line_port_int_enable(csp_exi_t *ptExiBase, uint32_t w
 		ptExiBase->EXIMCR &=  ~wValue;
 }
 
-static inline void csp_exi_line_clr_isr(csp_exi_t *ptExiBase, uint32_t wLine)
+static inline void csp_exi_line_clr_isr(csp_exi_t *ptExiBase, uint8_t byLine)
 {
-	ptExiBase->EXICR = (0x01ul << wLine);
+	ptExiBase->EXICR = (0x01ul << byLine);
 }
 
 static inline void csp_exi_line_port_clr_isr(csp_exi_t *ptExiBase, uint32_t wValue)
@@ -355,9 +317,29 @@ static inline void csp_exi_line_port_clr_isr(csp_exi_t *ptExiBase, uint32_t wVal
 	ptExiBase->EXICR = wValue;
 }
 
+static inline uint32_t csp_exi_line_get_isr(csp_exi_t *ptExiBase, uint8_t byLine)
+{
+    return (ptExiBase->EXIMSR & (0x01ul << byLine));
+}
+
 static inline uint32_t csp_exi_line_port_get_isr(csp_exi_t *ptExiBase)
 {
     return ptExiBase->EXIMSR;
+}
+
+static inline void csp_exi_set_evtrg(csp_exi_t *ptExiBase, uint8_t byTrgOut, uint8_t byTrgSrc)
+{
+	ptExiBase->EXIEVTRG = (ptExiBase->EXIEVTRG & ~EXI_TRG_SRC_MSK(byTrgOut)) | (byTrgSrc << EXI_TRG_SRC_POS(byTrgOut)) | EXI_TRG_EN_MSK(byTrgOut);
+}
+
+static inline void csp_exi_set_trgadge(csp_exi_t *ptExiBase, uint8_t byTrgOut, uint8_t byValue)
+{
+	ptExiBase->EXIEVTRG = (ptExiBase->EXIEVTRG & ~EXI_TRG_ADGE_MSK(byTrgOut)) | (byValue << EXI_TRG_ADGE_POS(byTrgOut));
+}
+
+static inline void csp_exi_evtrg_enable(csp_exi_t *ptExiBase, uint8_t byTrgOut, bool bEnable)
+{
+	ptExiBase->EXIEVTRG = (ptExiBase->EXIEVTRG & ~EXI_TRG_EN_MSK(byTrgOut)) | (bEnable << EXI_TRG_EN_POS(byTrgOut));
 }
 
 static inline void csp_exi_int_en(csp_syscon_t *ptSysconBase, uint32_t wIdx)

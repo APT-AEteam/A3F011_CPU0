@@ -135,10 +135,22 @@ typedef enum{
  */
 typedef enum
 {
-	EXI_LINE_GRP0	= (0x01ul << 0),	
-	EXI_LINE_GRP1	= (0x01ul << 1),	
-	EXI_LINE_GRP2	= (0x01ul << 2),	
-	EXI_LINE_GRP3	= (0x01ul << 3),					
+	EXI_LINE_GRP_NONE	= (0x00),
+	EXI_LINE_GRP0		= (0x01),	
+	EXI_LINE_GRP1		= (0x02),
+	EXI_LINE_GRP0_1		= (0x03),	
+	EXI_LINE_GRP2		= (0x04),
+	EXI_LINE_GRP0_2		= (0x05),	
+	EXI_LINE_GRP1_2		= (0x06),
+	EXI_LINE_GRP0_1_2	= (0x07),		
+	EXI_LINE_GRP3		= (0x08),
+	EXI_LINE_GRP0_3		= (0x09),
+	EXI_LINE_GRP1_3		= (0x0A),	
+	EXI_LINE_GRP0_1_3	= (0x0B),
+	EXI_LINE_GRP2_3		= (0x0C),
+	EXI_LINE_GRP0_2_3	= (0x0D),
+	EXI_LINE_GRP1_2_3	= (0x0E),
+	EXI_LINE_GRP_ALL	= (0x0Ful),
 }csi_exi_line_grp_e;
 
 /**
@@ -181,6 +193,30 @@ typedef enum
 	EXI_LINE15,
 }csi_exi_line_e;
 
+
+/**
+ * \enum     csi_exi_status_e
+ * \brief    GPIO exi status bit
+ */
+typedef enum {
+	EXI_LINE0_STATUS 	= (0x01ul << 0),
+    EXI_LINE1_STATUS	= (0x01ul << 1),      
+	EXI_LINE2_STATUS 	= (0x01ul << 2),
+    EXI_LINE3_STATUS	= (0x01ul << 3), 
+	EXI_LINE4_STATUS 	= (0x01ul << 4),
+    EXI_LINE5_STATUS	= (0x01ul << 5),      
+	EXI_LINE6_STATUS 	= (0x01ul << 6),
+    EXI_LINE7_STATUS	= (0x01ul << 7), 
+	EXI_LINE8_STATUS 	= (0x01ul << 8),
+    EXI_LINE9_STATUS	= (0x01ul << 9),      
+	EXI_LINE10_STATUS 	= (0x01ul << 10),
+    EXI_LINE11_STATUS	= (0x01ul << 11), 
+	EXI_LINE12_STATUS 	= (0x01ul << 12),
+    EXI_LINE13_STATUS	= (0x01ul << 13),      
+	EXI_LINE14_STATUS 	= (0x01ul << 14),
+    EXI_LINE15_STATUS	= (0x01ul << 15),
+}csi_exi_line_status_e;
+
 /**
  * \enum     csi_exi_trgsrc_e
  * \brief    GPIO exi trigger source
@@ -206,37 +242,43 @@ typedef enum {
 	TRGSRC_EXI17,
 	TRGSRC_EXI18,
 	TRGSRC_EXI19, 
+	
+	EXI_TRGSRC_LINE0 = 0,
+	EXI_TRGSRC_LINE1,
+	EXI_TRGSRC_LINE2,
+	EXI_TRGSRC_LINE3,
+	EXI_TRGSRC_LINE4,
+	EXI_TRGSRC_LINE5,
+	EXI_TRGSRC_LINE6,
+	EXI_TRGSRC_LINE7,
+	EXI_TRGSRC_LINE8,
+	EXI_TRGSRC_LINE9,
+	EXI_TRGSRC_LINE10,
+	EXI_TRGSRC_LINE11,
+	EXI_TRGSRC_LINE12,
+	EXI_TRGSRC_LINE13,
+	EXI_TRGSRC_LINE14,
+	EXI_TRGSRC_LINE15,
 }csi_exi_trgsrc_e;
 
-
-
 /**
- * \enum     csi_exi_status_e
- * \brief    GPIO exi status bit
+ * \enum     csi_exi_trgout_e
+ * \brief   EXI event trigger out
  */
-typedef enum {
-	STATUS_EXI0 	= (0x01ul << 0),
-    STATUS_EXI1		= (0x01ul << 1),      
-	STATUS_EXI2 	= (0x01ul << 2),
-    STATUS_EXI3		= (0x01ul << 3), 
-	STATUS_EXI4 	= (0x01ul << 4),
-    STATUS_EXI5		= (0x01ul << 5),      
-	STATUS_EXI6 	= (0x01ul << 6),
-    STATUS_EXI7		= (0x01ul << 7), 
-	STATUS_EXI8 	= (0x01ul << 8),
-    STATUS_EXI9		= (0x01ul << 9),      
-	STATUS_EXI10 	= (0x01ul << 10),
-    STATUS_EXI11	= (0x01ul << 11), 
-	STATUS_EXI12 	= (0x01ul << 12),
-    STATUS_EXI13	= (0x01ul << 13),      
-	STATUS_EXI14 	= (0x01ul << 14),
-    STATUS_EXI15	= (0x01ul << 15),
-	STATUS_EXI16	= (0x01ul << 16),      
-	STATUS_EXI17 	= (0x01ul << 17),
-    STATUS_EXI18	= (0x01ul << 18),
-	STATUS_EXI19	= (0x01ul << 19)
-}csi_exi_status_e;
+typedef enum
+{
+	EXI_TRGOUT0	= 0, 
+	EXI_TRGOUT1,  
+	EXI_TRGOUT2, 
+	EXI_TRGOUT3,  			   
+}csi_exi_trgout_e;
 
+
+typedef enum {
+    EXI_RISING_EDGE  = 0, 	//rising edge
+	EXI_FALLING_EDGE,     	//falling edge
+	EXI_BOTH_EDGE,        	//both edge
+} csi_exi_trgadge_e;
 
 /**
   \brief       Config pin direction
@@ -281,7 +323,33 @@ csi_error_t csi_gpio_port_input_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, 
   \param[in]   eTrgEdge      Interrupt trigger mode \ref csi_gpio_irq_mode_e
   \return      Error code
 */
-csi_error_t csi_gpio_port_irq_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_gpio_irq_mode_e eTrgEdge);
+//csi_error_t csi_gpio_port_irq_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_gpio_irq_mode_e eTrgEdge);
+
+
+/** 
+  \brief config gpio port exline irq mode
+  \param[in] ptGpioBase: pointer of gpio register structure
+  \param[in] wPinMask: pin mask,0x0001~0xffff
+  \param[in] eTrgEdge: rising edge; falling edge;	both edge;
+  \return error code \ref csi_error_t
+ */ 
+csi_error_t csi_exi_line_port_irq_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_exi_line_adge_e eEdge);
+
+/** 
+  \brief gpio port exi line irq enable
+  \param[in] eExiGrp: exi group(exi line); EXI_GRP0 ~EXI_GRP19
+  \param[in] bEnable: ENABLE OR DISABLE
+  \return void
+ */ 
+void csi_exi_line_port_irq_enable(uint32_t wPinMask, bool bEnable);
+
+/** 
+  \brief gpio port exi line vic irq enable
+  \param[in] wPinMask: pin mask,0x0001~0xffff
+  \param[in] bEnable: ENABLE OR DISABLE
+  \return none
+ */ 
+void csi_exi_line_port_vic_irq_enable(uint32_t wPinMask, bool bEnable);
 
 /**
   \brief       Enable or disable gpio pin interrupt
