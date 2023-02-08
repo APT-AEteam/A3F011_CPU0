@@ -1,6 +1,6 @@
 /***********************************************************************//** 
- * \file  iwdt_demo.c
- * \brief  IWDT_DEMO description and static inline functions at register level 
+ * \file  etcb_demo.c
+ * \brief  ETCB_DEMO description and static inline functions at register level 
  * \copyright Copyright (C) 2015-2020 @ APTCHIP
  * <table>
  * <tr><th> Date  <th>Version  <th>Author  <th>Description
@@ -35,8 +35,13 @@ int etcb_one_trg_one_demo0(void)
 	
 	csi_pin_set_mux(PA1,PA1_INPUT);		
 	csi_pin_pull_mode(PA1, GPIO_PULLUP);						//PA01 上拉
-	csi_pin_irq_mode(PA1,EXI_GRP1, GPIO_IRQ_FALLING_EDGE);		//PA01 下降沿产生中断	
-	csi_exi_set_evtrg(1, TRGSRC_EXI1, 1);
+	csi_pin_irq_enable(PA1, ENABLE);
+	
+	csi_exi_line_set_group(EXI_LINE1, EXI_LINE_GRP1, PA1);
+	csi_exi_line_irq_mode(EXI_LINE1, EXI_LINE_MODE_OR, EXI_BOTH_EDGE);
+	csi_exi_line_irq_enable(EXI_LINE1, ENABLE);
+	
+	csi_exi_set_evtrg(EXI_TRGOUT1, EXI_TRGSRC_LINE1, EXI_BOTH_EDGE);
 	
 	csi_bt_start_sync(BT0, 200);
 	csi_bt_set_sync(BT0,BT_TRGIN_SYNCEN0, BT_TRG_ONCE, ENABLE);  
@@ -47,11 +52,7 @@ int etcb_one_trg_one_demo0(void)
 	
 	tEtbConfig.byChType = ETB_ONE_TRG_ONE;  		//单个源触发单个目标
 	tEtbConfig.bySrcIp  = ETB_EXI_TRGOUT1 ;  	    //EXI1 触发输出0作为触发源
-	tEtbConfig.bySrcIp1 = ETB_SRC_NOT_USE;          //无触发源2      
-	tEtbConfig.bySrcIp2 = ETB_SRC_NOT_USE;          //无触发源3
 	tEtbConfig.byDstIp =  ETB_BT0_SYNCIN0;   	    //BT0 同步输入作为目标事件
-	tEtbConfig.byDstIp1 = ETB_DST_NOT_USE;          //无目标事件2
-	tEtbConfig.byDstIp2 = ETB_DST_NOT_USE;          //无目标事件3
 	tEtbConfig.byTrgMode = ETB_HARDWARE_TRG;
    
 	csi_etb_init();
@@ -62,11 +63,7 @@ int etcb_one_trg_one_demo0(void)
 	
 	tEtbConfig.byChType = ETB_ONE_TRG_ONE;  		//单个源触发单个目标
 	tEtbConfig.bySrcIp  = ETB_BT0_TRGOUT ;  	    //BT0 触发输出0作为触发源
-	tEtbConfig.bySrcIp1 = ETB_SRC_NOT_USE;          //无触发源2       
-	tEtbConfig.bySrcIp2 = ETB_SRC_NOT_USE;          //无触发源3
 	tEtbConfig.byDstIp =  ETB_LPT_SYNCIN;   	    //LPT0 同步输入作为目标事件
-	tEtbConfig.byDstIp1 = ETB_DST_NOT_USE;          //无目标事件2
-	tEtbConfig.byDstIp2 = ETB_DST_NOT_USE;          //无目标事件3
 	tEtbConfig.byTrgMode = ETB_HARDWARE_TRG;
    
 	csi_etb_init();
@@ -164,17 +161,26 @@ int etcb_more_trg_one_demo(void)
 	csi_pin_set_mux(PA3,PA3_INPUT);	
 	
 	csi_pin_pull_mode(PA0, GPIO_PULLNONE);						//PA00 无上下拉
+	csi_pin_irq_enable(PA0, ENABLE);
+	csi_exi_line_set_group(EXI_LINE0, EXI_LINE_GRP0, PA0);
+	csi_exi_line_irq_mode(EXI_LINE0, EXI_LINE_MODE_OR, EXI_BOTH_EDGE);
+	csi_exi_line_irq_enable(EXI_LINE0, ENABLE);	
+	csi_exi_set_evtrg(EXI_TRGOUT0, EXI_TRGSRC_LINE0, EXI_BOTH_EDGE);
+	
 	csi_pin_pull_mode(PA1, GPIO_PULLUP);						//PA01 上拉
+	csi_pin_irq_enable(PA1, ENABLE);
+	csi_exi_line_set_group(EXI_LINE1, EXI_LINE_GRP1, PA1);
+	csi_exi_line_irq_mode(EXI_LINE1, EXI_LINE_MODE_OR, EXI_BOTH_EDGE);
+	csi_exi_line_irq_enable(EXI_LINE1, ENABLE);	
+	csi_exi_set_evtrg(EXI_TRGOUT1, EXI_TRGSRC_LINE1, EXI_BOTH_EDGE);	
+	
 	csi_pin_pull_mode(PA3, GPIO_PULLUP);						//PA03 上拉
+	csi_pin_irq_enable(PA3, ENABLE);
+	csi_exi_line_set_group(EXI_LINE3, EXI_LINE_GRP3, PA3);
+	csi_exi_line_irq_mode(EXI_LINE3, EXI_LINE_MODE_OR, EXI_BOTH_EDGE);
+	csi_exi_line_irq_enable(EXI_LINE3, ENABLE);	
+	csi_exi_set_evtrg(EXI_TRGOUT3, EXI_TRGSRC_LINE3, EXI_BOTH_EDGE);	
 	
-	csi_pin_irq_mode(PA0,EXI_GRP0, GPIO_IRQ_RISING_EDGE);		//PA00 上升沿产生中断	
-	csi_pin_irq_mode(PA1,EXI_GRP1, GPIO_IRQ_FALLING_EDGE);		//PA01 下降沿产生中断		
-	csi_pin_irq_mode(PA3,EXI_GRP3, GPIO_IRQ_FALLING_EDGE);		//PA03 下降沿产生中断	
-	
-	csi_exi_set_evtrg(1, TRGSRC_EXI0, 4);                       //PA00 4次上升沿触发目标事件     
-	csi_exi_set_evtrg(2, TRGSRC_EXI1, 1);
-	csi_exi_set_evtrg(3, TRGSRC_EXI3, 1);
-
 	etcb_adc_config13();
 	
 	tEtbConfig.byChType = ETB_MORE_TRG_ONE;  		//多个源触发单个目标
@@ -182,8 +188,8 @@ int etcb_more_trg_one_demo(void)
 	tEtbConfig.bySrcIp1 = ETB_EXI_TRGOUT2;      
 	tEtbConfig.bySrcIp2 = ETB_EXI_TRGOUT3;
 	tEtbConfig.byDstIp =  ETB_ADC0_SYNCIN0;   	    //ADC0 同步输入作为目标事件
-	tEtbConfig.byDstIp1 = 0xff;
-	tEtbConfig.byDstIp2 = 0xff;
+	tEtbConfig.byDstIp1 = ETB_SRC_NOT_USE;
+	tEtbConfig.byDstIp2 = ETB_SRC_NOT_USE;
 	tEtbConfig.byTrgMode = ETB_HARDWARE_TRG;
    
 	csi_etb_init();
@@ -214,16 +220,25 @@ int etcb_mix_demo(void)
 	csi_pin_set_mux(PA3,PA3_INPUT);	
 	
 	csi_pin_pull_mode(PA0, GPIO_PULLNONE);						//PA00 无上下拉
+	csi_pin_irq_enable(PA0, ENABLE);
+	csi_exi_line_set_group(EXI_LINE0, EXI_LINE_GRP0, PA0);
+	csi_exi_line_irq_mode(EXI_LINE0, EXI_LINE_MODE_OR, EXI_BOTH_EDGE);
+	csi_exi_line_irq_enable(EXI_LINE0, ENABLE);	
+	csi_exi_set_evtrg(EXI_TRGOUT0, EXI_TRGSRC_LINE0, EXI_BOTH_EDGE);
+	
 	csi_pin_pull_mode(PA1, GPIO_PULLUP);						//PA01 上拉
+	csi_pin_irq_enable(PA1, ENABLE);
+	csi_exi_line_set_group(EXI_LINE1, EXI_LINE_GRP1, PA1);
+	csi_exi_line_irq_mode(EXI_LINE1, EXI_LINE_MODE_OR, EXI_BOTH_EDGE);
+	csi_exi_line_irq_enable(EXI_LINE1, ENABLE);	
+	csi_exi_set_evtrg(EXI_TRGOUT1, EXI_TRGSRC_LINE1, EXI_BOTH_EDGE);	
+	
 	csi_pin_pull_mode(PA3, GPIO_PULLUP);						//PA03 上拉
-	
-	csi_pin_irq_mode(PA0,EXI_GRP0, GPIO_IRQ_RISING_EDGE);		//PA00 上升沿产生中断	
-	csi_pin_irq_mode(PA1,EXI_GRP1, GPIO_IRQ_FALLING_EDGE);		//PA01 下降沿产生中断		
-	csi_pin_irq_mode(PA3,EXI_GRP3, GPIO_IRQ_FALLING_EDGE);		//PA03 下降沿产生中断	
-	
-	csi_exi_set_evtrg(1, TRGSRC_EXI0, 4);                       //PA00 4次上升沿触发目标事件     
-	csi_exi_set_evtrg(2, TRGSRC_EXI1, 1);
-	csi_exi_set_evtrg(3, TRGSRC_EXI3, 1);
+	csi_pin_irq_enable(PA3, ENABLE);
+	csi_exi_line_set_group(EXI_LINE3, EXI_LINE_GRP3, PA3);
+	csi_exi_line_irq_mode(EXI_LINE3, EXI_LINE_MODE_OR, EXI_BOTH_EDGE);
+	csi_exi_line_irq_enable(EXI_LINE3, ENABLE);	
+	csi_exi_set_evtrg(EXI_TRGOUT3, EXI_TRGSRC_LINE3, EXI_BOTH_EDGE);	
 
 	csi_bt_start_sync(BT0, 200);
 	csi_bt_set_sync(BT0,BT_TRGIN_SYNCEN0, BT_TRG_ONCE, ENABLE);  
@@ -241,8 +256,8 @@ int etcb_mix_demo(void)
 	tEtbConfig.bySrcIp1 = ETB_EXI_TRGOUT2;      
 	tEtbConfig.bySrcIp2 = ETB_EXI_TRGOUT3;
 	tEtbConfig.byDstIp =  ETB_BT0_SYNCIN0;   	    //BT0 同步输入作为目标事件
-	tEtbConfig.byDstIp1 = 0xff;
-	tEtbConfig.byDstIp2 = 0xff;
+	tEtbConfig.byDstIp1 = ETB_SRC_NOT_USE;
+	tEtbConfig.byDstIp2 = ETB_SRC_NOT_USE;
 	tEtbConfig.byTrgMode = ETB_HARDWARE_TRG;
    
 	csi_etb_init();
@@ -253,11 +268,7 @@ int etcb_mix_demo(void)
 	
 	tEtbConfig.byChType = ETB_ONE_TRG_ONE;  		//单个源触发单个目标
 	tEtbConfig.bySrcIp  = ETB_BT0_TRGOUT ;  	    //BT0 触发输出0作为触发源
-	tEtbConfig.bySrcIp1 = 0xff;      
-	tEtbConfig.bySrcIp2 = 0xff;
 	tEtbConfig.byDstIp =  ETB_LPT_SYNCIN;   	    //LPT 同步输入作为目标事件
-	tEtbConfig.byDstIp1 = 0xff;
-	tEtbConfig.byDstIp2 = 0xff;
 	tEtbConfig.byTrgMode = ETB_HARDWARE_TRG;
    
 	csi_etb_init();
@@ -268,11 +279,7 @@ int etcb_mix_demo(void)
 	
 	tEtbConfig.byChType = ETB_ONE_TRG_ONE;  		//单个源触发单个目标
 	tEtbConfig.bySrcIp  = ETB_LPT_TRGOUT0 ;  	    //LPT 触发输出0作为触发源
-	tEtbConfig.bySrcIp1 = 0xff;      
-	tEtbConfig.bySrcIp2 = 0xff;
 	tEtbConfig.byDstIp =  ETB_ADC0_SYNCIN0;   	    //ADC0 同步输入作为目标事件
-	tEtbConfig.byDstIp1 = 0xff;
-	tEtbConfig.byDstIp2 = 0xff;
 	tEtbConfig.byTrgMode = ETB_HARDWARE_TRG;
    
 	csi_etb_init();
