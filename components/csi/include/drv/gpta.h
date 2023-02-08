@@ -142,10 +142,11 @@ typedef enum{
 typedef enum{
 	GPTA_TRG_SYNCEN0	= 0,	//start	up or reset count			
 	GPTA_TRG_SYNCEN1,			//reg updata				
-	GPTA_TRG_SYNCEN2,			//capture				
-	GPTA_TRG_SYNCEN3,			//count inc or dec			
-	GPTA_TRG_SYNCEN4,			//change output status(pwm)			
-	GPTA_TRG_SYNCEN5			//change output status(pwm)						
+	GPTA_TRG_SYNCEN2,			//capture	
+	GPTA_TRG_SYNCEN3,			//capture				
+	GPTA_TRG_SYNCEN4,			//count inc or dec			
+	GPTA_TRG_SYNCEN5,			//change output status(pwm)			
+	GPTA_TRG_SYNCEN6			//change output status(pwm)						
 }csi_gpta_trgin_e;
 
 
@@ -171,7 +172,8 @@ typedef enum{
 	GPTA_FILT_SYNCIN2,			//filter input syncin2
 	GPTA_FILT_SYNCIN3,			//filter input syncin3	
 	GPTA_FILT_SYNCIN4,			//filter input syncin4
-	GPTA_FILT_SYNCIN5,			//filter input syncin5		
+	GPTA_FILT_SYNCIN5,			//filter input syncin5	
+	GPTA_FILT_SYNCIN6,			//filter input syncin6			
 }csi_gpta_filter_insrc_e;
 
 
