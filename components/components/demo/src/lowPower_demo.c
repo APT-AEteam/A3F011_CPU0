@@ -356,8 +356,13 @@ void lp_wakeup_demo(void)
 	
 	csi_pin_set_mux(PB1,PB1_INPUT);							//PB01 输入							
 	csi_pin_pull_mode(PB1, GPIO_PULLUP);						//PB01 上拉
-	csi_pin_irq_mode(PB1,EXI_GRP1, GPIO_IRQ_FALLING_EDGE);		//PB01 下降沿产生中断
 	csi_pin_irq_enable(PB1, ENABLE);					//PB01 中断使能，选择中断组0	
+
+	csi_exi_line_set_group(EXI_LINE1, EXI_LINE_GRP1, PB1);
+	csi_exi_line_irq_mode(EXI_LINE1, EXI_LINE_MODE_OR, EXI_BOTH_EDGE);
+	csi_exi_line_irq_enable(EXI_LINE1, ENABLE);
+	csi_exi_line_vic_irq_enable(EXI_LINE1, ENABLE);	
+	
 	csi_vic_get_pending_irq(EXI1_IRQ_NUM);
 	
 	csi_pm_clk_enable(SP_IDLE_PCLK, DISABLE);					//sleep模式下关闭PCLK
