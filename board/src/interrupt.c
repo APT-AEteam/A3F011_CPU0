@@ -26,7 +26,6 @@
 #include "qspi.h"
 #include "irq.h"
 #include "cnta.h"
-#include "mbox.h"
 
 /* externs function--------------------------------------------------------*/
 extern void tick_irqhandler(void);
@@ -47,7 +46,6 @@ extern void adc_irqhandler(csp_adc_t *ptAdcBase);
 extern void syscon_irqhandler(csp_syscon_t *ptSysconBase);
 extern void led_irqhandler(csp_led_t *ptLedBase);
 extern void i2c_irqhandler(csp_i2c_t *ptIicBase);
-extern void mbox_irqhandler(csp_mbox_t *ptMboxBase);
 
 
 /* private function--------------------------------------------------------*/
@@ -344,80 +342,93 @@ void exiline4_int_handler(void)
 #endif
 }
 
+
 void exiline5_int_handler(void) 
 {
 #if	EXILINE5_INT_HANDLE_EN
-
+    // ISR content ...
+	gpio_irqhandler(5);
 #endif
 }
 
 void exiline6_int_handler(void) 
 {
 #if	EXILINE6_INT_HANDLE_EN
-
+    // ISR content ...
+	gpio_irqhandler(6);
 #endif
 }
 
 void exiline7_int_handler(void) 
 {
 #if	EXILINE7_INT_HANDLE_EN
-
+    // ISR content ...
+	gpio_irqhandler(7);
 #endif
 }
 
 void exiline8_int_handler(void) 
 {
 #if	EXILINE8_INT_HANDLE_EN
-
+    // ISR content ...
+	gpio_irqhandler(8);
+	
 #endif
 }
 
 void exiline9_int_handler(void) 
 {
 #if	EXILINE9_INT_HANDLE_EN
-
+    // ISR content ...
+	gpio_irqhandler(9);
 #endif
 }
 
 void exiline10_int_handler(void) 
 {
 #if	EXILINE10_INT_HANDLE_EN
-
+    // ISR content ...
+	gpio_irqhandler(10);
 #endif
 }
 
 void exiline11_int_handler(void) 
 {
 #if	EXILINE11_INT_HANDLE_EN
-
+    // ISR content ...
+	gpio_irqhandler(11);
 #endif
 }
 
 void exiline12_int_handler(void) 
 {
 #if	EXILINE12_INT_HANDLE_EN
-
+    // ISR content ...
+	gpio_irqhandler(12);
 #endif
 }
 
 void exiline13_int_handler(void) 
 {
 #if	EXILINE13_INT_HANDLE_EN
-
+    // ISR content ...
+	gpio_irqhandler(13);
 #endif
 }
 
 void exiline14_int_handler(void) 
 {
 #if	EXILINE14_INT_HANDLE_EN
-
+    // ISR content ...
+	gpio_irqhandler(14);
 #endif
 }
 
 void exiline15_int_handler(void) 
 {
 #if	EXILINE15_INT_HANDLE_EN
-
+    // ISR content ...
+	gpio_irqhandler(15);
 #endif
 }
 
@@ -486,6 +497,7 @@ void bt0_int_handler(void)
 #if	BT0_INT_HANDLE_EN
     // ISR content ...
 	bt_irqhandler(BT0);
+	csi_pin_toggle(PA4);
 #endif
 }
 
@@ -534,11 +546,6 @@ void mbox1_int1_int_handler(void)
 {
 #if	MBOX1_INT1_INT_HANDLE_EN
     // ISR content ...
-	
-	csp_mbox_t *ptMboxChBase = (csp_mbox_t *)MBOX_REG_BASE(MBOX1, MBOX_INT1);
-	
-	mbox_irqhandler(ptMboxChBase);
-	
 #endif	
 }
 
@@ -582,7 +589,7 @@ void cpu1_bt_int_handler(void)
 #if	CPU1_BT_INT_HANDLE_EN
     // ISR content ...
 	csi_pin_toggle(PA6);
-	//bt_irqhandler(CPU1_BT);
+	bt_irqhandler(CPU1_BT);
 #endif	
 }
 

@@ -384,7 +384,6 @@ uint8_t apt_pin_exi_line_get_input(pin_name_e ePinName, csi_exi_line_e eLine)
 	
 	return byInput;
 }
-
 /** \brief exi line group select
  * 
  *  \param[in] exi line: exi line; EXI_LINE0~15
@@ -403,7 +402,6 @@ csi_error_t csi_exi_line_set_group(csi_exi_line_e eLine, csi_exi_line_grp_e eGro
 
 	return CSI_OK;
 }
-
 /** \brief exi line irq mode config
  * 
  *  \param[in] eLine: exi line; EXI_LINE0~15
@@ -411,31 +409,11 @@ csi_error_t csi_exi_line_set_group(csi_exi_line_e eLine, csi_exi_line_grp_e eGro
  *  \param[in] eEdge: rising/falling/both
  *  \return none
  */ 
-void csi_exi_line_irq_mode(csi_exi_line_e eLine, csi_exi_line_mode_e eMode, csi_exi_line_adge_e eEdge)
+void csi_exi_line_irq_mode(csi_exi_line_e eLine, csi_exi_line_mode_e eMode, csi_exi_adge_e eEdge)
 {
 	csp_exi_line_mode(EXI, eLine, eMode);
 	apt_exi_line_set_edge(EXI, eLine, eEdge);
 }
-
-/** \brief set gpio interrupt group
- * 
- *  \param[in] ptGpioBase: pointer of gpio register structure
- *  \param[in] byPinNum: pin0~15
- *  \param[in] eExiGrp:	EXI_IGRP0 ~ EXI_IGRP19
- *  \return none
- */ 
-//csi_error_t csi_pin_set_exi_line(pin_name_e ePinName, csi_exi_line_e eLine, csi_exi_line_grp_e eGroup, csi_exi_line_mode_e eMode, csi_exi_line_adge_e eEdge)
-//{
-//	uint8_t byInput = 0x0f;
-//	
-//	byInput = apt_pin_exi_line_get_input(ePinName, eLine);
-//	if(byInput == 0x0f)
-//		return CSI_ERROR;
-//	csp_exi_set_linecfg(EXI, eLine, eGroup, eMode,byInput);
-//	apt_exi_line_set_edge(EXI,eLine, eEdge);
-//	
-//	return CSI_OK;
-//}
 /** \brief exi line irq enable
  * 
  *  \param[in] eLine: exi line; EXI_LINE0~15
@@ -446,31 +424,6 @@ void csi_exi_line_irq_enable(csi_exi_line_e eLine, bool bEnable)
 {
 	csp_exi_line_int_enable(EXI, eLine, bEnable);
 }
-/** \brief config pin irq mode(assign exi group)
- * 
- *  \param[in] ePinName: pin name
- *  \param[in] eExiGrp: exi group; EXI_GRP0 ~EXI_GRP19
- *  \param[in] eTrgEdge: rising edge; falling edge;	both edge;
- *  \return error code \ref csi_error_t
- */ 
-//csi_error_t csi_pin_irq_mode(pin_name_e ePinName, csi_exi_grp_e eExiGrp, csi_gpio_irq_mode_e eTrgEdge)
-//{
-//	csi_error_t ret = CSI_OK;
-//	csp_gpio_t *ptGpioBase = NULL;
-//	unsigned int *pwPinMess = apt_get_pin_name_addr(ePinName);
-//
-//	ptGpioBase = (csp_gpio_t *)pwPinMess[0];			//pin addr
-//	ePinName = (pin_name_e)pwPinMess[1];				//pin			
-//		
-//	apt_gpio_intgroup_set(ptGpioBase,ePinName,eExiGrp);					//interrupt group
-//	
-//	if(eTrgEdge >  GPIO_IRQ_BOTH_EDGE)
-//		ret = CSI_ERROR;
-//	else
-//		apt_exi_trg_edge_set(SYSCON,eExiGrp, eTrgEdge);					//interrupt edge
-//	
-//	return ret;
-//}
 /** \brief pin irq enable
  * 
  *  \param[in] ePinName: pio pin name, defined in soc.h.
@@ -571,10 +524,10 @@ void csi_pin_set_low(pin_name_e ePinName)
 /** \brief  set exi as trigger Event(EV0~5) 
  *  \param[in] byTrgOut: output Event select(TRGOUT0~5)
  *  \param[in] eExiTrgSrc: event source (TRGSRC_EXI0~19)
- *  \param[in] byTrgPrd: accumulated EXI events to output trigger 
+ *  \param[in] eTrgAdge: accumulated EXI events to output trigger 
  *  \return error code \ref csi_error_t
  */ 
-csi_error_t csi_exi_set_evtrg(csi_exi_trgout_e eTrgOut, csi_exi_trgsrc_e eTrgSrc, csi_exi_trgadge_e eTrgAdge)
+csi_error_t csi_exi_set_evtrg(csi_exi_trgout_e eTrgOut, csi_exi_trgsrc_e eTrgSrc, csi_exi_adge_e eTrgAdge)
 {
 	if(eTrgOut <= EXI_TRGOUT3)
 	{

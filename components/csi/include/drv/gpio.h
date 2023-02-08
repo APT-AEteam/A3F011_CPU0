@@ -163,15 +163,6 @@ typedef enum
 	EXI_LINE_MODE_AND = 1,	
 }csi_exi_line_mode_e;
 
-/**
- * \enum     csi_gpio_irq_mode_e
- * \brief    GPIO irq triger type
- */
-typedef enum {
-    EXI_LINE_RISING_EDGE  = 0, //rising edge
-	EXI_LINE_FALLING_EDGE,     //falling edge
-	EXI_LINE_BOTH_EDGE,        //both edge
-} csi_exi_line_adge_e;
 
 typedef enum
 {
@@ -193,6 +184,17 @@ typedef enum
 	EXI_LINE15,
 }csi_exi_line_e;
 
+/**
+ * \enum     csi_exi_line_adge_e
+ * \brief    GPIO irq triger type
+ */
+typedef enum {
+    EXI_RISING_EDGE  = 0, 	//rising edge
+	EXI_FALLING_EDGE,     	//falling edge
+	EXI_BOTH_EDGE,        	//both edge
+} csi_exi_adge_e;
+
+//typedef csi_exi_line_adge_e csi_exi_trgadge_e ;
 
 /**
  * \enum     csi_exi_status_e
@@ -274,11 +276,11 @@ typedef enum
 }csi_exi_trgout_e;
 
 
-typedef enum {
-    EXI_RISING_EDGE  = 0, 	//rising edge
-	EXI_FALLING_EDGE,     	//falling edge
-	EXI_BOTH_EDGE,        	//both edge
-} csi_exi_trgadge_e;
+//typedef enum {
+//    EXI_RISING_EDGE  = 0, 	//rising edge
+//	EXI_FALLING_EDGE,     	//falling edge
+//	EXI_BOTH_EDGE,        	//both edge
+//} csi_exi_trgadge_e;
 
 /**
   \brief       Config pin direction
@@ -333,7 +335,7 @@ csi_error_t csi_gpio_port_input_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, 
   \param[in] eTrgEdge: rising edge; falling edge;	both edge;
   \return error code \ref csi_error_t
  */ 
-csi_error_t csi_exi_line_port_irq_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_exi_line_adge_e eEdge);
+csi_error_t csi_exi_line_port_irq_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_exi_adge_e eEdge);
 
 /** 
   \brief gpio port exi line irq enable
