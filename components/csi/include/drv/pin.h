@@ -155,7 +155,7 @@ csi_error_t csi_exi_line_set_group(csi_exi_line_e eLine, csi_exi_line_grp_e eGro
   \param[in] eEdge: rising/falling/both
   \return none
  */ 
-void csi_exi_line_irq_mode(csi_exi_line_e eLine, csi_exi_line_mode_e eMode, csi_exi_line_adge_e eEdge);
+void csi_exi_line_irq_mode(csi_exi_line_e eLine, csi_exi_line_mode_e eMode, csi_exi_adge_e eEdge);
 
 /** 
   \brief exi line irq enable
@@ -200,7 +200,7 @@ void csi_pin_set_low(pin_name_e ePinName);
   \param       eTrgAdge 	accumulated EXI events to output trigger 
   \return 	   error code \ref csi_error_t
  */ 
-csi_error_t csi_exi_set_evtrg(csi_exi_trgout_e eTrgOut, csi_exi_trgsrc_e eTrgSrc, csi_exi_trgadge_e eTrgAdge);
+csi_error_t csi_exi_set_evtrg(csi_exi_trgout_e eTrgOut, csi_exi_trgsrc_e eTrgSrc, csi_exi_adge_e eTrgAdge);
 
 /** 
   \brief exi evtrg output enable/disable

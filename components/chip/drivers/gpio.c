@@ -332,7 +332,7 @@ static uint8_t apt_gpio_port_exi_line_get_group(uint8_t byLine)
  *  \param[in] eTrgEdge: rising edge; falling edge;	both edge;
  *  \return error code \ref csi_error_t
  */ 
-csi_error_t csi_exi_line_port_irq_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_exi_line_adge_e eEdge)
+csi_error_t csi_exi_line_port_irq_mode(csp_gpio_t *ptGpioBase, uint32_t wPinMask, csi_exi_adge_e eEdge)
 {
 	uint8_t i, byPortNum =  apt_gpio_get_port_num(ptGpioBase);	
 	uint8_t byGroup, byInput;
