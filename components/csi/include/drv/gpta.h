@@ -70,6 +70,8 @@ struct csi_gpta_captureconfig {
 	uint8_t     byCaptureLdbret;
 	uint8_t     byCaptureLdaaret;
 	uint8_t     byCaptureLdbaret;
+	uint8_t     byCaptureCapmdSel;
+	uint8_t     byCaptureRev;
 	uint32_t    wInt;
 };
 
