@@ -45,18 +45,18 @@ int bt_pwm_demo(void)
 	int iRet = 0;
 	csi_bt_pwm_config_t tPwmCfg;							//BT PWM输出参数初始化配置结构体
 	
-	//csi_pin_set_mux(PB02, PB02_BT0_OUT);					//PB02 作为BT0 PWM输出引脚
+	csi_pin_set_mux(PA3, PA3_BT3_OUT);					//PB02 作为BT0 PWM输出引脚
 	
 	//init timer pwm para config
 	tPwmCfg.byIdleLevel = BT_PWM_IDLE_HIGH;					//PWM 输出空闲电平
 	tPwmCfg.byStartLevel= BT_PWM_START_HIGH;				//PWM 输出起始电平
-	tPwmCfg.byDutyCycle = 50;								//PWM 输出占空比(0 < DutyCycle < 100)		
-	tPwmCfg.wFreq 		= 50;								//PWM 输出频率
+	tPwmCfg.byDutyCycle = 30;								//PWM 输出占空比(0 < DutyCycle < 100)		
+	tPwmCfg.wFreq 		= 10000;								//PWM 输出频率
 	//tPwmCfg.byInter 	= BT_INTSRC_PEND | BT_INTSRC_CMP;	//PWM 中断配置(PEND and CMP)
 	tPwmCfg.byInter		= BT_INTSRC_NONE;
 	
-	csi_bt_pwm_init(BT0, &tPwmCfg);							//初始化BT0 PWM输出
-	csi_bt_start(BT0);										//启动BT0
+	csi_bt_pwm_init(BT3, &tPwmCfg);							//初始化BT0 PWM输出
+	csi_bt_start(BT3);										//启动BT0
 			
 	
 	

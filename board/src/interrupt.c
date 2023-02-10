@@ -46,6 +46,7 @@ extern void adc_irqhandler(csp_adc_t *ptAdcBase);
 extern void syscon_irqhandler(csp_syscon_t *ptSysconBase);
 extern void led_irqhandler(csp_led_t *ptLedBase);
 extern void i2c_irqhandler(csp_i2c_t *ptIicBase);
+extern void usb_irqhandler(csp_usb_t *ptUsbBase,int32_t idx);
 
 
 /* private function--------------------------------------------------------*/
@@ -581,6 +582,7 @@ void usb_int_handler(void)
 {
 #if	USB_INT_HANDLE_EN
     // ISR content ...
+	usb_irqhandler(USBD,1);	
 #endif	
 }
 

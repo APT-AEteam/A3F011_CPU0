@@ -70,3 +70,4 @@ csp_iwdt_t 		*IWDT		= (csp_iwdt_t 	*)(AHB_SYSCON_BASE);
 
 csp_mbox_t      *MBOX0     =(csp_mbox_t   *)(AHB_MBOX0_BASE);
 csp_mbox_t      *MBOX1     =(csp_mbox_t   *)(CPU1_AHB_MBOX1_BASE);
+csp_usb_t 		*USBD		= (csp_usb_t 	*)(AHB_USB_BASE);
