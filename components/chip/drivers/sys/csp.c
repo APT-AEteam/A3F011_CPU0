@@ -17,6 +17,7 @@ CLIC_Type  		*COREINT 	= (CLIC_Type 	*)(CLIC_BASE);
 CORET_Type 		*CORETIMER  = (CORET_Type	*)(CORET_BASE);
 csp_ifc_t 		*IFC   		= (csp_ifc_t 	*)(APB_IFC_BASE) ;
 csp_syscon_t 	*SYSCON  	= (csp_syscon_t *)(AHB_SYSCON_BASE);
+csp_syscon1_t 	*SYSCON1  	= (csp_syscon1_t *)(AHB_SYSCON_BASE);
 csp_etb_t		*ETCB 		= (csp_etb_t 	*)(APB_ETCB_BASE); 
 csp_dma_t		*DMA0 		= (csp_dma_t 	*)(AHB_DMA0_BASE); 
 csp_dma_t		*DMA1 		= (csp_dma_t 	*)(AHB_DMA1_BASE); 

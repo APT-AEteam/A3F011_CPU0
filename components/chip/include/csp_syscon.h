@@ -97,7 +97,74 @@ typedef volatile struct {                   			/*!< SYSCON Structure            
 	volatile unsigned int DBGCR;						/*!< 0x128: Debug Control Register			   */
 } csp_syscon_t; 
 
-
+/// \struct csp_syscon_t
+/// \brief SYSCON reg description
+typedef volatile struct {                   			/*!< SYSCON Structure                         */
+	volatile unsigned int IDCCR;                        /*!< 0x000: Identification & System Controller Clock Control Register */
+	volatile unsigned int GCER;                         /*!< 0x004: System Controller General Control Enable Register */
+	volatile unsigned int GCDR;                         /*!< 0x008: System Controller General Control Disable Register */
+	volatile unsigned int GCSR;                         /*!< 0x00C: System Controller General Control Status Register */
+	volatile unsigned int CKST;                         /*!< 0x010	*/
+	volatile unsigned int SCLKCR;                       /*!< 0x014: System Controller System Clock Selection & Division Register */
+	volatile unsigned int _RSVD0;;                      /*!< 0x018	*/
+	volatile unsigned int SCKDIV;                       /*!< 0x01C: System Controller System Clock Selection & Division Register */
+	volatile unsigned int PCKCR0;                       /*!< 0x020: System Controller Peripheral Clock Selection & Division Register */
+	volatile unsigned int PCERL0;                       /*!< 0x024: System Controller Peripheral Clock Enable Register */
+	volatile unsigned int PCDRL0;                       /*!< 0x028: System Controller Peripheral Clock Disable Register */
+	volatile unsigned int PCSRL0;                       /*!< 0x02C: System Controller Peripheral Clock Status Register */
+	volatile unsigned int PCERH0;                   	/*!< 0x030: System Controller Peripheral Clock Enable Register */
+	volatile unsigned int PCDRH0;                       /*!< 0x034: System Controller Peripheral Clock Disable Register */
+	volatile unsigned int PCSRH0;                       /*!< 0x038: System Controller Peripheral Clock Status Register */
+	volatile unsigned int IPSWRSTL0;                    /*!< 0x03C: */
+	volatile unsigned int IPSWRSTH0;                    /*!< 0x040: */
+	volatile unsigned int PCKCR1;                       /*!< 0x044: System Controller Peripheral Clock Selection & Division Register */
+	volatile unsigned int PCER1;                        /*!< 0x048: System Controller Peripheral Clock Enable Register */
+	volatile unsigned int PCDR1;                        /*!< 0x04C: System Controller Peripheral Clock Disable Register */
+	volatile unsigned int PCSR1;                        /*!< 0x050: System Controller Peripheral Clock Status Register */
+	volatile unsigned int IPSWRST1;                     /*!< 0x054: */
+	volatile unsigned int _RSVD1;                       /*!< 0x058: */
+	volatile unsigned int _RSVD2;                       /*!< 0x05C: */
+	volatile unsigned int _RSVD3;                       /*!< 0x060: */
+	volatile unsigned int RAMCHK;                       /*!< 0x064: */
+	volatile unsigned int EFLCHK;                       /*!< 0x068: */
+	volatile unsigned int EMSR;                         /*!< 0x06C: */
+	volatile unsigned int ESCR;                         /*!< 0x070: */
+	volatile unsigned int PLLCR;                        /*!< 0x074: */
+	volatile unsigned int PLLOPT0;                      /*!< 0x078: */
+	volatile unsigned int PLLOPT1;                      /*!< 0x07C: */
+	volatile unsigned int LVDCR;                        /*!< 0x080: System Controller LVD Control Register */
+	volatile unsigned int GPWCR;                        /*!< 0x084: System Controller Clear Status Register */
+	volatile unsigned int LPWCR;                        /*!< 0x088: System Controller Raw Interrupt Status Register */
+	volatile unsigned int PWTIM;                        /*!< 0x08C: System Controller Raw Interrupt Status Register */
+	volatile unsigned int PWRMD;                        /*!< 0x090: System Controller Raw Interrupt Status Register */
+	volatile unsigned int PWKEY;                        /*!< 0x094: System Controller Reset Status Register */
+	volatile unsigned int OPTCR;                        /*!< 0x098: System Controller External Interrupt Mode 1 (Positive Edge) Register */
+	volatile unsigned int WKCR;                         /*!< 0x09C: System Controller External Interrupt Mode 2 (Negative Edge) Register */
+	volatile unsigned int PCAR;                         /*!< 0x0A0: System Controller External Interrupt Enable Register */
+	volatile unsigned int IMCR;                         /*!< 0x0A4: System Controller External Interrupt Disable Register */
+	volatile unsigned int MISR;                         /*!< 0x0A8: System Controller External Interrupt Mask Register */
+	volatile unsigned int ICR;                          /*!< 0x0AC: System Controller External Interrupt Active Register */
+	volatile unsigned int RISR;                         /*!< 0x0B0: System Controller External Interrupt Clear Status Register */
+	volatile unsigned int IAR;                          /*!< 0x0B4: System Controller Independent Watchdog Control Register */
+	volatile unsigned int RSR;                          /*!< 0x0B8: SystCem Controller Independent Watchdog Counter Value Register */
+	volatile unsigned int IWDCR;                        /*!< 0x0BC: System Controller Independent Watchdog Control Register */
+	volatile unsigned int IWDCNT;                       /*!< 0x0C0: SystCem Controller Independent Watchdog Counter Value Register */
+	volatile unsigned int IWDEDR;                       /*!< 0x0C4: System Controller Independent Watchdog Enable/disable Register*/
+	volatile unsigned int CQCR;                    	    /*!< 0x0C8: Customer Information Content mirror of 1st byte*/
+	volatile unsigned int CQSR;                         /*!< 0x0CC: Customer Information Content mirror of 1st byte*/
+	volatile unsigned int RBPKEY;                       /*!< 0x0D0: Customer Information Content mirror of 1st byte*/
+	volatile unsigned int SRBREG;                       /*!< 0x0D4: Customer Information Content mirror of 1st byte*/
+	volatile unsigned int ERBREG;                       /*!< 0x0D8: Customer Information Content mirror of 1st byte*/
+	volatile unsigned int SYSCSR;                       /*!< 0x0DC: Customer Information Content mirror of 1st byte*/
+	volatile unsigned int DBG0REG;                      /*!< 0x0E0:*/
+	volatile unsigned int DBG1REG ;                     /*!< 0x0E4: Customer Information Content mirror of 1st byte*/
+	volatile unsigned int DBG2REG ;                     /*!< 0x0E8: Customer Information Content mirror of 1st byte*/
+	volatile unsigned int DBG3REG ;                     /*!< 0x0EC: Customer Information Content mirror of 1st byte*/
+	volatile unsigned int DBG4REG;                      /*!< 0x0F0: Power recovery timmming control */
+	volatile unsigned int UREG0;                      	/*!< 0x0F4: User defined reg0                              */
+	volatile unsigned int UREG1;                       	/*!< 0x0F8: User defined reg1                              */
+	volatile unsigned int UREG2;                       	/*!< 0x0FC: User defined reg0                              */
+} csp_syscon1_t; 
 
 /// IDCCR reg content
 #define SYSCON_CLKEN		(0x01ul)
