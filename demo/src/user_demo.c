@@ -165,7 +165,7 @@ void user_demo(void)
 /// ***************************************************
 ///  IIC相关的示例代码
 /// ***************************************************
-//	iic_master_demo();
+	iic_master_demo();
 //	iic_master_slave_demo();
 //	iic_slave_demo();
 	
@@ -189,8 +189,24 @@ void user_demo(void)
 //	spi_master_send_receive_demo();
 //	spi_slave_send_receive_int_demo();
 //	spi_etcb_dma_send();
-//	spi_etcb_dma_send_receive();          
-	
+//	spi_etcb_dma_send_receive(); 
+
+/// ***************************************************
+///  CORDIC相关的示例代码
+/// ***************************************************
+//	cordic_polling_demo();   // polling mode
+//	cordic_interrupt_demo();   // interrupt mode
+	cordic_dma_demo();   // dma mode
+//	cordic_test_stop_busy_demo();   // stop & busy test         
+
+/// ***************************************************
+///  IIS相关的示例代码
+/// ***************************************************
+
+//	iis_test1_main();   // master tx/slave rx,no interrupt
+	iis_test2_main();   // master rx/slave tx,no interrupt
+//	iis_test3_main();   // master tx/slave rx,interrupt
+//	iis_test4_main();   // master tx/slave rx,no interrupt,rx mode fs auto detecetd
 
 }
 

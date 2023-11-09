@@ -42,7 +42,8 @@
 #include "csp_usb.h"
 #include "csi_core.h"
 #include "csp_mbox.h"
-
+#include "csp_cordic.h"
+#include "csp_iis.h"
 
 typedef csp_syscon_t 	csp_iwdt_t;
 
@@ -80,8 +81,9 @@ extern csp_iwdt_t		*IWDT;
 extern csp_bt_t  		*CPU1_SPI;
 extern csp_mbox_t      *MBOX0,*MBOX1;
 extern csp_usb_t       *USBD;
+extern csp_cordic_t  	*CORDIC;
 //extern csp_gptb_t       *GPTB0, *GPTB1, *GPTB2, *GPTB3, *GPTB4, *GPTB5;
-//extern csp_i2s_t  		*I2S0,*I2S1; 增加i2s驱动之后打开
+extern csp_i2s_t  		*I2S0,*I2S1;
 
 #endif
 

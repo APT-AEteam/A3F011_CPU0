@@ -47,7 +47,8 @@ extern void syscon_irqhandler(csp_syscon_t *ptSysconBase);
 extern void led_irqhandler(csp_led_t *ptLedBase);
 extern void i2c_irqhandler(csp_i2c_t *ptIicBase);
 extern void usb_irqhandler(csp_usb_t *ptUsbBase,int32_t idx);
-
+extern void cordic_irqhandler(csp_cordic_t *ptCordicBase);
+extern void iis_irqhandler(csp_i2s_t *ptI2sBase);
 
 /* private function--------------------------------------------------------*/
 /* extern variablesr------------------------------------------------------*/

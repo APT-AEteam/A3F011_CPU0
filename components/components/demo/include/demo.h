@@ -141,4 +141,18 @@ extern csi_error_t crc_demo();
 
 //led
 csi_error_t led_demo(void);
+
+// cordic
+extern int cordic_dma_demo(void);
+extern int cordic_polling_demo(void);
+extern int cordic_interrupt_demo(void);
+extern int cordic_test_stop_busy_demo(void);
+
+// iis
+extern void iis_test1_main();
+extern void iis_test2_main();
+extern void iis_test3_main();
+extern void iis_test4_main();
+
+
 #endif
