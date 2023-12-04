@@ -40,6 +40,7 @@ csp_sio_t  		*SIO0     	= (csp_sio_t 	*)(APB_SIO0_BASE);
 csp_cmp_t  		*CMP0     	= (csp_cmp_t 	*)(APB_CMP0_BASE);
 csp_cmp_t  		*CMP1     	= (csp_cmp_t 	*)(APB_CMP1_BASE);
 csp_cmp_t  		*CMP2     	= (csp_cmp_t 	*)(APB_CMP2_BASE);
+csp_codec_t		*CODEC		= (csp_codec_t	*)(APB_CODEC_BASE);
 csp_i2c_t  		*I2C0     	= (csp_i2c_t 	*)(APB_I2C0_BASE);
 csp_can_t 		*CAN0    	= (csp_can_t 	*)(APB_CAN_BASE);	
 csp_cnta_t  	*CA0      	= (csp_cnta_t 	*)(APB_CNTA_BASE);
@@ -73,3 +74,4 @@ csp_iwdt_t 		*IWDT		= (csp_iwdt_t 	*)(AHB_SYSCON_BASE);
 csp_mbox_t      *MBOX0     =(csp_mbox_t   *)(AHB_MBOX0_BASE);
 csp_mbox_t      *MBOX1     =(csp_mbox_t   *)(CPU1_AHB_MBOX1_BASE);
 csp_usb_t 		*USBD		= (csp_usb_t 	*)(AHB_USB_BASE);
+

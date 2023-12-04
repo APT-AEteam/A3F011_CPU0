@@ -100,6 +100,7 @@ extern csi_clk_config_t tClkConfig;
 /// \todo  clk_module_t or clk_module_e
 typedef enum {
     IFC_SYS_CLK		= 0U,
+	CODEC_SYS_CLK	= 2U,
     ADC_SYS_CLK		= 4U,
     TKEY_SYS_CLK	= 6U,
     ETCB_SYS_CLK	= 7U,
