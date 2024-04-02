@@ -79,7 +79,7 @@ extern csp_bt_t  		*BT0, *BT1, *BT2, *BT3, *CPU1_BT;
 extern csp_crc_t 		*CRC;
 extern csp_rtc_t 		*RTC;
 extern csp_iwdt_t		*IWDT;
-extern csp_bt_t  		*CPU1_SPI;
+extern csp_spi_t  		*CPU1_SPI;
 extern csp_mbox_t      *MBOX0,*MBOX1;
 extern csp_usb_t       *USBD;
 extern csp_cordic_t  	*CORDIC;

@@ -28,27 +28,27 @@
  */ 
 __attribute__((weak)) void mbox_irqhandler(csp_mbox_t *ptMboxBase)
 {
-	
+	csp_mbox_clr_isr(MBOX_REG_BASE(ptMboxBase, MBOX_INT1));
     // ISR content ...
 	
-	uint32_t gen_temp = 0;
-	uint32_t info[8][2]={};
-	
-	if(csp_mbox_get_isr(ptMboxBase))
-	{
-		gen_temp = csp_mbox_get_gen(ptMboxBase);
-		for(int cnt =0; cnt < 8; cnt++)
-		{
-			if(gen_temp &(0x01<<cnt))
-			{
-				info[cnt][0] = 1;    								//mark 1 when the info register is writen 
-				info[cnt][1] = csp_mbox_get_info(ptMboxBase,cnt); 	//read corresponding info register
-			}
-		}
-		
-		csp_mbox_clr_isr(ptMboxBase);
-		
-	}
+//	uint32_t gen_temp = 0;
+//	uint32_t info[8][2]={};
+//	
+//	if(csp_mbox_get_isr(ptMboxBase))
+//	{
+//		gen_temp = csp_mbox_get_gen(ptMboxBase);
+//		for(int cnt =0; cnt < 8; cnt++)
+//		{
+//			if(gen_temp &(0x01<<cnt))
+//			{
+//				info[cnt][0] = 1;    								//mark 1 when the info register is writen 
+//				info[cnt][1] = csp_mbox_get_info(ptMboxBase,cnt); 	//read corresponding info register
+//			}
+//		}
+//		
+//		csp_mbox_clr_isr(ptMboxBase);
+//		
+//	}
 
 }
 

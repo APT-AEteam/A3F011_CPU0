@@ -249,7 +249,8 @@ Reset_Handler:
     jal     board_init   
 #endif
 */
-    jal     main
+	la 		a0,main
+    jalr    a0
 
     .size   Reset_Handler, . - Reset_Handler
 
@@ -264,4 +265,4 @@ g_base_irqstack:
     .space CONFIG_ARCH_INTERRUPTSTACK
 g_top_irqstack:
 
-	
+

@@ -217,6 +217,7 @@ csi_error_t csi_ifc_page_program(csp_ifc_t *ptIfcBase, uint32_t wAddr, uint32_t 
 	
 	csp_ifc_clk_enable(ptIfcBase, ENABLE);
 	
+		
 	tRet = (csi_error_t)apt_ifc_wr_nword(ptIfcBase, wFlashType, wAddr, wDataWordNum, pwData);	
 	while (csi_ifc_get_status(ptIfcBase).busy);
 	return tRet;
@@ -364,7 +365,13 @@ csi_error_t csi_ifc_page_erase(csp_ifc_t *ptIfcBase, uint32_t wPageStAddr)
 
 static void apt_ifc_step_sync(csp_ifc_t * ptIfcBase, ifc_cmd_e eStepn, uint32_t wPageStAddr)
 {
-	csp_ifc_unlock(ptIfcBase);
+	if(wPageStAddr <PFLASHLIMIT)//pflash
+	{
+		csp_ifc_pflash_unlock(ptIfcBase);
+	}
+	else {//dflash
+		csp_ifc_dflash_unlock(ptIfcBase);
+	}
 	csp_ifc_wr_cmd(ptIfcBase, eStepn);
 	csp_ifc_addr(ptIfcBase, wPageStAddr);
 	csp_ifc_start(ptIfcBase);
@@ -381,7 +388,14 @@ static void apt_ifc_step_sync(csp_ifc_t * ptIfcBase, ifc_cmd_e eStepn, uint32_t 
 
 void apt_ifc_step_async(csp_ifc_t * ptIfcBase, ifc_cmd_e eStepn, uint32_t wPageStAddr)
 {
-	csp_ifc_unlock(ptIfcBase);
+	if(wPageStAddr <PFLASHLIMIT)//pflash
+	{
+		csp_ifc_pflash_unlock(ptIfcBase);
+	}
+	else {//dflash
+		csp_ifc_dflash_unlock(ptIfcBase);
+	}
+	
 	switch (eStepn)
 	{
 		case (PAGE_ERASE):
@@ -613,4 +627,5 @@ csi_error_t csi_ifc_wr_useroption(csp_ifc_t *ptIfcBase, uint32_t wData)
 		g_bFlashPgmDne = 1;
 	
 	return tRet;
+
 }

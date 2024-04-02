@@ -81,6 +81,8 @@ typedef enum{
 #define  PF_WAIT1 (0x1ul) 
 #define  PF_WAIT2 (0x2ul) 
 #define  PF_WAIT3 (0x3ul) 
+#define  PF_WAIT7 (0x7ul)
+#define  PF_WAIT9 (0x9ul)
 #define  DFLASH_PMODE_POS 8
 #define  DFLASH_PMODE_MSK (0x1 <<DFLASH_PMODE_POS)
 #define  DFLASH_PMODE (0x1 <<DFLASH_PMODE_POS)
@@ -91,7 +93,8 @@ typedef enum{
 #define  LOW_SPEED ((0x0ul)<<16) 
 
 ///KR: ISP key
-#define  IFC_USER_KEY (0x5A5A5A5Aul)
+#define  IFC_PFLASH_KEY (0x5A5A5A5Aul)
+#define  IFC_DFLASH_KEY (0x69696969ul)
 
 
 ///Interrupt regs: IMCR, RISR, MISR, ICR
@@ -153,9 +156,14 @@ static inline void csp_ifc_clr_int(csp_ifc_t *ptIfcBase, ifc_int_e eInt)
 {
 	ptIfcBase->ICR = eInt;
 }
-static inline void csp_ifc_unlock(csp_ifc_t *ptIfcBase)
+static inline void csp_ifc_pflash_unlock(csp_ifc_t *ptIfcBase)
 {
-	ptIfcBase->KR = IFC_USER_KEY;
+	ptIfcBase->KR = IFC_PFLASH_KEY;
+}
+
+static inline void csp_ifc_dflash_unlock(csp_ifc_t *ptIfcBase)
+{
+	ptIfcBase->KR = IFC_DFLASH_KEY;
 }
 
 static inline void csp_ifc_dflash_paramode_enable(csp_ifc_t *ptIfcBase, bool bEnable)

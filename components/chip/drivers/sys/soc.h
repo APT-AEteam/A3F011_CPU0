@@ -975,9 +975,9 @@ typedef enum{
 }swd_grp_e;
 
 //APT32F1xx
-#define PFLASHBASE			0x18000000
+#define PFLASHBASE			0x00000000
 #define PFLASHSIZE			0x00080000
-#define PFLASHPAGE			1024
+#define PFLASHPAGE			256
 #define PFLASHLIMIT			(PFLASHBASE + PFLASHSIZE) 
 #define USEROPTION_ADDR		0x000800C0  //todo：待确认该位地址，目前手册上没有
 #define DFLASHBASE			0x10000000

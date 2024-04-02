@@ -49,6 +49,7 @@ extern void i2c_irqhandler(csp_i2c_t *ptIicBase);
 extern void usb_irqhandler(csp_usb_t *ptUsbBase,int32_t idx);
 extern void cordic_irqhandler(csp_cordic_t *ptCordicBase);
 extern void iis_irqhandler(csp_i2s_t *ptI2sBase);
+extern void mbox_irqhandler(csp_mbox_t *ptMboxBase);
 
 /* private function--------------------------------------------------------*/
 /* extern variablesr------------------------------------------------------*/
@@ -499,7 +500,7 @@ void bt0_int_handler(void)
 #if	BT0_INT_HANDLE_EN
     // ISR content ...
 	bt_irqhandler(BT0);
-	csi_pin_toggle(PA4);
+	csi_pin_toggle(PD4);
 #endif
 }
 
@@ -548,6 +549,7 @@ void mbox1_int1_int_handler(void)
 {
 #if	MBOX1_INT1_INT_HANDLE_EN
     // ISR content ...
+	mbox_irqhandler(MBOX1);
 #endif	
 }
 

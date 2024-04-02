@@ -22,8 +22,8 @@
  ******************************************************************************/
 MEMORY
 {
-	ROM(RX)   : ORIGIN = 0x00000000,  LENGTH = 256K
-	RAM(RWX)  : ORIGIN = 0x20000000,  LENGTH = 32K
+	ROM(RWX)  : ORIGIN = 0x00000000,  LENGTH = 512K
+	RAM(RWX)  : ORIGIN = 0x20000000,  LENGTH = 128K
 }
 
 /*heap and stack*/
