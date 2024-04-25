@@ -224,7 +224,104 @@ csi_error_t csi_ifc_page_program(csp_ifc_t *ptIfcBase, uint32_t wAddr, uint32_t 
 	
 }
 
+/** \brief Program data (=bulk size)to Flash. NOTE!!! Extra ERASE is NOT needed before programming.
+ * 
+ *  \param[in] ptIfcBase：pointer of ifc register structure
+ *  \param[in] eBulk：select bulk @ref csi_bulk_sel_e
+ *  \param[in] pwData: data  Pointer to a buffer containing the data to be programmed to Flash.
+ *  \return error code
+ */
+csi_error_t csi_ifc_bulk_program(csp_ifc_t *ptIfcBase, csi_bulk_sel_e eBulk, uint32_t wData)
+{
+	csi_error_t tRet = CSI_OK;
+	uint32_t wBulkStAddr;
+	uint8_t bPageSize = PFLASH_PAGE_SZ ;
+	uint32_t i;
+	
+	switch(eBulk)
+	{
+		case BULK_ONE:
+			wBulkStAddr =0;
+			break;
+		case BULK_TWO:
+			wBulkStAddr = 0x20000;
+			break;
+		case BULK_THREE:
+			wBulkStAddr = 0x40000;
+			break;
+		case BULK_FOUR:
+			wBulkStAddr = 0x60000;
+			break;
+		default:
+			tRet = CSI_ERROR;
+			return tRet;
+			break;
+	
+	}
+	csp_ifc_clk_enable(ptIfcBase, ENABLE);
+	
+	///step1
+	apt_ifc_step_sync(ptIfcBase, PAGE_LAT_CLR, wBulkStAddr);
+	///step2
 
+	for(i=0; i<bPageSize; i++) {	
+        *(uint32_t *)(wBulkStAddr+4*i) = wData;
+    }
+//	///step3
+	apt_ifc_step_sync(ptIfcBase, PRE_PGM, wBulkStAddr);
+	///step4
+	apt_ifc_step_sync(ptIfcBase, PROGRAM, wBulkStAddr);
+
+	///step5
+		apt_ifc_step_sync(ptIfcBase, BULK_ERASE, wBulkStAddr);
+	///step6
+		apt_ifc_step_sync(ptIfcBase, BULK_PROGRAM, wBulkStAddr);
+		
+
+
+	while (csi_ifc_get_status(ptIfcBase).busy);
+	return tRet;
+	
+}
+
+
+/** \brief Program data (=bulk size)to Flash. NOTE!!! Extra ERASE is NOT needed before programming.
+ * 
+ *  \param[in] ptIfcBase：pointer of ifc register structure
+ *  \param[in] eBulk：select bulk @ref csi_bulk_sel_e
+ *  \return error code
+ */
+csi_error_t csi_ifc_bulk_erase(csp_ifc_t *ptIfcBase, csi_bulk_sel_e eBulk)
+{
+	csi_error_t tRet = CSI_OK;
+	uint32_t wBulkStAddr;
+
+	switch(eBulk)
+	{
+		case BULK_ONE:
+			wBulkStAddr =0;
+			break;
+		case BULK_TWO:
+			wBulkStAddr = 0x20000;
+			break;
+		case BULK_THREE:
+			wBulkStAddr = 0x40000;
+			break;
+		case BULK_FOUR:
+			wBulkStAddr = 0x60000;
+			break;
+		default:
+			tRet = CSI_ERROR;
+			return tRet;
+			break;
+	}
+	csp_ifc_clk_enable(ptIfcBase, ENABLE);
+	
+	apt_ifc_step_sync(ptIfcBase, BULK_ERASE, wBulkStAddr);
+	
+	return tRet;
+	
+}
 
 /** \brief Program data to Flash.  Support cross page programming, either in DFLASH or PFLASH.
  * NOTE!!! Extra ERASE is NOT needed before programming.
@@ -359,18 +456,48 @@ csi_error_t csi_ifc_page_erase(csp_ifc_t *ptIfcBase, uint32_t wPageStAddr)
 	
 }
 
+/** \brief erase PFLASH. NOTE!!! Extra ERASE is NOT needed before programming.
+ * 
+ *  \param[in] ptIfcBase：pointer of ifc register structure
+ *  \return ifc_status_t
+ */
+csi_error_t csi_ifc_pflash_erase(csp_ifc_t *ptIfcBase)
+{
+
+	csp_ifc_clk_enable(ptIfcBase, ENABLE);
+	
+	apt_ifc_step_sync(ptIfcBase, CHIP_ERASE_HIDM1, 0);
+
+	return CSI_OK;	
+}
+
+/** \brief erase DFLASH. NOTE!!! Extra ERASE is NOT needed before programming.
+ * 
+ *  \param[in] ptIfcBase：pointer of ifc register structure
+ *  \return ifc_status_t
+ */
+csi_error_t csi_ifc_dflash_erase(csp_ifc_t *ptIfcBase)
+{
+
+	csp_ifc_clk_enable(ptIfcBase, ENABLE);
+	
+	apt_ifc_step_sync(ptIfcBase, CHIP_ERASE_HIDM1, DFLASHBASE);
+
+	return CSI_OK;	
+}
+
 
 
 ///static functions
 
 static void apt_ifc_step_sync(csp_ifc_t * ptIfcBase, ifc_cmd_e eStepn, uint32_t wPageStAddr)
 {
-	if(wPageStAddr <PFLASHLIMIT)//pflash
+	if((DFLASHBASE-1 < wPageStAddr )& (wPageStAddr < DFLASHLIMIT))//Dflash
 	{
-		csp_ifc_pflash_unlock(ptIfcBase);
+		csp_ifc_dflash_unlock(ptIfcBase);
 	}
 	else {//dflash
-		csp_ifc_dflash_unlock(ptIfcBase);
+		csp_ifc_pflash_unlock(ptIfcBase);
 	}
 	csp_ifc_wr_cmd(ptIfcBase, eStepn);
 	csp_ifc_addr(ptIfcBase, wPageStAddr);
@@ -388,12 +515,12 @@ static void apt_ifc_step_sync(csp_ifc_t * ptIfcBase, ifc_cmd_e eStepn, uint32_t 
 
 void apt_ifc_step_async(csp_ifc_t * ptIfcBase, ifc_cmd_e eStepn, uint32_t wPageStAddr)
 {
-	if(wPageStAddr <PFLASHLIMIT)//pflash
+	if((DFLASHBASE-1 < wPageStAddr )& (wPageStAddr < DFLASHLIMIT))//Dflash
 	{
-		csp_ifc_pflash_unlock(ptIfcBase);
+		csp_ifc_dflash_unlock(ptIfcBase);
 	}
 	else {//dflash
-		csp_ifc_dflash_unlock(ptIfcBase);
+		csp_ifc_pflash_unlock(ptIfcBase);
 	}
 	
 	switch (eStepn)
@@ -628,4 +755,55 @@ csi_error_t csi_ifc_wr_useroption(csp_ifc_t *ptIfcBase, uint32_t wData)
 	
 	return tRet;
 
+}
+
+
+#define SFLASH_PAGE_SZ 64
+
+/** \brief write trim value
+ *  \param ptIfcBase pointer of ifc register structure.
+ *  \param wData data that to be written into IF area
+ *  \return csi_error_t
+ */
+csi_error_t csi_ifc_wr_trimvalue(csp_ifc_t *ptIfcBase, uint32_t wAddr, uint32_t wData)
+{
+	
+	csi_error_t tRet = CSI_OK;
+    uint32_t i,wBuff[SFLASH_PAGE_SZ],wPageStAddr,wOffsetAddr,bPageSize = SFLASH_PAGE_SZ;
+	
+//    wPageStAddr = wAddr & 0xFFFFFF80;
+//    wOffsetAddr = (wAddr - wPageStAddr)>> 2;
+	
+	csp_ifc_clk_enable(IFC, ENABLE);
+	///step1
+	apt_ifc_step_sync(ptIfcBase, PAGE_LAT_CLR|HIDM3, wAddr);
+	
+	///step2
+//	for(i=0; i< bPageSize; i++) {
+//      if( i == wOffsetAddr )
+//	  {
+//		wBuff[i] = wData;
+//		
+//	  }
+//      else {
+//        wBuff[i] = *(uint32_t *)(wAddr+4*i);
+//      }
+//    }
+	for(i=0; i<bPageSize; i++) {
+        *(uint32_t *)(wAddr+4*i) = wData;
+    }
+	///step3
+	apt_ifc_step_sync(ptIfcBase, PRE_PGM|HIDM3, wAddr);
+	///step4
+	apt_ifc_step_sync(ptIfcBase, PROGRAM|HIDM3, wAddr);
+
+	
+	///step5
+	apt_ifc_step_sync(ptIfcBase, PAGE_ERASE|HIDM3, wAddr);
+	///step6
+	apt_ifc_step_sync(ptIfcBase, PROGRAM|HIDM3,wAddr);
+	
+	g_bFlashPgmDne = 1;
+	
+	return tRet;
 }

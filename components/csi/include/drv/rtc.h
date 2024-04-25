@@ -74,12 +74,10 @@ typedef enum {
 }csi_rtc_timer_e;
 
 typedef enum {
-	RTC_ALMA_P = 0,
-	RTC_ALMA_H,
-	RTC_ALMA_L,
-	RTC_ALMB_P,
-	RTC_ALMB_H,
-	RTC_ALMB_L,
+	
+	RTC_ALRMA_OUT =0,
+	RTC_ALRMB_OUT,
+	RTC_CPRD_OUT
 	
 }csi_rtc_osel_e;
 

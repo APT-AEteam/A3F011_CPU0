@@ -36,7 +36,7 @@
       <Register Name="IFC_CMR" Authority="RW" Address="0x4001000c" Width="32" Description="指令寄存器">
         <Bit Name="PROT" Authority="RW" Bits="20-16" Description="保护功能选择寄存器&#xD;&#xA;[20] : ENCRYPT&#xD;&#xA;[19] : SWDP&#xD;&#xA;[18] : RDP&#xD;&#xA;[17] : HDP_FULL&#xD;&#xA;[16] : HDP_4K&#xD;&#xA;&#xD;&#xA;在CMD的写User Option命令中，使用PROT位来选择保护功能的使能，将相应位置1表示使能该项保护功能。" />
         <Bit Name="HMODE" Authority="RW" Bits="9-8" Description="操作模式寄存器&#xD;&#xA;00: 普通模式&#xD;&#xA;01: 用户特权模式&#xD;&#xA;10: 保留&#xD;&#xA;11: 保留&#xD;&#xA;在普通模式下，只有页擦除和写操作有效。其它指令都必须在用户特权模式下执行。" />
-        <Bit Name="CMD" Authority="RW" Bits="3-0" Description="写/擦除指令寄存器&#xD;&#xA;&#xD;&#xA;CMD[3:0]	指令&#xD;&#xA;0x1	写操作&#xD;&#xA;0x2	页擦除 (Page Erase)&#xD;&#xA;0x3	保留，禁止使用&#xD;&#xA;0x4	片擦除 (Chip Erase)&#xD;&#xA;0x5	自定义选项擦除&#xD;&#xA;0x6	预编程设定&#xD;&#xA;0x7	页缓存清除&#xD;&#xA;0x8 – 0xC	保留，禁止使用&#xD;&#xA;0xD	禁用调试口重映射 (SWD Remap)&#xD;&#xA;0xE	使能调试口重映射 (SWD Remap)&#xD;&#xA;0xF	写User Option操作&#xD;&#xA;&#xD;&#xA;注意：&#xD;&#xA;1. 当执行ISP操作时，禁止读取闪存内容&#xD;&#xA;2. 当操作完成后，IFC_CMR寄存器会自动清零&#xD;&#xA;3. 如果IFC_KR的秘钥值不对，那么指令不会被执行" />
+        <Bit Name="CMD" Authority="RW" Bits="3-0" Description="写/擦除指令寄存器&#xD;&#xA;&#xD;&#xA;CMD[3:0]	指令&#xD;&#xA;0x1	写操作&#xD;&#xA;0x2	页擦除 (Page Erase)&#xD;&#xA;0x3	保留，禁止使用&#xD;&#xA;0x4	片擦除 (Chip Erase)&#xD;&#xA;0x5	自定义选项擦除&#xD;&#xA;0x6	预编程设定&#xD;&#xA;0x7	页缓存清除&#xD;&#xA;0x8	Bulk区全写(每页相同数据，用于pre-program)&#xD;&#xA;0x9	Bulk区擦除&#xD;&#xA;0xA – 0xC	保留，禁止使用&#xD;&#xA;0xD	禁用调试口重映射 (SWD Remap)&#xD;&#xA;0xE	使能调试口重映射 (SWD Remap)&#xD;&#xA;0xF	写User Option操作&#xD;&#xA;&#xD;&#xA;注意：&#xD;&#xA;1. 当执行ISP操作时，禁止读取闪存内容&#xD;&#xA;2. 当操作完成后，IFC_CMR寄存器会自动清零&#xD;&#xA;3. 如果IFC_KR的秘钥值不对，那么指令不会被执行" />
       </Register>
       <Register Name="IFC_CR" Authority="RW" Address="0x40010010" Width="32" Description="控制寄存器">
         <Bit Name="START" Authority="RW" Bits="0" Description="操作启动位&#xD;&#xA;&#xD;&#xA;0: 无效&#xD;&#xA;1: 根据CMR设置的值开始执行指令&#xD;&#xA;&#xD;&#xA;注意：&#xD;&#xA;1. 当操作完成后，START位会被自动清零&#xD;&#xA;2. 指令的执行过程中，禁止对这位再进行写操作" />
@@ -44,13 +44,13 @@
       <Register Name="IFC_MR" Authority="RW" Address="0x40010014" Width="32" Description="工作模式寄存器">
         <Bit Name="SPEED" Authority="RW" Bits="16" Description="FLASH IP速度模式选择&#xD;&#xA;&#xD;&#xA;0: 低速模式&#xD;&#xA;1: 高速模式" />
         <Bit Name="PMODE" Authority="RW" Bits="8" Description="并行模式选择（只有DFLASH支持并行模式）&#xD;&#xA;0：等待&#xD;&#xA;1：并行模式（DFLASH擦写的同时，可以进行PFLASH读取）" />
-        <Bit Name="WAIT" Authority="RW" Bits="2-0" Description="闪存读等待周期&#xD;&#xA;&#xD;&#xA;0: 闪存读取中等待0个周期&#xD;&#xA;n: 闪存读取中等待n个周期" />
+        <Bit Name="WAIT" Authority="RW" Bits="3-0" Description="闪存读等待周期&#xD;&#xA;&#xD;&#xA;0: 闪存读取中等待0个周期&#xD;&#xA;n: 闪存读取中等待n个周期" />
       </Register>
       <Register Name="IFC_FM_ADDR" Authority="RW" Address="0x40010018" Width="32" Description="ISP地址寄存器">
         <Bit Name="FM_ADDR" Authority="RW" Bits="31-0" Description="ISP地址寄存器&#xD;&#xA;&#xD;&#xA;写操作和页擦除操作中的目标闪存地址&#xD;&#xA;&#xD;&#xA;注意：&#xD;&#xA;1. 操作完成后，这个寄存器会自动清零。&#xD;&#xA;2. 除了写操作和页擦除操作，其它指令执行时都不需要设置该寄存器" />
       </Register>
       <Register Name="IFC_KR" Authority="RW" Address="0x40010020" Width="32" Description="ISP秘钥寄存器">
-        <Bit Name="KEY" Authority="RW" Bits="31-0" Description="ISP安全秘钥寄存器&#xD;&#xA;&#xD;&#xA;秘钥寄存器用来保证ISP操作的安全，必须将该寄存器写0x5A5A_5A5A，所有闪存控制器的指令才会被执行。该寄存器在ISP操作完成后会被自动清零。 " />
+        <Bit Name="KEY" Authority="RW" Bits="31-0" Description="ISP安全秘钥寄存器&#xD;&#xA;&#xD;&#xA;秘钥寄存器用来保证ISP操作的安全，必须将该寄存器写入相应的密钥，所有闪存控制器的指令才会被执行。该寄存器在ISP操作完成后会被自动清零。&#xD;&#xA;Program Flash: 0x5A5A_5A5A &#xD;&#xA;Data Flash: 0x69696969" />
       </Register>
       <Register Name="IFC_IMCR" Authority="RW" Address="0x40010024" Width="32" Description="中断控制寄存器">
         <Bit Name="OVW_ERR" Authority="RW" Bits="15" Description="非法操作错误中断使能/禁止&#xD;&#xA;当ISP操作正在进行时，尝试修改CMD，FM_ADDR，FM_DR，START寄存器&#xD;&#xA;0: 禁止中断&#xD;&#xA;1: 使能中断" />
@@ -1958,6 +1958,7 @@
         <Bit Name="RBEN" Authority="RW" Bits="16" Description="TIMR和DATR回读控制。只有在回读使能时，RTC的状态可以被更新到TIMR和DATR中。关闭回读可以降低功耗。&#xD;&#xA;0h：回读禁止。&#xD;&#xA;1h：回读使能。" />
         <Bit Name="CPRD" Authority="RW" Bits="15-13" Description="周期事件选择。该配置适用RTC_CLK设置为2Hz情况，当RTC_CLK不为2Hz时，需要用户自己根据比例进行换算。&#xD;&#xA;0h：禁止周期事件。&#xD;&#xA;1h：每0.5秒发生一次。&#xD;&#xA;2h：每秒发生一次。&#xD;&#xA;3h：每分钟发生一次（在秒为0的时候）。&#xD;&#xA;4h：每小时发生一次（在秒和分钟为0的时候）。&#xD;&#xA;5h：每天发生一次（在秒、分钟和小时为0的时候）。&#xD;&#xA;6h：每月发生一次（每个月的第一天）。&#xD;&#xA;其他：保留。" />
         <Bit Name="OSEL" Authority="RW" Bits="12-10" Description="RTC_ALM管脚输出信号选择。&#xD;&#xA;0h：闹钟A脉冲输出。&#xD;&#xA;1h：闹钟B脉冲输出。&#xD;&#xA;2h：CPRD脉冲输出。&#xD;&#xA;其他：保留。" />
+        <Bit Name="COSEL" Authority="RW" Bits="9-8" Description="0h: ST_TGL&#xD;&#xA;1h: SST_TGL&#xD;&#xA;2h: CAL_CLK&#xD;&#xA;其他：保留。" />
         <Bit Name="FMT" Authority="RW" Bits="5" Description="计时模式设置。&#xD;&#xA;0h：24小时制。&#xD;&#xA;1h：12小时制(AM/PM)。" />
         <Bit Name="ALRBE" Authority="RW" Bits="4" Description="闹钟B使能控制。&#xD;&#xA;0h：关闭闹钟B。&#xD;&#xA;1h：打开闹钟B。" />
         <Bit Name="ALRAE" Authority="RW" Bits="3" Description="闹钟A使能控制。&#xD;&#xA;0h：关闭闹钟A。&#xD;&#xA;1h：打开闹钟A。" />
@@ -1965,6 +1966,7 @@
         <Bit Name="INIT" Authority="RW" Bits="0" Description="初始化控制位。&#xD;&#xA;0h：设置RTC到Free Running模式。在此模式下，TIMR和DATR不能修改。&#xD;&#xA;1h：设置RTC到初始化模式。该模式下，RTC停止工作，TIMR和DATR可以通过软件修改。" />
       </Register>
       <Register Name="RTC_CCR" Authority="RW" Address="0x4008000c" Width="32" Description="时钟控制寄存器">
+        <Bit Name="CCR_BSY" Authority="RO" Bits="31" Description="更新状态查询寄存器。当RTC处于Free Running模式下，对于CCR寄存器的修改，需要查询CCR_BSY以确认更新完成。&#xD;&#xA;0h：更新完成。&#xD;&#xA;1h：更新正在进行。" />
         <Bit Name="CLKEN" Authority="RW" Bits="27" Description="时钟使能控制。&#xD;&#xA;0h：RTC_CLK关闭。&#xD;&#xA;1h：RTC_CLK打开。" />
         <Bit Name="RTCCK_ST" Authority="RW" Bits="26" Description="时钟稳定状态查询。&#xD;&#xA;0h：RTC_CLK时钟未稳定。&#xD;&#xA;1h：RTC_CLK时钟已稳定。" />
         <Bit Name="CLKSRC" Authority="RW" Bits="25-24" Description="RTC时钟源选择。&#xD;&#xA;0h：ISOSC。&#xD;&#xA;1h：IMOSC/4。&#xD;&#xA;2h：EMOSC。&#xD;&#xA;3h：EMOSC/4。" />
@@ -11053,7 +11055,7 @@
         <Bit Name="CHKTIMES" Authority="RW" Bits="15-0" Description="校验重试次数设置。&#xD;&#xA;设置SRAM校验错后的重试次数。如果SRAM校验发生错误，SRAM控制器会再次重读SRAM进行校验，重读的次数由该寄存器设置。连续重读次数满足该寄存器设置的次数后，如果仍然失败，那么会产生SRAM校验错的中断，或者产生系统复位(由RSTEN位控制)。" />
       </Register>
       <Register Name="SYSCON_EFLCHK" Authority="RW" Address="0x80000068" Width="32" Description="EFLAH校验控制寄存器">
-        <Bit Name="CHKEN" Authority="RW" Bits="31-24" Description="Flash校验使能控制位。&#xD;&#xA;5Ah：使能Flash的crc校验功能。&#xD;&#xA;其他：关闭Flash的校验功能。" />
+        <Bit Name="CHKEN" Authority="RW" Bits="31-24" Description="Flash校验使能控制位。&#xD;&#xA;0x5A：使能Flash的crc校验功能，校验位只要有错误则重试，直到重试次数达到最大值为止。&#xD;&#xA;0x25：使能Flash的ECC校验功能，自动修复1bit错误，重试2bit错误，大于2bit错误则不动作，系统可能死机。&#xD;&#xA;其他：关闭Flash的校验功能。" />
         <Bit Name="CHKTIMES" Authority="RW" Bits="23-0" Description="校验重试次数设置。&#xD;&#xA;设置Flash校验错后的重试次数。如果Flash校验发生错误，Flash控制器会再次重读当前地址，进行校验，重读的次数由该寄存器设置。重读次数满足该寄存器设置的次数后，如果仍然失败，系统会产生相应系统复位(由CHKEN位控制)。" />
       </Register>
       <Register Name="SYSCON_EMCR" Authority="RW" Address="0x8000006c" Width="32" Description="外部主振荡器控制寄存器">
@@ -11178,8 +11180,7 @@
         <Bit Name="EXI_FCNT" Authority="RW" Bits="23-20" Description="" />
         <Bit Name="EXI_DFLT" Authority="RW" Bits="19-16" Description="EXI滤波控制。&#xD;&#xA;0h：禁止滤波功能&#xD;&#xA;1h：滤波CLK=IMO/2&#xD;&#xA;2h：滤波CLK=IMO/3&#xD;&#xA;xh：滤波CLK=IMO/(x+1) , MAXDIV = DIV16" />
         <Bit Name="CLODIV" Authority="RW" Bits="15-12" Description="CLO输出分频选择。&#xD;&#xA;2 * (CLODIV + 1) 分频" />
-        <Bit Name="CLOSEL" Authority="RW" Bits="11" Description="CLO输出选择。（CLO管脚输出最高频率不超过10MHz，若输出频率较高，可选择CLODIV分频后输出）&#xD;&#xA;0h : 无效&#xD;&#xA;1h : SYSCLK0输出&#xD;&#xA;2h：SYSCLK1输出&#xD;&#xA;3h：PLL_FEEDOUT输出&#xD;&#xA;4h：PLL_RCLK输出&#xD;&#xA;5h：PLL_QCLK输出&#xD;&#xA;6h：PLL_PCLK输出&#xD;&#xA;7h：IWDT_CLK输出&#xD;&#xA;8h：AHB0_CLK输出&#xD;&#xA;9h：AHB1_CLK输出&#xD;&#xA;Ah：RTC_CLK输出&#xD;&#xA;Bh：HFOSC2输出&#xD;&#xA;Ch：HFOSC1输出&#xD;&#xA;Dh：EMOSC输出&#xD;&#xA;Eh：ESOSC输出&#xD;&#xA;Fh：IMOSC输出&#xD;&#xA;其他：保留" />
-        <Bit Name="CLOMX" Authority="RW" Bits="10-8" Description="" />
+        <Bit Name="CLOSEL" Authority="RW" Bits="11-8" Description="CLO输出选择。（CLO管脚输出最高频率不超过10MHz，若输出频率较高，可选择CLODIV分频后输出）&#xD;&#xA;0h : 无效&#xD;&#xA;1h : SYSCLK0输出&#xD;&#xA;2h：SYSCLK1输出&#xD;&#xA;3h：PLL_FEEDOUT输出&#xD;&#xA;4h：PLL_RCLK输出&#xD;&#xA;5h：PLL_QCLK输出&#xD;&#xA;6h：PLL_PCLK输出&#xD;&#xA;7h：IWDT_CLK输出&#xD;&#xA;8h：AHB0_CLK输出&#xD;&#xA;9h：AHB1_CLK输出&#xD;&#xA;Ah：RTC_CLK输出&#xD;&#xA;Bh：HFOSC2输出&#xD;&#xA;Ch：HFOSC1输出&#xD;&#xA;Dh：EMOSC输出&#xD;&#xA;Eh：ESOSC输出&#xD;&#xA;Fh：IMOSC输出&#xD;&#xA;其他：保留" />
         <Bit Name="HFO_FSEL" Authority="RW" Bits="5-4" Description="HFOSC频率选择。&#xD;&#xA;0h：24MHz。&#xD;&#xA;1h：12MHz。&#xD;&#xA;2h：6MHz。&#xD;&#xA;3h：3MHz。" />
         <Bit Name="IMO_FSEL" Authority="RW" Bits="1-0" Description="IMOSC频率选择。&#xD;&#xA;0h：5.556MHz。&#xD;&#xA;1h：4.194MHz。&#xD;&#xA;2h：2.097MHz。&#xD;&#xA;3h：131.072KHz。" />
       </Register>

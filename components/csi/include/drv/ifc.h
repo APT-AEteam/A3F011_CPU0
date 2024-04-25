@@ -33,6 +33,12 @@ typedef struct {
 } csi_ifc_status_t;
 
 
+typedef enum{
+	BULK_ONE =0,
+	BULK_TWO,
+	BULK_THREE,
+	BULK_FOUR
+}csi_bulk_sel_e;
 
 // Function documentation
 
