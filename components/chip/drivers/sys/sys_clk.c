@@ -30,6 +30,9 @@ static uint32_t get_hclk(void)
 	tRslt = tClkConfig.wFreq/tClkConfig.eSdiv;
 	return (tRslt);
 }
+
+
+
 /** \brief sysctem clock (HCLK) configuration
  * 
  *  To set CPU frequence according to tClkConfig

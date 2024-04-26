@@ -208,7 +208,7 @@ Reset_Handler:
     //la      gp, __global_pointer$
 .option pop
 
-    la      a0, Default_Handler			//Exception handling entrance 
+	la      a0, Default_Handler			//Exception handling entrance 
     ori     a0, a0, 3
     csrw    mtvec, a0
 

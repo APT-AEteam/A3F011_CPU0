@@ -54,3 +54,23 @@ void ifc_program(void)
 	else
 		my_printf("program pass!\n");
 }
+
+
+/** \brief dflash page 并行模式写操作示例代码
+ *   		- 只有dflash支持并行模式，在并行模式下，dflash擦写的同时，CPU仍然可以从pflash取址运行
+ * 			- 不支持跨页，请确保写入地址在同一个page
+ * 			- 使用注意事项：1、起始地址必须word对齐
+ * 							2、数据类型为word
+ *  \param[in] none
+ *  \return error code
+ */
+void ifc_dflash_page_parallel_program_demo(void)
+{	csi_error_t tRet;
+
+	csi_ifc_dflash_paramode_enable(IFC, ENABLE);
+	tRet = csi_ifc_dflash_page_program(IFC, 0x10000000,wWriteData, 5);
+	if (tRet == CSI_ERROR)									//函数带校验功能，如果校验错误返回 CSI_ERROR
+		my_printf("program fail!\n");
+	else
+		my_printf("program pass!\n");
+}

@@ -27,26 +27,26 @@
 @brief EPWM bits Structure
 *******************************************************************************
 */
-
+//NOTE: Update registers ( CR，ALRA，ALRB，CAL（1C），TIMR，DATR，SRAM ) must check CR[UPD_BSY]
  typedef struct
  {
-   __IOM uint32_t	TIMR;  		//0x0000	Time Control Register
-   __IOM uint32_t  	DATR;		//0x0004	Date Control Register
-   __IOM uint32_t  	CR;  		//0x0008	Control Register
-   __IOM uint32_t	CCR;  		//0x000C	Clock Control register
-   __IOM uint32_t	ALRA;		//0x0010	Alarm A
-   __IOM uint32_t	ALRB;		//0x0014	Alarm B
-   __IOM uint32_t	SSR;    	//0x0018	Sub second
-   __IOM uint32_t	CAL;   		//0x001C	Calibration
-   __IM uint32_t   	RISR;       //0x0020
-   __IOM uint32_t	IMCR;   	//0x0024
-   __IM	uint32_t	MISR;     	//0x0028
-   __OM	uint32_t	ICR;   		//0x002C
-   __IOM uint32_t	KEY;    	//0x0030
-   __IOM uint32_t	EVTRG;  	//0x0034
-   __IOM uint32_t	EVPS;   	//0x0038
-   __OM	uint32_t    EVSWF;  	//0x003C
-   __IOM uint32_t	SRKEY;   	//0x0040
+   __IOM uint32_t		TIMR;  		//0x0000	Time Control Register
+   __IOM uint32_t		DATR;		//0x0004	Date Control Register
+   __IOM uint32_t		CR;  		//0x0008	Control Register
+   __IOM uint32_t		CCR;  		//0x000C	Clock Control register
+   __IOM uint32_t		ALRA;		//0x0010	Alarm A
+   __IOM uint32_t		ALRB;		//0x0014	Alarm B
+   __IOM uint32_t		SSR;    	//0x0018	Sub second
+   __IOM uint32_t		CAL;   		//0x001C	Calibration
+   __IM uint32_t		RISR;       //0x0020
+   __IOM uint32_t		IMCR;   	//0x0024
+   __IM	uint32_t		MISR;     	//0x0028
+   __OM	uint32_t		ICR;   		//0x002C
+   __IOM uint32_t		KEY;    	//0x0030
+   __IOM uint32_t		EVTRG;  	//0x0034
+   __IOM uint32_t		EVPS;   	//0x0038
+   __OM	uint32_t		EVSWF;  	//0x003C
+   __IOM uint32_t		SRKEY;   	//0x0040
 } csp_rtc_t;
 
 /****** RTC time *****/
@@ -306,7 +306,8 @@ static inline void csp_rtc_clk_enable(csp_rtc_t *ptRtcBase, bool bEnable)
 	else
 		ptRtcBase->CCR &= (~RTC_CLKEN);
 		
-	while(ptRtcBase->CR & RTC_BSY);
+//	while(ptRtcBase->CR & RTC_BSY);
+	while(ptRtcBase->CCR & RTC_CCR_BSY);
 	ptRtcBase->KEY = 0x0;
 	
 }
@@ -339,13 +340,13 @@ static inline void csp_rtc_debug_enable(csp_rtc_t *ptRtcBase, bool bEnable)
 {
 	ptRtcBase->KEY = 0xCA53;
 	ptRtcBase->CCR = (ptRtcBase->CCR &(~RTC_DBGEN)) | (bEnable << 23);
-	while(ptRtcBase->CR & RTC_BSY);
+//	while(ptRtcBase->CR & RTC_BSY);
+	while(ptRtcBase->CCR & RTC_CCR_BSY);
 	ptRtcBase->KEY = 0x0;
 }
 
 static inline void csp_rtc_rb_enable(csp_rtc_t *ptRtcBase, bool bEnable)
 {
-	//while(ptRtcBase->CR & RTC_BSY);
 	ptRtcBase->KEY = 0xCA53;
 	ptRtcBase->CR = (ptRtcBase->CR &(~RTC_RBEN)) | (bEnable << 16);
 	while(ptRtcBase->CR & RTC_BSY);
@@ -354,7 +355,6 @@ static inline void csp_rtc_rb_enable(csp_rtc_t *ptRtcBase, bool bEnable)
 
 static inline void csp_rtc_set_cprd(csp_rtc_t *ptRtcBase, rtc_cprd_e eCprd)
 {
-	//while(ptRtcBase->CR & RTC_BSY);
 	ptRtcBase->KEY = 0xCA53;
 	ptRtcBase->CR  = (ptRtcBase->CR & (~RTC_CPRD_MSK)) | (eCprd << RTC_CPRD_POS) ;
 	while(ptRtcBase->CR & RTC_BSY);
@@ -363,7 +363,6 @@ static inline void csp_rtc_set_cprd(csp_rtc_t *ptRtcBase, rtc_cprd_e eCprd)
 
 static inline void csp_rtc_set_osel(csp_rtc_t *ptRtcBase, rtc_osel_e eOsel)
 {
-	//while(ptRtcBase->CR & RTC_BSY);
 	ptRtcBase->KEY = 0xCA53;
 	ptRtcBase->CR  = (ptRtcBase->CR & (~RTC_OSEL_MSK)) | (eOsel << RTC_OSEL_POS) ;
 	while(ptRtcBase->CR & RTC_BSY);
@@ -373,7 +372,6 @@ static inline void csp_rtc_set_osel(csp_rtc_t *ptRtcBase, rtc_osel_e eOsel)
 
 static inline void csp_rtc_stop(csp_rtc_t *ptRtcBase)
 {
-	//while(ptRtcBase->CR & RTC_BSY);
 	ptRtcBase->KEY = 0xCA53;
 	ptRtcBase->CR |= RTC_INIT;
 	while(ptRtcBase->CR & RTC_BSY);
@@ -382,13 +380,10 @@ static inline void csp_rtc_stop(csp_rtc_t *ptRtcBase)
 
 static inline void csp_rtc_run(csp_rtc_t *ptRtcBase)
 {
-	//while(ptRtcBase->CR & RTC_BSY);
-	
 	ptRtcBase->KEY = 0xCA53;
 	ptRtcBase->CR &= (~RTC_INIT);
 	while(ptRtcBase->CR & RTC_BSY);
 	ptRtcBase->KEY = 0x0;
-
 }
 
 static inline bool csp_rtc_is_busy(csp_rtc_t *ptRtcBase)
@@ -510,6 +505,8 @@ static inline void csp_rtc_alm_set_day(csp_rtc_t *ptRtcBase, uint8_t byAlm,  uin
 		ptRtcBase->ALRA = (ptRtcBase->ALRA & (~RTC_ALM_DAY_MSK)) |   (byVal << RTC_ALM_DAYU_POS);
 	else
 		ptRtcBase->ALRB = (ptRtcBase->ALRB & (~RTC_ALM_DAY_MSK)) |   (byVal << RTC_ALM_DAYU_POS);
+	
+	while(ptRtcBase->CR & RTC_BSY);
 }
 
 static inline void csp_rtc_alm_set_hour(csp_rtc_t *ptRtcBase, uint8_t byAlm, uint8_t byPm, uint8_t byVal)
@@ -518,6 +515,8 @@ static inline void csp_rtc_alm_set_hour(csp_rtc_t *ptRtcBase, uint8_t byAlm, uin
 		ptRtcBase->ALRA = (ptRtcBase->ALRA & (~RTC_ALM_HOR_MSK) & (~RTC_ALM_PM)) |  (byVal << RTC_ALM_HORU_POS) | (byPm<<22);
 	else
 		ptRtcBase->ALRB = (ptRtcBase->ALRB & (~RTC_ALM_HOR_MSK) & (~RTC_ALM_PM)) |  (byVal << RTC_ALM_HORU_POS) | (byPm<<22);
+	
+	while(ptRtcBase->CR & RTC_BSY);
 }
 
 static inline void csp_rtc_alm_set_min(csp_rtc_t *ptRtcBase, uint8_t byAlm, uint8_t byVal)
@@ -526,6 +525,8 @@ static inline void csp_rtc_alm_set_min(csp_rtc_t *ptRtcBase, uint8_t byAlm, uint
 		ptRtcBase->ALRA = (ptRtcBase->ALRA & (~RTC_ALM_MIN_MSK)) | (byVal << RTC_ALM_MINU_POS);
 	else
 		ptRtcBase->ALRB = (ptRtcBase->ALRB & (~RTC_ALM_MIN_MSK)) |  (byVal << RTC_ALM_MINU_POS);
+	
+	while(ptRtcBase->CR & RTC_BSY);
 }
 
 static inline void csp_rtc_alm_set_sec(csp_rtc_t *ptRtcBase, uint8_t byAlm,  uint8_t byVal)
@@ -534,6 +535,8 @@ static inline void csp_rtc_alm_set_sec(csp_rtc_t *ptRtcBase, uint8_t byAlm,  uin
 		ptRtcBase->ALRA = (ptRtcBase->ALRA & (~RTC_ALM_SEC_MSK)) |  (byVal << RTC_ALM_SECU_POS);
 	else
 		ptRtcBase->ALRB = (ptRtcBase->ALRB & (~RTC_ALM_SEC_MSK)) | (byVal << RTC_ALM_SECU_POS);
+	
+	while(ptRtcBase->CR & RTC_BSY);
 }
 
 static inline uint8_t csp_rtc_alm_read_mday(csp_rtc_t *ptRtcBase, uint8_t byAlm)
@@ -607,12 +610,10 @@ static inline void csp_rtc_alm_set_mode(csp_rtc_t *ptRtcBase, uint8_t byAlm, boo
 
 static inline void csp_rtc_int_enable(csp_rtc_t *ptRtcBase, rtc_int_e eInt, bool bEnable)
 {
-	//ptRtcBase->KEY = 0xCA53;	
 	if (bEnable)
 		ptRtcBase->IMCR |= eInt;
 	else
 		ptRtcBase->IMCR &= ~eInt;
-	//ptRtcBase->KEY = 0x0;
 }
 
 

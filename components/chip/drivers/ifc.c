@@ -505,7 +505,7 @@ static void apt_ifc_step_sync(csp_ifc_t * ptIfcBase, ifc_cmd_e eStepn, uint32_t 
 	
 	///TODO do NOT support all sync operations for now
 	if (eStepn == PROGRAM && ((ptIfcBase -> MR) & DFLASH_PMODE) && (wPageStAddr >= 0x10000000) ){
-		while(ptIfcBase->RISR != IFCINT_PEP_END); /*// Wait for operation done*/
+		while((ptIfcBase->RISR & IFCINT_PEP_END)!= IFCINT_PEP_END); /*// Wait for operation done*/
 		csp_ifc_clr_int(ptIfcBase, IFCINT_PEP_END);
 	}
 	else {
@@ -592,7 +592,7 @@ static csp_error_t apt_ifc_wr_nword(csp_ifc_t * ptIfcBase, uint8_t bFlashType, u
 
 	if (bFlashType == DFLASH && csp_ifc_get_dflash_paramode(ptIfcBase) == 1)
 	{
-		///DFLASH step4 
+		///DFLASH step5
 		for (i=0; i< DFLASH_PAGE_SZ;i++)
 		{
 			wBuffForCheck[i] = wBuff[i];
