@@ -69,6 +69,8 @@ extern "C" {
 #define HFOSC_3M_VALUE      3000000U
 #endif
 
+#define CAN_IDX				1		//CAN id number
+
 //UARTx id number
 #define UART_IDX_NUM   		3
 #define UART_RECV_MAX_LEN	128
@@ -1006,7 +1008,8 @@ typedef enum{
 //	#define MEMVECTORSIZE 	(0x50 << 2)
 //#endif
 
-
+//ISR Define for generating special interrupt related ASM (E906), with compile option -mistack
+#define  ATTRIBUTE_ISR __attribute__ ((interrupt ("machine")))
 //
 //AHB1-APB1 for A3F011_CPU0
 //--Peripheral Address Setting

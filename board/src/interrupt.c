@@ -26,6 +26,7 @@
 #include "qspi.h"
 #include "irq.h"
 #include "cnta.h"
+#include "can.h"
 
 /* externs function--------------------------------------------------------*/
 extern void tick_irqhandler(void);
@@ -439,7 +440,7 @@ void can_int_handler(void)
 {
 #if	CAN_INT_HANDLE_EN
     // ISR content ...
-	can_irqhandler(CAN0);
+	csi_can_irqhandler(CAN0,0);
 #endif
 }
 

@@ -41,6 +41,7 @@
 #include <drv/uart.h>
 #include <drv/usart.h>
 //#include <drv/tkey.h>
+#include <drv/can.h>
 
 
 
