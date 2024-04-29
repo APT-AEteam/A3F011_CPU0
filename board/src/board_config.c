@@ -22,13 +22,96 @@ extern int32_t console_init(sys_console_t *handle);
 /* variablesr---------------------------------------------------------*/
 sys_console_t console;
 
-/// system clock configuration parameters to define source, source freq(if selectable), sdiv and pdiv
-csi_clk_config_t tClkConfig = 
-	{SRC_HFOSC, HFOSC_48M_VALUE, SCLK_DIV1, PCLK_DIV1, 48000000, 48000000};
-	//{SRC_EMOSC, 20000000, SCLK_DIV1, PCLK_DIV2, 5556000, 5556000};
-	//{SRC_IMOSC, IMOSC_5M_VALUE, SCLK_DIV1, PCLK_DIV1,5556000, 5556000};
-	//{SRC_HFOSC, HFOSC_48M_VALUE, SCLK_DIV2, PCLK_DIV1,5556000, 5556000};
-	//{SRC_IMOSC, IMOSC_4M_VALUE, SCLK_DIV1, PCLK_DIV1,5556000, 5556000};
+/* system clock configuration parameters to define source, source freq(if selectable), sdiv and pdiv
+ * 
+ * such as: g_tClkConfig.eSdiv = SCLK_DIV1, g_tClkConfig.wSclk = g_tClkConfig.wFreq / 1
+ *          g_tClkConfig.ePdiv = SCLK_DIV4, g_tClkConfig.wPclk = g_tClkConfig.wSclk / 4 
+ * 
+ */
+csi_clk_config_t g_tClkConfig = 
+//	{SRC_HFOSC, HFOSC_24M_VALUE, SCLK_DIV1, PCLK_DIV1, HFOSC_24M_VALUE, HFOSC_24M_VALUE};
+//	{SRC_HFOSC, HFOSC_12M_VALUE, SCLK_DIV1, PCLK_DIV1,HFOSC_12M_VALUE, HFOSC_12M_VALUE};
+//	{SRC_HFOSC, HFOSC_6M_VALUE, SCLK_DIV1, PCLK_DIV1,HFOSC_6M_VALUE, HFOSC_6M_VALUE};
+//	{SRC_HFOSC, HFOSC_3M_VALUE, SCLK_DIV1, PCLK_DIV1,HFOSC_3M_VALUE, HFOSC_3M_VALUE};
+//	{SRC_HF_PLL, PLLP_VALUE, SCLK_DIV1, PCLK_DIV1, PLLP_VALUE, PLLP_VALUE};
+	{SRC_EM_PLL, PLLP_VALUE, SCLK_DIV1, PCLK_DIV1, PLLP_VALUE, PLLP_VALUE};
+//	{SRC_EMOSC, EMOSC_VALUE, SCLK_DIV2, PCLK_DIV2, EMOSC_VALUE/2, EMOSC_VALUE/4};
+//	{SRC_IMOSC, IMOSC_5M_VALUE, SCLK_DIV1, PCLK_DIV1,IMOSC_5M_VALUE, IMOSC_5M_VALUE};
+//	{SRC_IMOSC, IMOSC_4M_VALUE, SCLK_DIV1, PCLK_DIV1,IMOSC_4M_VALUE, IMOSC_4M_VALUE};
+//	{SRC_IMOSC, IMOSC_2M_VALUE, SCLK_DIV1, PCLK_DIV1,IMOSC_2M_VALUE, IMOSC_2M_VALUE};
+//	{SRC_IMOSC, IMOSC_131K_VALUE, SCLK_DIV1, PCLK_DIV1,IMOSC_131K_VALUE, IMOSC_131K_VALUE};
+//	{SRC_ESOSC, ESOSC_VALUE, SCLK_DIV2, PCLK_DIV1,ESOSC_VALUE/2, ESOSC_VALUE/2};
+
+
+/* PLL CONFIG LIST
+ * PLLPCLK = Input_Freq /(g_tPllClkConfig.byDivM+1) * g_tPllClkConfig.byNul / (g_tPllClkConfig.byCkp_Div+1)
+ * PLLQCLK = Input_Freq /(g_tPllClkConfig.byDivM+1) * g_tPllClkConfig.byNul / g_tPllClkConfig.byCkq_Div 
+ * 
+ * -------------------------------------------------------------------------------
+ * | INPUT Freq | byDivM | byNul | byCkp_Div | byCkq_Div | PLLp Freq | PLLq Freq |
+ * -------------------------------------------------------------------------------
+ * |   24Mhz    |    5  |   48   |     0    |     2      |  192Mhz   |  96Mhz     |
+ * -------------------------------------------------------------------------------
+ * |   24Mhz    |    3  |   30   |     0    |     2      |  180Mhz   |  90Mhz     |
+ * -------------------------------------------------------------------------------
+ * |   24Mhz    |    3  |   25   |     0    |     2      |  150Mhz   |  75Mhz     |
+ * -------------------------------------------------------------------------------
+ * |   24Mhz    |    3   |   35  |     1     |     4     |  105Mhz   |  52.5Mhz  |
+ * |   12Mhz    |    1   |   35  |     1     |     4     |  105Mhz   |  52.5Mhz  |
+ * |   6Mhz      |    0   |   35  |     1     |     4     |  105Mhz   |  52.5Mhz  | 
+ * |-----------------------------------------------------------------------------|
+ * |   24Mhz    |    2   |   24  |     1     |     4     |   96Mhz   |   48Mhz     |
+ * |   24Mhz    |    2   |   36  |     2     |     6     |   96Mhz   |   48Mhz     |
+ * |   24Mhz    |    3   |   32  |     1     |     4     |   96Mhz   |   48Mhz     |
+ * |   24Mhz    |    3   |   48  |     2     |     6     |   96Mhz   |   48Mhz     |
+ * |   24Mhz    |    4   |   40  |     1     |     4     |   96Mhz   |   48Mhz     |
+ * |   24Mhz    |    4   |   60  |     2     |     6     |   96Mhz   |   48Mhz     |
+ * |   24Mhz    |    5   |   48  |     1     |     4     |   96Mhz   |   48Mhz     |
+ * |   24Mhz    |    5   |   72  |     2     |     6     |   96Mhz   |   48Mhz     |
+ * |-----------------------------------------------------------------------------|
+ * |   24Mhz    |    2   |   24  |     1     |     2     |   96Mhz   |   96Mhz     |
+ * |   24Mhz    |    3   |   32  |     1     |     2     |   96Mhz   |   96Mhz     |
+ * |   24Mhz    |    4   |   40  |     1     |     2     |   96Mhz   |   96Mhz     |
+ * |   24Mhz    |    5   |   48  |     1     |     2     |   96Mhz   |   96Mhz     |
+ * |-----------------------------------------------------------------------------|
+ * |   24Mhz    |    2   |   36  |     3     |     6     |   72Mhz   |   48Mhz     |
+ * |   24Mhz    |    3   |   48  |     3     |     6     |   72Mhz   |   48Mhz     |
+ * |   24Mhz    |    4   |   60  |     3     |     6     |   72Mhz   |   48Mhz     |
+ * |   24Mhz    |    5   |   72  |     3     |     6     |   72Mhz   |   48Mhz     |
+ * -------------------------------------------------------------------------------
+ *NOTE: 1.PLLq CAN be used as ADC source freq,MAX ADC source freq should be 96M.
+ * 		2. PLLp max Freq 192Mhz
+ * 		3.Make sure g_tClkConfig.eClkSrc = SRC_HF_PLL ,when Select HFOSC as PLL clock source(PLL_SEL_HFOSC_xxM)
+ * 		  Make sure g_tClkConfig.eClkSrc = SRC_EM_PLL ,when Select HFOSC as PLL clock source(PLL_SEL_EMOSC_24M)
+ */
+
+csi_pll_config_t g_tPllClkConfig = 
+//	{PLL_SEL_EMOSC_24M, 5, 48, 0,CKQ_DIV2};		//PLLP = 192M  PLLQ=100M
+//	{PLL_SEL_EMOSC_24M, 3, 30, 0,CKQ_DIV2};		//PLLP = 180M  PLLQ=90M
+	{PLL_SEL_EMOSC_24M, 3, 25, 0,CKQ_DIV2};		//PLLP = 150M  PLLQ=75M
+//	{PLL_SEL_HFOSC_24M, 3, 35, 1,CKQ_DIV4};       //PLLP = 105M  PLLQ=52.2M
+//	{PLL_SEL_HFOSC_12M, 1, 35, 1,CKQ_DIV4};
+//	{PLL_SEL_HFOSC_6M,  0, 35, 1,CKQ_DIV4};
+//	{PLL_SEL_EMOSC_24M, 3, 35, 1,CKQ_DIV4};	
+//	{PLL_SEL_HFOSC_24M, 2, 24, 1,CKQ_DIV4};		  //PLLP = 96M  PLLQ=48M
+//	{PLL_SEL_HFOSC_24M, 2, 36, 2,CKQ_DIV6};
+//	{PLL_SEL_HFOSC_24M, 3, 32, 1,CKQ_DIV4};		  
+//	{PLL_SEL_HFOSC_24M, 3, 48, 2,CKQ_DIV6};
+//	{PLL_SEL_HFOSC_24M, 4, 40, 1,CKQ_DIV4};		  
+//	{PLL_SEL_HFOSC_24M, 4, 60, 2,CKQ_DIV6};
+//	{PLL_SEL_HFOSC_24M, 5, 48, 1,CKQ_DIV4};		  
+//	{PLL_SEL_HFOSC_24M, 5, 72, 2,CKQ_DIV6};
+//	{PLL_SEL_EMOSC_24M, 3, 32, 1,CKQ_DIV4};	
+//	{PLL_SEL_HFOSC_24M, 2, 24, 1,CKQ_DIV2};		  //PLLP = 96M  PLLQ=96M
+//	{PLL_SEL_HFOSC_24M, 3, 32, 1,CKQ_DIV2};
+//	{PLL_SEL_HFOSC_24M, 4, 40, 1,CKQ_DIV2};
+//	{PLL_SEL_HFOSC_24M, 5, 48, 1,CKQ_DIV2};
+//	{PLL_SEL_EMOSC_24M, 3, 32, 1,CKQ_DIV2};
+//	{PLL_SEL_HFOSC_24M, 2, 36, 3,CKQ_DIV6};		 //PLLP = 72M  PLLQ=96M
+//	{PLL_SEL_HFOSC_24M, 3, 48, 3,CKQ_DIV6};
+//	{PLL_SEL_HFOSC_24M, 4, 60, 3,CKQ_DIV6};
+//	{PLL_SEL_HFOSC_24M, 5, 72, 3,CKQ_DIV6};
+//	{PLL_SEL_EMOSC_24M, 2, 36, 3,CKQ_DIV6};	
 
 /// can bit timer parameters config, Standard baud rate
 const csi_can_bittime_t  tBitTime[] = {

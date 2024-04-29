@@ -22,10 +22,22 @@
 
 typedef enum {
     SRC_IMOSC = 0,
+	SRC_HFOSC,
+	SRC_ISOSC,
     SRC_EMOSC,
-    SRC_HFOSC,
-	SRC_ISOSC = 4
-} cclk_src_e;
+	SRC_ESOSC,
+	SRC_HF_PLL = 6,
+	SRC_EM_PLL,
+} csi_clk_src_e;
+
+typedef enum {
+    SEL_IMOSC = 0,
+	SEL_HFOSC,
+	SEL_ISOSC,
+    SEL_EMOSC,
+    SEL_ESOSC,
+	SEL_PLL,	
+} csi_sclk_sel_e;
 
 typedef enum{
 	PCLK_PM = 8,
@@ -78,7 +90,7 @@ typedef enum{
 /// \struct system_clk_config_t
 /// members to be used in system clock management, including osc src, osc freq(if seletable), HCLK and PCLK divider
 typedef struct {
-	cclk_src_e		eClkSrc;	//clock source
+	csi_clk_src_e		eClkSrc;	//clock source
 	uint32_t		wFreq;		//clock frequency
 	hclk_div_e		eSdiv;		//SDIV
 	pclk_div_e		ePdiv;		//PDIV
@@ -86,7 +98,31 @@ typedef struct {
 	uint32_t		wPclk;
 }csi_clk_config_t;
 
-extern csi_clk_config_t tClkConfig;
+extern csi_clk_config_t g_tClkConfig;
+
+typedef enum{
+	PLL_SEL_HFOSC_24M,	
+	PLL_SEL_HFOSC_12M,	
+	PLL_SEL_HFOSC_6M,	
+	PLL_SEL_EMOSC_24M
+}csi_pll_manual_sel_e;
+
+typedef enum{
+	CKQ_DIV2,	
+	CKQ_DIV4,	
+	CKQ_DIV6,
+	CKQ_DIV8,
+}csi_pll_ckqdiv_e;
+
+typedef struct {
+	csi_pll_manual_sel_e  eClkSel;	//clock frequency
+	uint8_t               byDivM;
+	uint8_t               byNul;
+	uint8_t               byCkp_Div;
+	uint8_t               byCkq_Div;
+}csi_pll_config_t;
+
+extern csi_pll_config_t g_tPllClkConfig;
 
 //typedef struct {
 //    cclk_src_e	eSysClkSrc;      /* select sysclk source clock */
@@ -101,6 +137,7 @@ extern csi_clk_config_t tClkConfig;
 typedef enum {
     IFC_SYS_CLK		= 0U,
 	CODEC_SYS_CLK	= 2U,
+	FVR_SYS_CLK		= 3U,
     ADC_SYS_CLK		= 4U,
     TKEY_SYS_CLK	= 6U,
     ETCB_SYS_CLK	= 7U,
@@ -114,15 +151,27 @@ typedef enum {
     SIO0_SYS_CLK	= 20U,
 	SIO1_SYS_CLK	= 21U,
     I2C_SYS_CLK		= 22U,
+	CAN_SYS_CLK		= 24U,
 	
-    WWDT_SYS_CLK	= 39U,
-    RTC_SYS_CLK		= 40U,
-    LPT_SYS_CLK		= 41U,
-	CNTA_SYS_CLK	= 42U,
-	BT0_SYS_CLK		= 43U,
-	BT1_SYS_CLK		= 44U,
-	GPT_SYS_CLK		= 45U,
-	EPT_SYS_CLK		= 49U
+    EPT_SYS_CLK		= 32U,
+	GPTA0_SYS_CLK	= 33U,
+	GPTA1_SYS_CLK	= 34U,
+	GPTA2_SYS_CLK	= 35U,
+	GPTA3_SYS_CLK	= 36U,
+    WWDT_SYS_CLK	= 43U,
+	LPT_SYS_CLK		= 44U,
+	CNTA_SYS_CLK	= 45U,
+	RTC_SYS_CLK		= 46U,
+	BTx_SYS_CLK		= 47U,
+	LED_SYS_CLK		= 49U,
+	CMP0_SYS_CLK	= 50U,
+	CMP1_SYS_CLK	= 51U,
+	CMP2_SYS_CLK	= 52U,
+	LCD_SYS_CLK		= 54U,
+	OPA0_SYS_CLK	= 55U,
+	OPA1_SYS_CLK	= 56U,
+	OPA2_SYS_CLK	= 57U,
+	OPA3_SYS_CLK	= 58U,
 } clk_module_t;
 
 
@@ -130,13 +179,14 @@ typedef enum {
 extern uint32_t g_wSystemClk;
 
 
-/** 
-  \brief sysctem clock (HCLK) configuration
-   To set CPU frequence according to tClkConfig
-  \param[in] none.
-  \return csi_error_t.
+/** \brief sysctem clock (HCLK) configuration
+ * 
+ *  To set CPU frequence according to g_tClkConfig
+ * 
+ *  \param[in] none.
+ *  \return csi_error_t.
  */ 
-csi_error_t csi_sysclk_config(void);
+csi_error_t csi_sysclk_config(csi_clk_config_t tClkCfg);
 /** 
   \brief Clock output configuration
   \param[in] eCloSrc: source to output
@@ -144,7 +194,7 @@ csi_error_t csi_sysclk_config(void);
   \param[in] tPin: output pin
   \return csi_error_t.
  */
-csi_error_t csi_clo_config(clo_src_e, clo_div_e, pin_name_e);
+csi_error_t csi_clo_config(clo_src_e eCloSrc, uint8_t byCloDiv, pin_name_e ePin);
 
 /** 
   \brief to set clock status in PM mode 

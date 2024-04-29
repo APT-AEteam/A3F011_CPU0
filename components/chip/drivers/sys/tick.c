@@ -42,7 +42,7 @@ void csi_tick_increase(void)
 void tick_irqhandler(void)
 {
 	
-	csi_coret_config(tClkConfig.wSclk / CONFIG_SYSTICK_HZ, CORET_IRQn);
+	csi_coret_config(g_tClkConfig.wSclk / CONFIG_SYSTICK_HZ, CORET_IRQn);
 	csi_tick++;
 }
 
@@ -50,7 +50,7 @@ csi_error_t csi_tick_init(void)
 {
     csi_tick = 0U;
 
-    csi_coret_config(tClkConfig.wSclk/ CONFIG_SYSTICK_HZ, CORET_IRQn);
+    csi_coret_config(g_tClkConfig.wSclk/ CONFIG_SYSTICK_HZ, CORET_IRQn);
 	csi_vic_set_prio(CORET_IRQn, 0x00);									//0->15: low->high
     csi_vic_enable_irq((uint32_t)CORET_IRQn);
 	

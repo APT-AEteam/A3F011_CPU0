@@ -27,6 +27,11 @@ extern "C" {
 //extern system_clk_config_t g_tSystemClkConfig[];
 
 
+#ifndef PLL_VALUE
+#define PLLP_VALUE               105000000U //MAX freq
+#define PLLQ_VALUE				 96000000U  //MAX freq
+#endif
+
 /* example pin manager */
 
 #define CONSOLE_IDX                     1
@@ -35,11 +40,14 @@ extern "C" {
 #define CONSOLE_TXD_FUNC                PC14_UART1_TX
 #define CONSOLE_RXD_FUNC                PC13_UART1_RX
 
-#define XIN_PIN							PA3
-#define XOUT_PIN						PA4
-#define XIN_PIN_FUNC					PA3
-#define XOUT_PIN_FUNC					PA4
-
+#define XIN_PIN								PD0
+#define XOUT_PIN							PD1
+#define XIN_PIN_FUNC					PD0_XIN
+#define XOUT_PIN_FUNC				PD1_XOUT
+#define SXIN_PIN							PC14
+#define SXOUT_PIN						PC15_SXOUT
+#define SXIN_PIN_FUNC				PC14_SXIN
+#define SXOUT_PIN_FUNC			PC15_SXOUT
 
 #define EXI_PIN                      	PA9
 #define EXI_PIN_FUNC                 	PIN_FUNC_INPUT

@@ -52,7 +52,7 @@ extern CLIC_Type  		*COREINT;
 extern CORET_Type 		*CORETIMER;
 extern csp_ifc_t 		*IFC;
 extern csp_syscon_t 	*SYSCON;
-extern csp_syscon1_t 	*SYSCON1; 
+//extern csp_syscon1_t 	*SYSCON1; 
 extern csp_etb_t   		*ETCB;
 extern csp_dma_t   		*DMA0, *DMA1;
 extern csp_adc_t 		*ADC0,*ADC1;

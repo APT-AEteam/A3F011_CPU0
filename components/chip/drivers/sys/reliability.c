@@ -30,8 +30,8 @@ void csi_lvd_int_enable(csi_lvd_pol_e ePol, csi_lvd_level_e eLvl)
 	csp_set_lvd_level(SYSCON, eLvl);	
 	csp_set_lvd_int_pol(SYSCON, ePol);
 	
-	csp_syscon_int_enable(SYSCON, LVD_INT, ENABLE);			
-	csp_lvd_lvr_enable(SYSCON, ENABLE);						
+	csp_syscon_int_enable(SYSCON, LVD_ST_INT);			
+	csp_lvd_lvr_enable(SYSCON);						
 	csi_vic_enable_irq(SYSCON_IRQ_NUM);
 }
 
@@ -41,7 +41,7 @@ void csi_lvd_int_enable(csi_lvd_pol_e ePol, csi_lvd_level_e eLvl)
  */
 void csi_lvd_disable(void)
 {
-	csp_lvd_lvr_enable(SYSCON, DISABLE);
+	csp_lvd_lvr_disable(SYSCON);
 }
 
 /** \brief lvd  flag status 
@@ -60,10 +60,9 @@ uint32_t csi_lvd_flag(void)
  */
 void csi_lvr_enable(csi_lvr_level_e eLvl)
 {
-	
 	csp_set_lvr_level(SYSCON, eLvl);
-	csp_lvr_rst_enable(SYSCON, ENABLE);	
-	csp_lvd_lvr_enable(SYSCON, ENABLE);
+	csp_lvr_rst_enable(SYSCON);	
+	csp_lvd_lvr_enable(SYSCON);
 }
 
 /** \brief Disable LVR
@@ -72,7 +71,7 @@ void csi_lvr_enable(csi_lvr_level_e eLvl)
  */
 void csi_lvr_disable(void)
 {
-	csp_lvd_lvr_enable(SYSCON, DISABLE);
+	csp_lvd_lvr_disable(SYSCON);
 }
 
 /** \brief Get lvd level 
@@ -200,10 +199,10 @@ void csi_clr_rst_reason(uint16_t hwRstSrc)
  *  \param[in] none
  *  \return none
  */
-void csi_sys_swrst(void)
-{
-	csp_set_swrst(SYSCON, SYS_SWRST);
-}
+//void csi_sys_swrst(void)
+//{
+//	csp_set_swrst(SYSCON, SYS_SWRST);
+//}
 /// ************************************************************************
 ///						for user reg operate 
 ///*************************************************************************
@@ -256,7 +255,7 @@ void csi_sramcheck_set_times(uint16_t wVal)
 void csi_sramcheck_rst(void)
 {
 	csp_sramcheck_rst(SYSCON);
-	csp_sramcheck_enable(SYSCON, ENABLE);
+	csp_sramcheck_enable(SYSCON);
 }
 
 /** \brief claim INT when sramcheck fail times > preset value
@@ -268,7 +267,7 @@ void csi_sramcheck_int(void)
 {
 	csp_sramcheck_int(SYSCON);
 	csi_vic_enable_irq(SYSCON_IRQ_NUM);
-	csp_sramcheck_enable(SYSCON, ENABLE);
+	csp_sramcheck_enable(SYSCON);
 }
 
 /** \brief  disable sramcheck funtion
@@ -278,7 +277,7 @@ void csi_sramcheck_int(void)
  */
 void csi_sramcheck_disable(void)
 {
-	csp_sramcheck_enable(SYSCON, DISABLE);
+	csp_sramcheck_disable(SYSCON);
 }
 
 /// ************************************************************************
@@ -301,7 +300,7 @@ void csi_flashcheck_set_times(uint32_t wVal)
  */
 void csi_flashcheck_rst(void)
 {
-	csp_flashcheck_enable(SYSCON, ENABLE);
+	csp_flashcheck_enable(SYSCON);
 }
 
 /** \brief disable flashcheck funtion
@@ -311,28 +310,28 @@ void csi_flashcheck_rst(void)
  */
 void csi_flashcheck_disable(void)
 {
-	csp_flashcheck_enable(SYSCON, DISABLE);
+	csp_flashcheck_disable(SYSCON);
 }
 
 /// ************************************************************************
 ///						for EM clock monitor
 ///*************************************************************************
 
-/** \brief claim INT and switch sysclk to IMOSC when EMOSC failure detected
- * 
- *  \param[in]  none
- *  \return  none
- */
-void csi_emcm_2_imosc_int(void)
-{
-
-	csi_imosc_enable(0);
-	csp_emcm_enable(SYSCON, ENABLE);
-	csp_emcm_rst_enable(SYSCON, DISABLE);
-	
-	csp_syscon_int_enable(SYSCON, EMFAIL_INT, ENABLE);
-	csi_vic_enable_irq(SYSCON_IRQ_NUM);
-}
+///** \brief claim INT and switch sysclk to IMOSC when EMOSC failure detected
+// * 
+// *  \param[in]  none
+// *  \return  none
+// */
+//void csi_emcm_2_imosc_int(void)
+//{
+//
+//	csi_imosc_enable(0);
+//	csp_emcm_enable(SYSCON);
+//	csp_emcm_rst_disable(SYSCON);
+//	
+//	csp_syscon_int_enable(SYSCON, EMFAIL_INT);
+//	csi_vic_enable_irq(SYSCON_IRQ_NUM);
+//}
 
 /** \brief rest chip when EMOSC failure detected
  * 
@@ -341,20 +340,20 @@ void csi_emcm_2_imosc_int(void)
  */
 void csi_emcm_rst(void)
 {	
-	csp_emcm_enable(SYSCON, ENABLE);
-	csp_emcm_rst_enable(SYSCON, ENABLE);
+	csp_emcm_enable(SYSCON);
+	csp_emcm_rst_enable(SYSCON);
 }
 
-/** \brief disable EMOSC monitor funtion
- * 
- *  \param[in]  none
- *  \return  none
- */
-void csi_emcm_disable(void)
-{
-	csp_emcm_enable(SYSCON, DISABLE);
-	
-}
+///** \brief disable EMOSC monitor funtion
+// * 
+// *  \param[in]  none
+// *  \return  none
+// */
+//void csi_emcm_disable(void)
+//{
+//	csp_emcm_disable(SYSCON);
+//	
+//}
 
 /// ************************************************************************
 ///						for ES clock monitor
@@ -365,16 +364,16 @@ void csi_emcm_disable(void)
  *  \param[in]  none
  *  \return  none
  */
-void csi_escm_2_imosc_int(void)
-{
-
-	csi_imosc_enable(0);  //0 - 5MHz   1 - 4MHz  2 - 2MHz  3 - 131KHz
-	csp_escm_enable(SYSCON, ENABLE);
-	csp_escm_rst_enable(SYSCON, DISABLE);
-	
-	csp_syscon_int_enable(SYSCON, ESFAIL_INT, ENABLE);
-	csi_vic_enable_irq(SYSCON_IRQ_NUM);
-}
+//void csi_escm_2_imosc_int(void)
+//{
+//
+//	csi_imosc_enable(0);  //0 - 5MHz   1 - 4MHz  2 - 2MHz  3 - 131KHz
+//	csp_escm_enable(SYSCON, ENABLE);
+//	csp_escm_rst_enable(SYSCON, DISABLE);
+//	
+//	csp_syscon_int_enable(SYSCON, ESFAIL_INT, ENABLE);
+//	csi_vic_enable_irq(SYSCON_IRQ_NUM);
+//}
 
 /** \brief rest chip when EMOSC failure detected
  * 
@@ -387,15 +386,15 @@ void csi_escm_rst(void)
 	csp_escm_rst_enable(SYSCON, ENABLE);
 }
 
-/** \brief disable EMOSC monitor funtion
- * 
- *  \param[in]  none
- *  \return  none
- */
-void csi_escm_disable(void)
-{
-	csp_escm_enable(SYSCON, DISABLE);
-}
+///** \brief disable EMOSC monitor funtion
+// * 
+// *  \param[in]  none
+// *  \return  none
+// */
+//void csi_escm_disable(void)
+//{
+//	csp_escm_enable(SYSCON, DISABLE);
+//}
 
 /// *********************************************************************************
 ///  For SWD Lock function: To switch SWD pins to other AF, should unlock SWD first 

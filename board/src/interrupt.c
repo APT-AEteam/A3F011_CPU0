@@ -70,17 +70,17 @@ void syscon_int_handler(void)
 {
     // ISR content ...
 
-	if(csp_syscon_get_int_st(SYSCON) & LVD_INT)
+	if(csp_syscon_get_int_st(SYSCON) & LVD_ST_INT)
 	{
 		nop;
-		csp_syscon_int_clr(SYSCON, LVD_INT);
+		csp_syscon_int_clr(SYSCON, LVD_ST_INT);
 	}
 	
-	if(csp_syscon_get_int_st(SYSCON) & IWDT_INT)
+	if(csp_syscon_get_int_st(SYSCON) & WDT_ST_INT)
 	{
 		nop;
 		//csi_pin_toggle(PA05);
-		csp_syscon_int_clr(SYSCON, IWDT_INT);
+		csp_syscon_int_clr(SYSCON, WDT_ST_INT);
 		//csi_iwdt_feed();
 	}
 }
@@ -463,6 +463,8 @@ void rtc_int_handler(void)
 {
 #if	RTC_INT_HANDLE_EN
 	// ISR content ...
+	csi_pin_toggle(PA6);
+	csp_rtc_int_clr(RTC, RTC_INT_ALMA|RTC_INT_ALMB|RTC_INT_CPRD|RTC_INT_TRGEV0|RTC_INT_TRGEV1);
 #endif
 }
 

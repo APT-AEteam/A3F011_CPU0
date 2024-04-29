@@ -57,10 +57,10 @@ void system_init(void)		//__attribute__((weak))
 	
 //	csi_reliability_init();
 //	csi_iwdt_close();				//close iwdt
-//	csi_sysclk_config();			//sysclk config	
+	csi_sysclk_config(g_tClkConfig);			//sysclk config	
 //	csi_get_sclk_freq();
 //	csi_get_pclk_freq();
-	csi_tick_init();
+//	csi_tick_init();
 	
 	__enable_excp_irq();
 	

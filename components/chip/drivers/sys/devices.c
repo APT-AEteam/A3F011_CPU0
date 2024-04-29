@@ -100,9 +100,9 @@ const csi_clkmap_t clk_map[] = {
     {APB_RTC_BASE,				RTC_SYS_CLK		},
     {APB_LPT_BASE,				LPT_SYS_CLK		},
     {APB_CNTA_BASE,				CNTA_SYS_CLK	},
-    {APB_BT0_BASE,				BT0_SYS_CLK		},
-    {APB_BT1_BASE,				BT1_SYS_CLK		},
-    {APB_GPTA0_BASE,			GPT_SYS_CLK		},
+    {APB_BT0_BASE,				BTx_SYS_CLK		},
+    {APB_BT1_BASE,				BTx_SYS_CLK		},
+    {APB_GPTA0_BASE,			GPTA0_SYS_CLK		},
     {APB_EPT_BASE,				EPT_SYS_CLK		},
     {0x00U, 					0xFFFFFFFFU		}
 };

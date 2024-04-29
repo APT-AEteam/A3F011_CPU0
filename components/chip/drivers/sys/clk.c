@@ -216,18 +216,54 @@ csi_error_t csi_emosc_enable(uint32_t wFreq)
  */
 csi_error_t csi_emosc_disable(void)
 {
-	if ((SYSCON->SCLKCR & SYSCLK_SRC_MSK) == SC_EMOSC)
+	if ((SYSCON->SCKCR & SCLK_SEL_MSK) == SC_EMOSC)
 		return CSI_ERROR;
 	else
 	{
 		SYSCON->GCDR = EMOSC;
 		return CSI_OK;
 	}
+
+}
+
+/** \brief esosc enable
+ * 
+ *  enable external sub oscillator in SYSCON
+ * 
+ *  \param none
+ *  \return csi_error_t
+ */
+csi_error_t csi_esosc_enable(uint32_t wFreq)
+{
 	
-//	if (csp_emosc_disable(SYSCON_REG_BASE) == CSP_FAIL)
-//		return CSI_ERROR;
-//	else
-//		return CSI_OK;
+	if ((csi_pin_get_mux(SXIN_PIN) != (pin_func_e)SXIN_PIN_FUNC) || (csi_pin_get_mux(SXOUT_PIN) != (pin_func_e)SXOUT_PIN_FUNC))
+		return CSI_ERROR;
+	
+	csp_set_es_gain(SYSCON, 0x7);
+		
+	SYSCON->GCER = ESOSC;
+	//wait for EMOSC to stable
+	while(!(csp_get_ckst(SYSCON)& ESOSC));
+	return CSI_OK;
+}
+
+/** \brief esosc disable
+ * 
+ *  disable external sub oscillator in SYSCON
+ * 
+ *  \param none
+ *  \return csi_error_t.
+ */
+csi_error_t csi_esosc_disable(void)
+{
+	if ((SYSCON->SCKCR & SCLK_SEL_MSK) == SC_ESOSC)
+		return CSI_ERROR;
+	else
+	{
+		SYSCON->GCDR = ESOSC;
+		return CSI_OK;
+	}
+
 }
 
 /** \brief imosc enable
@@ -261,17 +297,12 @@ csi_error_t csi_imosc_enable(uint8_t byFre)
  */
 csi_error_t csi_imosc_disable(void)
 {
-	if ((SYSCON->SCLKCR & SYSCLK_SRC_MSK) == SC_IMOSC)
+	if ((SYSCON->SCKCR & SCLK_SEL_MSK) == SC_IMOSC)
 		return CSI_ERROR;
 	else{
 		SYSCON->GCDR = IMOSC;
 		return CSI_OK;
 	}
-	
-//	if (csp_imosc_disable(SYSCON_REG_BASE) == CSP_FAIL)
-//		return CSI_ERROR;
-//	else
-//		return CSI_OK;
 }
 
  /** \brief hfosc enable
@@ -292,8 +323,6 @@ csi_error_t csi_hfosc_enable(uint8_t byFre)
 	while(!(csp_get_ckst(SYSCON)& HFOSC));
 	return CSI_OK;
 	
-//	csp_hfosc_enable(SYSCON_REG_BASE, byFre);
-//	return CSI_OK;
 }
 
  /** \brief hfosc disable
@@ -305,18 +334,13 @@ csi_error_t csi_hfosc_enable(uint8_t byFre)
  */
 csi_error_t csi_hfosc_disable(void)
 {
-	if ((SYSCON->SCLKCR & SYSCLK_SRC_MSK) == SC_HFOSC)
+	if ((SYSCON->SCKCR & SCLK_SEL_MSK) == SC_HFOSC)
 		return CSI_ERROR;
 	else
 	{
 		SYSCON->GCDR = HFOSC;
 		return CSI_OK;
 	}
-	
-//	if (csp_hfosc_disable(SYSCON_REG_BASE) == CSP_FAIL)
-//		return CSI_ERROR;
-//	else
-//		return CSI_OK;
 }
 
 /** \brief isosc enable
@@ -332,9 +356,6 @@ csi_error_t csi_isosc_enable(void)
 	//wait for ISOSC to stable
 	while(!(csp_get_ckst(SYSCON)& ISOSC));
 	return CSI_OK;
-	
-//	csp_isosc_enable(SYSCON_REG_BASE);
-//	return CSI_OK;
 }
 
 /** \brief isosc disable
@@ -346,15 +367,44 @@ csi_error_t csi_isosc_enable(void)
  */
 csi_error_t csi_isosc_disable(void)
 {
-	if((SYSCON->SCLKCR & SYSCLK_SRC_MSK) == SC_ISOSC || csp_iwdt_rd_st(SYSCON))
-		return CSP_FAIL;
+	if((SYSCON->SCKCR & SCLK_SEL_MSK) == SC_ISOSC || csp_iwdt_rd_st(SYSCON))
+		return CSI_ERROR;
 	else 
 	{
 		SYSCON->GCDR = ISOSC;
-		return CSP_SUCCESS;
+		return CSI_OK;
 	}	
-//	if (csp_isosc_disable(SYSCON_REG_BASE) == CSP_FAIL)
-//		return CSI_ERROR;
-//	else
-//		return CSI_OK;
+
+}
+
+/** \brief pll enable
+ * 
+ *  enable internal sub pll in SYSCON
+ * 
+ *  \param none
+ *  \return csi_error_t
+ */
+csi_error_t csi_pll_enable(void)
+{
+	SYSCON->GCER = PLL;
+	while(!(csp_get_ckst(SYSCON)& PLL));
+	return CSI_OK;
+}
+
+/** \brief pll disable
+ * 
+ *  disable internal sub pll in SYSCON
+ * 
+ *  \param none
+ *  \return none.
+ */
+csi_error_t csi_pll_disable(void)
+{
+	if((SYSCON->SCKCR & SCLK_SEL_MSK) == SC_PLL )
+		return CSI_ERROR;
+	else 
+	{
+		SYSCON->GCDR = PLL;
+		return CSI_OK;
+	}	
 }

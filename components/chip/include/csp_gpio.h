@@ -342,28 +342,28 @@ static inline void csp_exi_evtrg_enable(csp_exi_t *ptExiBase, uint8_t byTrgOut, 
 	ptExiBase->EXIEVTRG = (ptExiBase->EXIEVTRG & ~EXI_TRG_EN_MSK(byTrgOut)) | (bEnable << EXI_TRG_EN_POS(byTrgOut));
 }
 
-static inline void csp_exi_int_en(csp_syscon_t *ptSysconBase, uint32_t wIdx)
-{
-	ptSysconBase->EXIER =  (0x01ul << wIdx);
-}
-
-static inline void csp_exi_int_dis(csp_syscon_t *ptSysconBase, uint32_t wIdx)
-{
-	ptSysconBase->EXIDR = (0x01ul << wIdx);
-}
-
-static inline void csp_exi_clr_pending(csp_syscon_t *ptSysconBase, uint32_t wIdx)
-{
-	ptSysconBase->EXICR = (0x01ul << wIdx);
-}
-static inline void csp_exi_clr_port_irq(csp_syscon_t *ptSysconBase, uint32_t wValue)
-{
-    ptSysconBase->EXICR = wValue;
-}
-static inline uint32_t csp_exi_get_port_irq(csp_syscon_t *ptSysconBase)
-{
-    return ptSysconBase->EXICR;
-}
+//static inline void csp_exi_int_en(csp_syscon_t *ptSysconBase, uint32_t wIdx)
+//{
+//	ptSysconBase->EXIER =  (0x01ul << wIdx);
+//}
+//
+//static inline void csp_exi_int_dis(csp_syscon_t *ptSysconBase, uint32_t wIdx)
+//{
+//	ptSysconBase->EXIDR = (0x01ul << wIdx);
+//}
+//
+//static inline void csp_exi_clr_pending(csp_syscon_t *ptSysconBase, uint32_t wIdx)
+//{
+//	ptSysconBase->EXICR = (0x01ul << wIdx);
+//}
+//static inline void csp_exi_clr_port_irq(csp_syscon_t *ptSysconBase, uint32_t wValue)
+//{
+//    ptSysconBase->EXICR = wValue;
+//}
+//static inline uint32_t csp_exi_get_port_irq(csp_syscon_t *ptSysconBase)
+//{
+//    return ptSysconBase->EXICR;
+//}
 
 static inline void csp_gpio_set_port_irq(csp_gpio_t *ptGpioBase, uint32_t wValue, bool bEnable)
 {
@@ -373,17 +373,17 @@ static inline void csp_gpio_set_port_irq(csp_gpio_t *ptGpioBase, uint32_t wValue
 		ptGpioBase->IEDR = wValue;
 		
 }
-static inline void csp_exi_set_port_irq(csp_syscon_t *ptSysconBase,uint32_t wValue,bool bEnable)
-{
-   	if(bEnable)
-	{
-		ptSysconBase->EXIER |= wValue;				//EXI interrupt enable
-//		while(!(ptSysconBase->EXIMR & wValue));		//Check EXI is enabled or not
-		ptSysconBase->EXICR = wValue;				//Clear EXI status bit
-	}
-	else
-		ptSysconBase ->EXIDR = wValue;
-}
+//static inline void csp_exi_set_port_irq(csp_syscon_t *ptSysconBase,uint32_t wValue,bool bEnable)
+//{
+//   	if(bEnable)
+//	{
+//		ptSysconBase->EXIER |= wValue;				//EXI interrupt enable
+////		while(!(ptSysconBase->EXIMR & wValue));		//Check EXI is enabled or not
+//		ptSysconBase->EXICR = wValue;				//Clear EXI status bit
+//	}
+//	else
+//		ptSysconBase ->EXIDR = wValue;
+//}
 
 /*************************************************************************
  * @brief  gpio filtering

@@ -32,6 +32,10 @@ extern "C" {
 #define EMOSC_VALUE         2000000U
 #endif
 
+#ifndef EMOSC_24M_VALUE
+#define EMOSC_24M_VALUE		24000000U
+#endif
+
 #ifndef EMOSC_32K_VALUE
 #define EMOSC_32K_VALUE		32000U
 #endif
@@ -60,6 +64,9 @@ extern "C" {
 #endif
 #ifndef HFOSC_6M_VALUE
 #define HFOSC_6M_VALUE      6000000U
+#endif
+#ifndef HFOSC_3M_VALUE
+#define HFOSC_3M_VALUE      3000000U
 #endif
 
 //UARTx id number
@@ -975,13 +982,13 @@ typedef enum{
 }swd_grp_e;
 
 //APT32F1xx
-#define PFLASHBASE			0x00000000
+#define PFLASHBASE			0x18000000
 #define PFLASHSIZE			0x00080000
-#define PFLASHPAGE			256
+#define PFLASHPAGE			1024
 #define PFLASHLIMIT			(PFLASHBASE + PFLASHSIZE) 
 #define USEROPTION_ADDR		0x000800C0  //todo：待确认该位地址，目前手册上没有
 #define DFLASHBASE			0x10000000
-#define DFLASHSIZE			0x00006000
+#define DFLASHSIZE			0x00004000
 #define DFLASHPAGE			64
 #define DFLASHLIMIT 		(DFLASHBASE + DFLASHSIZE) 
 
