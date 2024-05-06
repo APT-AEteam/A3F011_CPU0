@@ -63,13 +63,24 @@ void csi_qspi_gpio_init(void)
 	//csi_pin_set_mux(PA9, PA9_INPUT); 
 	//csi_pin_pull_mode(PA9, GPIO_PULLUP);
 	
+//	csi_pin_set_mux(PC7,PC7_QSPI_nCS0);					      // QSPI_nCS0
+//	csi_pin_set_mux(PC13,PC13_QSPI_CLK);					  // QSPI_SCK
+//	
+//	csi_pin_set_mux(PC14,PC14_QSPI_IO0);					  // QSPI_IO0
+//	csi_pin_set_mux(PC15,PC15_QSPI_IO1);					  // QSPI_IO1
+//	csi_pin_set_mux(PD0,PD0_QSPI_IO2);						  // QSPI_IO2
+//	csi_pin_set_mux(PD1,PD1_QSPI_IO3);						  // QSPI_IO3
+
 	csi_pin_set_mux(PC7,PC7_QSPI_nCS0);					      // QSPI_nCS0
-	csi_pin_set_mux(PC13,PC13_QSPI_CLK);					  // QSPI_SCK
+	csi_pin_set_mux(PC8,PC8_QSPI_nCS1);					      // QSPI_nCS1
+	csi_pin_set_mux(PC9,PC9_QSPI_nCS2);					      // QSPI_nCS2
+	csi_pin_set_mux(PD6,PD6_QSPI_nCSIN);					  // QSPI_nCS3
+	csi_pin_set_mux(PB12,PB12_QSPI_CLK);					  // QSPI_SCK
 	
-	csi_pin_set_mux(PC14,PC14_QSPI_IO0);					  // QSPI_IO0
-	csi_pin_set_mux(PC15,PC15_QSPI_IO1);					  // QSPI_IO1
-	csi_pin_set_mux(PD0,PD0_QSPI_IO2);						  // QSPI_IO2
-	csi_pin_set_mux(PD1,PD1_QSPI_IO3);						  // QSPI_IO3
+	csi_pin_set_mux(PB13,PB13_QSPI_IO0);					  // QSPI_IO0
+	csi_pin_set_mux(PB14,PB14_QSPI_IO1);					  // QSPI_IO1
+	csi_pin_set_mux(PB15,PB15_QSPI_IO2);					  // QSPI_IO2
+	csi_pin_set_mux(PC6,PC6_QSPI_IO3);						  // QSPI_IO3
 
 }
 
@@ -165,28 +176,10 @@ csi_error_t csi_qspi_init(csp_qspi_t *ptQspiBase,csi_qspi_config_t *ptQspiCfg)
 	csp_qspi_set_cp_format(ptQspiBase, ptQspiCfg->eQspiPolarityPhase);   //极性和相位设置	
 	csp_qspi_set_frame_len(ptQspiBase, ptQspiCfg->eQspiFrameLen);	     //格式帧长度设置
 	csi_qspi_baud(ptQspiBase, ptQspiCfg->dwQspiBaud);                //通信速率
+	csp_qspi_set_data_frame_number(ptQspiBase,ptQspiCfg->hwDataFrameNumber);	
 	apt_qspi_int_set(ptQspiBase,ptQspiCfg->byInter); 				 //中断配置
 	csp_qspi_set_slvste(ptQspiBase, QSPI_SLVSTE_DIS); 				 //DIS TOGGLE
 	csi_qspi_Internal_variables_init(ptQspiCfg);					 //内部使用，客户无需更改
-			
-							
-//	csp_qspi_set_tmod(ptQspiBase, QSPI_SEND);	 		//发模式
-//	csp_qspi_set_frameformat(ptQspiBase, QSPI_FRF_FOUR);		//1线收，1线发，其它(2线，4线)
-//	csp_qspi_set_frametype(ptQspiBase, QSPI_INSSTD_ADDSTD);   //指令和地址都为标准spi
-//	csp_qspi_set_instl(ptQspiBase, INSTL_8);		 		//设置指令长度
-//	csp_qspi_set_addrl(ptQspiBase, ADDRL_8);		 		//设置地址长度
-//	csp_qspi_set_ser(ptQspiBase, QSPI_S0EN,true);			//选择nCSNONE						
-//	csp_qspi_set_slvste(ptQspiBase, QSPI_SLVSTE_DIS); //DIS TOGGLE
-	
-//	csp_qspi_set_tmod(ptQspiBase, QSPI_SEND);	 		//发模式
-//	csp_qspi_set_frameformat(ptQspiBase, QSPI_FRF_FOUR);		//1线收，1线发，其它(2线，4线)
-//	csp_qspi_set_frametype(ptQspiBase, QSPI_INSSTD_ADDSTD);   //指令和地址都为标准spi
-//	csp_qspi_set_instl(ptQspiBase, INSTL_8);		 		//设置指令长度
-//	csp_qspi_set_addrl(ptQspiBase, ADDRL_8);		 		//设置地址长度
-//	csp_qspi_set_ser(ptQspiBase, QSPI_S0EN,true);			//选择nCS0						
-//	csp_qspi_set_slvste(ptQspiBase, QSPI_SLVSTE_DIS); //DIS TOGGLE
-						
-	//csp_qspi_en(ptQspiBase);							             //打开qspi
 	
 	return tRet;
 }
@@ -201,7 +194,7 @@ csi_error_t csi_qspi_uninit(csp_qspi_t *ptQspiBase)
 	csi_error_t tRet = CSI_OK;
 	
 	csi_clk_disable((uint32_t *)ptQspiBase);	
-	csi_irq_disable((uint32_t *)ptQspiBase);
+	//csi_irq_disable((uint32_t *)ptQspiBase);
 	csp_qspi_default_init(ptQspiBase);
 	g_tQspiTransmit.pbyRxData =NULL;
 	g_tQspiTransmit.byRxSize =0;
@@ -312,7 +305,7 @@ uint8_t csi_qspi_receive(csp_qspi_t *ptQspiBase,uint8_t byInst,uint32_t wAddr,ui
 	
 	byInstl = csp_qspi_get_instl(QSPI);
 	byAddrl = csp_qspi_get_addrl(QSPI);
-	csp_qspi_set_read_number(ptQspiBase,wLen);       //接收数据的个数
+	csp_qspi_set_data_frame_number(ptQspiBase,wLen);       //接收数据的个数
 	
 	csp_qspi_en(ptQspiBase);
 	csi_qspi_waitflag(ptQspiBase,QSPI_BSY,0x00,0xffff);//忙的话等待
@@ -329,8 +322,8 @@ uint8_t csi_qspi_receive(csp_qspi_t *ptQspiBase,uint8_t byInst,uint32_t wAddr,ui
 
 	while(wLen)
 	{
-		byStatus = csi_qspi_waitflag(ptQspiBase,QSPI_RNE,0x01,0xffff);
-		if(byStatus==0)						
+		byStatus = csi_qspi_waitflag(ptQspiBase,QSPI_RFNE,0x01,0xffff);
+		if(byStatus==0)	
 		{
 			*ptRecv++=csp_qspi_read_data(ptQspiBase);
 			wLen--;
@@ -377,7 +370,7 @@ uint8_t csi_qspi_send(csp_qspi_t *ptQspiBase,uint8_t byInst,uint32_t wAddr,uint8
 	
 	while(hwLen)
 	{
-		byStatus = csi_qspi_waitflag(QSPI,QSPI_TNF,0x01,0xffff);
+		byStatus = csi_qspi_waitflag(QSPI,QSPI_TFNF,0x01,0xffff);
 		if(byStatus==0)						
 		{
 			csp_qspi_write_data( QSPI,*pbySend++ );
@@ -404,12 +397,10 @@ uint8_t csi_qspi_send(csp_qspi_t *ptQspiBase,uint8_t byInst,uint32_t wAddr,uint8
  *  \param[in] wLen: data size
  *  \return 0:read failure   1:success
  */ 
-void csi_qspi_set_cmd(csp_qspi_t *ptQspiBase,qspi_tmod_e eMode,qspi_frf_e eFrf,uint8_t byPara,qspi_se_e eSlvnss)
+void csi_qspi_set_cmd(csp_qspi_t *ptQspiBase,qspi_tmod_e eMode,qspi_spifrf_e eFrf,uint8_t byPara,qspi_se_e eSlvnss)
 {
 	csi_qspi_waitflag(QSPI,QSPI_BSY,0x00,0xffff);
 	csp_qspi_dis(ptQspiBase);
-	csp_qspi_dis(ptQspiBase);
-	csp_qspi_set_tmod(ptQspiBase, eMode);	 					//设置模式
 	csp_qspi_set_tmod(ptQspiBase, eMode);	 					//设置模式
 	csp_qspi_set_frameformat(ptQspiBase, eFrf);					//1线收，1线发，其它(2线，4线)
 	csp_qspi_set_frametype(ptQspiBase, (byPara >> 6) & 0x03);   //指令和地址都为标准spi
@@ -417,7 +408,7 @@ void csi_qspi_set_cmd(csp_qspi_t *ptQspiBase,qspi_tmod_e eMode,qspi_frf_e eFrf,u
 	csp_qspi_set_addrl(ptQspiBase, byPara & 0x0f);		 		//设置地址长度
 	csi_qspi_set_waitcycle(ptQspiBase,0);                 		//等待周期设置为0
 	csp_qspi_set_ser(ptQspiBase, eSlvnss,true);					//选择nCS0
-	
+	//csp_qspi_set_rsd(ptQspiBase,0);
 }
 
 /** \brief qspi async send
@@ -439,7 +430,7 @@ csi_error_t csi_qspi_asyns_send(csp_qspi_t *ptQspiBase,void *pData,uint32_t wSiz
 		g_tQspiTransmit.byWriteable = 1U;
 		g_tQspiTransmit.byTxSize = wSize;
 		g_tQspiTransmit.pbyTxData = (uint8_t *)pData;	
-		apt_qspi_int_set(ptQspiBase,QSPI_TXE_INT); 				 //中断配置
+		//apt_qspi_int_set(ptQspiBase,QSPI_TXE_INT); 				 //中断配置
 		
 		csp_qspi_en(ptQspiBase);
 	}
@@ -469,12 +460,12 @@ csi_error_t csi_qspi_asyns_receive(csp_qspi_t *ptQspiBase,void *pData,uint32_t w
 		
 	if(tRet == CSI_OK)
 	{
-		csp_qspi_set_read_number(ptQspiBase,wSize+1);      //接收数据的个数
+		csp_qspi_set_data_frame_number(ptQspiBase,wSize+1);      //接收数据的个数
 
 		g_tQspiTransmit.byReadable = 1U;
 		g_tQspiTransmit.byRxSize = wSize+1;
 		g_tQspiTransmit.pbyRxData = (uint8_t *)pData;	
-		apt_qspi_int_set(ptQspiBase,QSPI_RXF_INT); 		   //中断配置
+		//apt_qspi_int_set(ptQspiBase,QSPI_RXF_INT); 		   //中断配置
 		csp_qspi_en(ptQspiBase);
 		
 		csi_qspi_waitflag(ptQspiBase,QSPI_BSY,0x00,0xffff);//等待空闲
@@ -506,9 +497,9 @@ csi_error_t csi_qspi_dma_receive_init(csp_qspi_t *ptQspiBase,uint32_t wSize,uint
 		
 	if(tRet == CSI_OK)
 	{
-		csi_qspi_set_cmd(QSPI,QSPI_RECV,QSPI_FRF_FOUR,(QSPI_INSSTD_ADDSTD<<6 | INSTL_8<<4 | ADDRL_24),QSPI_S0EN);//四线读id
+		csi_qspi_set_cmd(QSPI,QSPI_RECV,QSPI_SPIFRF_FOUR,(QSPI_INSSTD_ADDSTD<<6 | INSTL_8<<4 | ADDRL_24),QSPI_S0EN);//四线读id
 		csi_qspi_set_waitcycle(QSPI,8);
-		csp_qspi_set_read_number(ptQspiBase,wSize);        //接收数据的个数
+		csp_qspi_set_data_frame_number(ptQspiBase,wSize);        //接收数据的个数
 		csp_qspi_en(ptQspiBase);
 		
 		csi_qspi_waitflag(ptQspiBase,QSPI_BSY,0x00,0xffff);//等待空闲
@@ -534,10 +525,10 @@ csi_error_t csi_qspi_dma_receive_init(csp_qspi_t *ptQspiBase,uint32_t wSize,uint
  */
 void csi_qspi_send_dma(csp_qspi_t *ptQspiBase, const void *pData, uint16_t hwSize, csp_dma_t *ptDmaBase,uint8_t byDmaCh)
 {
-	//csp_qspi_set_txdma_level(ptQspiBase, QSPI_DMA_TX_LEVEL15);//类似发送未满
-	//csp_qspi_set_txdma_enable(ptQspiBase, QSPI_TDMAE_EN);
-	csi_irq_enable((uint32_t *)QSPI);
-	csi_dma_ch_start(ptDmaBase, byDmaCh, (void *)pData, (void *)&(ptQspiBase->DRx[0]), hwSize);
+	csp_qspi_set_txdma_level(ptQspiBase, QSPI_DMA_TX_LEVEL15);//类似发送未满
+	csp_qspi_set_txdma_enable(ptQspiBase, QSPI_TDMAE_EN);
+//	csi_irq_enable((uint32_t *)QSPI);
+	csi_dma_ch_start(ptDmaBase, byDmaCh, (void *)pData, (void *)&(ptQspiBase->DR[0]), hwSize);
 }
 
 /** \brief receive data of qspi by DMA
@@ -553,7 +544,7 @@ void csi_qspi_recv_dma(csp_qspi_t *ptQspiBase, void *pbyRecv, uint16_t hwSize,cs
 {
 	csp_qspi_set_rxdma_level(ptQspiBase, QSPI_DMA_RX_LEVEL1);//类似接收非空
 	csp_qspi_set_rxdma_enable(ptQspiBase, QSPI_RDMAE_EN);
-	csi_dma_ch_start(ptDmaBase, byDmaCh, (void *)&(ptQspiBase->DRx[0]),(void *)pbyRecv, hwSize);
+	csi_dma_ch_start(ptDmaBase, byDmaCh, (void *)&(ptQspiBase->DR[0]),(void *)pbyRecv, hwSize);
 }
 
 /** \brief qspi interrupt handle weak function
@@ -565,6 +556,7 @@ __attribute__((weak)) void qspi_irqhandler(csp_qspi_t *ptQspiBase)
 {
 	volatile uint8_t byIntMask;
 	uint8_t byCount = 0;
+	//printf("qspi_irqhandler!\n");
 	byIntMask = csp_qspi_get_intmsk(QSPI);
 	if( byIntMask & QSPI_TXE_INT )//发送fifo空中断（小于等于设置发送阈值就会产生空中断）
 	{
@@ -639,7 +631,8 @@ __attribute__((weak)) void qspi_irqhandler(csp_qspi_t *ptQspiBase)
 	
 	if(byIntMask & QSPI_MST_INT)//多主机竞争中断
 	{
-		csi_qspi_clr_int(QSPI,QSPI_MST_INT);
+		//csi_qspi_clr_int(QSPI,QSPI_MST_INT);
+		csi_qspi_clr_int(QSPI,QSPI_MST_INT | QSPI_TXO_INT | QSPI_RXU_INT | QSPI_RXO_INT);
 	}
 
 }

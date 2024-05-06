@@ -29,6 +29,7 @@ typedef struct
 	uint8_t				byTxFifoLevel;			//(0-15)fifo trigger tx interrupt
 	qspi_spo_h_e        eQspiPolarityPhase;  	//0:(0 0)   1:(0 1)  2:(1 0) 3:(1 1)
 	qspi_frame_size_e   eQspiFrameLen;       	//4-32 bit
+	uint16_t            hwDataFrameNumber;		//Number of Data Frames
 	uint32_t            dwQspiBaud;				//spi clk
 	uint8_t             byInter;            	//int source
 }csi_qspi_config_t;
@@ -160,7 +161,7 @@ uint8_t csi_qspi_send(csp_qspi_t *ptQspiBase,uint8_t byInst,uint32_t wAddr,uint8
  *  \param[in] wLen: data size
  *  \return 0:send failure   1:success
  */ 
-void csi_qspi_set_cmd(csp_qspi_t *ptQspiBase,qspi_tmod_e eMode,qspi_frf_e eFrf,uint8_t byPara,qspi_se_e eSlvnss);
+void csi_qspi_set_cmd(csp_qspi_t *ptQspiBase,qspi_tmod_e eMode,qspi_spifrf_e eFrf,uint8_t byPara,qspi_se_e eSlvnss);
 
 /** \brief qspi async send
  * 

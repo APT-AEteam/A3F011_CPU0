@@ -22,8 +22,7 @@ typedef struct
 {
 	__IOM  uint32_t  CR0;			//0x0000	Control Register 0 			 
 	__IOM  uint32_t  CR1;			//0x0004	Control Register 1 
-	__IOM  uint32_t  ENR; 		    //0x0008	Qspi enable register 
-	__OM   uint32_t  MWCR;			//0x000C	Microwire control register 
+	__IM   uint32_t  RSVD0[2]; 		//0x0008    ~0x000C	Reserved 
 	__IOM  uint32_t  SER;			//0x0010	Slave mode enable register         
 	__IOM  uint32_t  CPSR;			//0x0014	Clk div register    
 	__IOM  uint32_t  TXFIFO_TLR;	//0x0018	Send FIFO interrupt threshold register   
@@ -34,17 +33,14 @@ typedef struct
 	__IOM  uint32_t  IMCR;			//0x002C	Interrupt enable register
 	__IM   uint32_t  MISR;			//0x0030	Interrupt status register
 	__IM   uint32_t  RISR;			//0x0034	Raw interrupt status register
-	__IM   uint32_t  TXFOICR;		//0x0038	Send FIFO overflow interrupt clear register
-	__IM   uint32_t  RXFOICR;		//0x003C	Recv FIFO overflow interrupt clear register
-	__IM   uint32_t  RXFUICR;		//0x0040	Recv FIFO under overflow interrupt clear register
-	__IM   uint32_t  MSTICR;		//0x0044    Multi - host contended interrupt clear register	
+	__IM   uint32_t  RSVD1[4]; 		//0x0038    ~0x0044	Reserved
 	__OM   uint32_t  ICR;		    //0x0048    Interrupt clear register
 	__IOM  uint32_t  DMACR;         //0x004C    DMA enable control register
 	__IOM  uint32_t  DMATDLR;       //0x0050    DMA Transmit control register
 	__IOM  uint32_t	 DMARDLR;		//0x0054    DMA Receive control register
 	__IM   uint32_t  IDR;		    //0x0058    The ID information of the current QSPI module register
 	__IM   uint32_t  COMPVR;		//0x005C    Component version register 
-	__IOM  uint32_t  DRx[36];		//0x0060    ~0x00EC,Data Register
+	__IOM  uint32_t  DR[36];		//0x0060    Data Register
 	__IOM  uint32_t  RSD;		    //0x00F0    Receive Sampling Delay Register
 	__IOM  uint32_t  SPICR;		    //0x00F4    QSPI control register
 	__IOM  uint32_t  DDREDGE;		//0x00F8    DDR sends edge register
@@ -62,10 +58,8 @@ typedef struct
 #define QSPI_SER_RST			(0x00000000)    //SER reset value 
 #define QSPI_IMCR_RST			(0x00000000)    //IMCR reset value 
 
-#define QSPI_NEW                0x01 //
 //*****************************************************************************
 // QSPI_CR0 : Control Register 0
-
 //data frame size 	 
 #define	QSPI_DFS_POS		(0)							   
 #define	QSPI_DFS_MSK		(0x1Ful << QSPI_DFS_POS)
@@ -102,36 +96,33 @@ typedef enum
 	QSPI_DFS_32
 }qspi_frame_size_e;
 
-
-//frame protocol 	
-#define	QSPI_FRP_POS		(6)								
-#define	QSPI_FRP_MSK		(0x03ul << QSPI_FRP_POS)
+//qspi enable
+#define QSPI_SPIEN_POS    (5)
+#define QSPI_SPIEN_MSK    (0x01 << QSPI_SPIEN_POS)
 typedef enum
 {
-	QSPI_RFP_MOTOROLA	= 0,                    
-}qspi_frame_protocol_e;
+	QSPI_DIS,
+	QSPI_EN
+}qspi_spien_e;
 
+//frame format 	
+#define	QSPI_FRF_POS		(6)								
+#define	QSPI_FRF_MSK		(0x03ul << QSPI_FRF_POS)
+typedef enum
+{
+	QSPI_FRF_MOTOROLA	= 0,                    
+}qspi_frame_protocol_e;
 
 //spi clk polarity / phase  
 #define QSPI_SPO_H_POS	(8)							 
 #define QSPI_SPO_H_MSK	(0x03ul << QSPI_SPO_H_POS)
-#if QSPI_NEW
-	typedef enum
-	{
-		QSPI_SPO0_SPH0	= (0x00ul),            
-		QSPI_SPO0_SPH1	= (0x02ul),  
-		QSPI_SPO1_SPH0	= (0x01ul),            
-		QSPI_SPO1_SPH1   = (0x03ul)            
-	}qspi_spo_h_e;
-#else
-	typedef enum
-	{
-		QSPI_SPO0_SPH0	= (0x00ul),            
-		QSPI_SPO0_SPH1	= (0x01ul),  
-		QSPI_SPO1_SPH0	= (0x02ul),            
-		QSPI_SPO1_SPH1   = (0x03ul)            
-	}qspi_spo_h_e;
-#endif
+typedef enum
+{
+	QSPI_SPO0_SPH0	= (0x00ul),            
+	QSPI_SPO0_SPH1	= (0x02ul),  
+	QSPI_SPO1_SPH0	= (0x01ul),            
+	QSPI_SPO1_SPH1  = (0x03ul)            
+}qspi_spo_h_e;
 
 //transmission mode
 #define QSPI_TMOD_POS    (10)
@@ -143,7 +134,6 @@ typedef enum
 	QSPI_RECV
 }qspi_tmod_e;
 
-
 //slave mode output enable
 #define	QSPI_SLVOE_POS		(12)					
 #define	QSPI_SLVOE_MSK		(0x01ul << QSPI_SLVOE_POS)
@@ -153,64 +143,36 @@ typedef enum
 	QSPI_SLVOE_TXDIS      
 }qspi_slvoe_e;
 
-
 //loop back test
 #define	QSPI_SRLB_POS		(13)			 				
 #define	QSPI_SRLB_MSK		(0x01ul << QSPI_SRLB_POS)
 typedef enum
 {
-	QSPI_SRLB_DIS		= 0,            
+	QSPI_SRLB_DIS	= 0,            
 	QSPI_SRLB_EN   
 }qspi_srlb_e;
-
 
 //slave toggle enable
 #define QSPI_SLVSTE_POS    (14)
 #define QSPI_SLVSTE_MSK	   (0x01ul << QSPI_SLVSTE_POS)
 typedef enum
 {
-	QSPI_SLVSTE_DIS   = 0,
+	QSPI_SLVSTE_DIS = 0,
 	QSPI_SLVSTE_EN
 }qspi_slvste_e;
 
-
 //frame format
-#define QSPI_FRF_POS    (22)
-#define QSPI_FRF_MSK    (0x03 << QSPI_FRF_POS)
+#define QSPI_SPIFRF_POS    (22)
+#define QSPI_SPIFRF_MSK    (0x03 << QSPI_SPIFRF_POS)
 typedef enum
 {
-	QSPI_FRF_STD  = 0,
-	QSPI_FRF_TWO,
-	QSPI_FRF_FOUR
-}qspi_frf_e;
-
-
-//*****************************************************************************
-// QSPI_ENR : qspi enable register
-
-//qspi enable
-#if QSPI_NEW
-	#define QSPI_SSE_POS    (5)
-	#define QSPI_SSE_MSK    (0x01 << QSPI_SSE_POS)
-	typedef enum
-	{
-		QSPI_DIS,
-		QSPI_EN
-	}qspi_sse_e;
-#else
-	#define QSPI_SSE_POS    (0)
-	#define QSPI_SSE_MSK    (0x01 << QSPI_SSE_POS)
-	typedef enum
-	{
-		QSPI_DIS,
-		QSPI_EN
-	}qspi_sse_e;
-#endif
-
+	QSPI_SPIFRF_STD  = 0,
+	QSPI_SPIFRF_TWO,
+	QSPI_SPIFRF_FOUR
+}qspi_spifrf_e;
 
 //*****************************************************************************
 // QSPI_SER : slave mode enable register
-
 //slave enable
 typedef enum
 {
@@ -220,20 +182,18 @@ typedef enum
 	QSPI_S3EN = 0x08
 }qspi_se_e;
 
-
 //*****************************************************************************
 // QSPI_SR : state register
 typedef enum
 {
 	QSPI_BSY		= (0x01ul << 0), 			//spi busy flag                  
-	QSPI_TNF     	= (0x01ul << 1), 			//transmit fifo is not full          
+	QSPI_TFNF     	= (0x01ul << 1), 			//transmit fifo is not full          
 	QSPI_TFE    	= (0x01ul << 2),			//transmit fifo is empty             
-	QSPI_RNE		= (0x01ul << 3),   			//receive fifo is not empty                   
+	QSPI_RFNE		= (0x01ul << 3),   			//receive fifo is not empty                   
 	QSPI_RFF     	= (0x01ul << 4), 			//receive fifo is full  
     QSPI_TXE     	= (0x01ul << 5), 			//tx error  
     QSPI_DCOL     	= (0x01ul << 6) 			//data collision error            
 }qspi_sr_e;
-
 
 //******************************************************************************
 // QSPI_IMCR : QSPI_MISR : QSPI_RISR 
@@ -251,8 +211,6 @@ typedef enum
 	QSPI_RXF_INT		= (0x01ul << 4),   		//receive fifo full interrupt
 	QSPI_MST_INT		= (0x01ul << 5),   		//Multi - host contention interrupt
 }qspi_int_e;
-
-
 
 //******************************************************************************
 // QSPI_RSD: qspi Receive sample delay register 
@@ -303,6 +261,14 @@ typedef enum
 	ADDRL_60
 }qspi_addrl_e;
 
+//XIPMBE
+#define QSPI_XIPMBE_POS  (7)
+#define QSPI_XIPMBE_MSK  (0x01 << QSPI_XIPMBE_POS)
+typedef enum
+{
+	QSPI_XIPMBE_DIS = 0,
+	QSPI_XPIMBE_EN
+}qspi_xipmbe_e;
 
 //instruct lenght
 #define QSPI_INSTL_POS   (8)
@@ -315,6 +281,8 @@ typedef enum
 	INSTL_16
 }qspi_instl_e;
 
+#define QSPI_WCYCLE_POS  (11)
+#define QSPI_WCYCLE_MSK  (0x1f << QSPI_WCYCLE_POS)
 
 //qspi ddre
 #define QSPI_DDRE_POS  (16)
@@ -334,10 +302,6 @@ typedef enum
 	QSPI_INSTDDRE_DIS = 0,
 	QSPI_INSTDDRE_EN
 }qspi_instddre_e;
-
-
-#define QSPI_WCYCLE_POS  (11)
-#define QSPI_WCYCLE_MSK  (0x1f << QSPI_WCYCLE_POS)
 
 //******************************************************************************
 // QSPI_DMACR: qspi DMA enable register
@@ -403,6 +367,7 @@ typedef enum
 	QSPI_DMA_RX_LEVEL15,
 	QSPI_DMA_RX_LEVEL16	
 }qspi_dma_rx_level_e;
+
 //-----------------------------------------------------------------------------------------------
 //inline function
 static inline void csp_qspi_set_int(csp_qspi_t *ptQspiBase,uint8_t byQspiInt,bool bEnable)
@@ -416,11 +381,11 @@ static inline void csp_qspi_set_int(csp_qspi_t *ptQspiBase,uint8_t byQspiInt,boo
 
 static inline void csp_qspi_default_init(csp_qspi_t *ptQspiBase)
 {
-	ptQspiBase->CR0	 = QSPI_CR0_RST;
-	ptQspiBase->CR1	 = QSPI_CR1_RST;
-	ptQspiBase->ENR  = QSPI_ENR_RST;
-	ptQspiBase->SER  = QSPI_SER_RST;
-	ptQspiBase->IMCR  = QSPI_IMCR_RST;
+	ptQspiBase->CR0	  =  QSPI_CR0_RST;
+	ptQspiBase->CR1	  =  QSPI_CR1_RST;
+	//ptQspiBase->ENR   =  QSPI_ENR_RST;
+	ptQspiBase->SER   =  QSPI_SER_RST;
+	ptQspiBase->IMCR  =  QSPI_IMCR_RST;
 }
 
 static inline void csp_qspi_set_lbm(csp_qspi_t *ptQspiBase, qspi_srlb_e eSrlb)
@@ -430,20 +395,12 @@ static inline void csp_qspi_set_lbm(csp_qspi_t *ptQspiBase, qspi_srlb_e eSrlb)
 
 static inline void csp_qspi_en(csp_qspi_t *ptQspiBase)
 {
-	#if QSPI_NEW
-		ptQspiBase->CR0  = (ptQspiBase->CR0 & (~QSPI_SSE_MSK)) | (QSPI_EN << QSPI_SSE_POS);
-	#else
-		ptQspiBase->ENR |= (QSPI_EN << QSPI_SSE_POS);
-	#endif
+	ptQspiBase->CR0  = (ptQspiBase->CR0 & (~QSPI_SPIEN_MSK)) | (QSPI_EN << QSPI_SPIEN_POS);
 }
 
 static inline void csp_qspi_dis(csp_qspi_t *ptQspiBase)
 {
-	#if QSPI_NEW
-		ptQspiBase->CR0  = (ptQspiBase->CR0 & (~QSPI_SSE_MSK)) | (QSPI_DIS << QSPI_SSE_POS);
-	#else
-		ptQspiBase->ENR &= ~QSPI_SSE_MSK;
-	#endif
+	ptQspiBase->CR0  = (ptQspiBase->CR0 & (~QSPI_SPIEN_MSK)) | (QSPI_DIS << QSPI_SPIEN_POS);
 }
 
 static inline void csp_qspi_set_rxifl(csp_qspi_t *ptQspiBase, uint8_t byLevel)
@@ -476,9 +433,9 @@ static inline uint8_t csp_qspi_get_sr(csp_qspi_t *ptQspiBase)
 	return (uint8_t)(ptQspiBase->SR & 0x7f);
 }
 
-static inline void csp_qspi_set_frameformat(csp_qspi_t *ptQspiBase, qspi_frf_e eFrameformat)
+static inline void csp_qspi_set_frameformat(csp_qspi_t *ptQspiBase, qspi_spifrf_e eFrameformat)
 {
-	ptQspiBase->CR0 = (ptQspiBase->CR0 & (~QSPI_FRF_MSK) ) | ( eFrameformat << QSPI_FRF_POS ) ;
+	ptQspiBase->CR0 = (ptQspiBase->CR0 & (~QSPI_SPIFRF_MSK) ) | ( eFrameformat << QSPI_SPIFRF_POS ) ;
 }
 
 static inline void csp_qspi_set_frametype(csp_qspi_t *ptQspiBase, qspi_frametype_e eFrametype)
@@ -536,12 +493,12 @@ static inline void csp_qspi_clr_int(csp_qspi_t *ptQspiBase,uint8_t byIntsrc)
 
 static inline void csp_qspi_write_data(csp_qspi_t *ptQspiBase,uint32_t wData)
 {
-	ptQspiBase->DRx[0] = wData;
+	ptQspiBase->DR[0] = wData;
 }
 
 static inline uint32_t csp_qspi_read_data(csp_qspi_t *ptQspiBase)
 {
-	return ptQspiBase->DRx[0] ;
+	return ptQspiBase->DR[0] ;
 }
 
 static inline void csp_qspi_set_waitcycle(csp_qspi_t *ptQspiBase,uint8_t byWcycle)
@@ -549,7 +506,7 @@ static inline void csp_qspi_set_waitcycle(csp_qspi_t *ptQspiBase,uint8_t byWcycl
 	ptQspiBase->SPICR = (ptQspiBase->SPICR & (~QSPI_WCYCLE_MSK) ) | ( byWcycle << QSPI_WCYCLE_POS ) ;
 }
 
-static inline void csp_qspi_set_read_number(csp_qspi_t *ptQspiBase,uint16_t hwNumber)
+static inline void csp_qspi_set_data_frame_number(csp_qspi_t *ptQspiBase,uint16_t hwNumber)
 {
 	ptQspiBase->CR1 = ( (hwNumber-1) & 0xffff);
 }
@@ -584,6 +541,11 @@ static inline void csp_qspi_set_instddre(csp_qspi_t *ptQspiBase,qspi_instddre_e 
 	ptQspiBase->SPICR = (ptQspiBase->SPICR & (~QSPI_INSTDDRE_MSK) ) | ( eInstddre << QSPI_INSTDDRE_POS ) ;
 }
 
+static inline void csp_qspi_set_ddredge(csp_qspi_t *ptQspiBase,uint8_t tdeval)
+{
+	ptQspiBase->DDREDGE = (tdeval & 0xff);
+}
+
 static inline uint8_t csp_qspi_read_txflr(csp_qspi_t *ptQspiBase)
 {
 	return (uint8_t)( (ptQspiBase->TXFLR) & 0x0f) ;
@@ -594,6 +556,9 @@ static inline uint8_t csp_qspi_read_rxflr(csp_qspi_t *ptQspiBase)
 	return (uint8_t)( (ptQspiBase->RXFLR) & 0x0f) ;
 }
 
-
+static inline void csp_qspi_set_rsd(csp_qspi_t *ptQspiBase,uint8_t rsdval)
+{
+	ptQspiBase->RSD = (rsdval & 0xff);
+}
 #endif
 
