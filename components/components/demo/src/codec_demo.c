@@ -77,28 +77,30 @@ void codec_loopback_demo(void)
 	
 	// 1.配置master rx iis0
 	csi_iis_config_t iis_config0;				//i2s master 接收到wTempData缓存
-	iis_config0.mode=IIS_MASTER_RX;
-	iis_config0.samplerate=IIS_SAMPLERATE_48K;
-	iis_config0.datawidth=IIS_DATAWIDTH_16BIT;
-	iis_config0.data_align=IIS;
-	iis_config0.sclk_freq=I2S_SCLK_32FS;
-	iis_config0.mclk_freq=I2S_MCLK_256FS;   
+	iis_config0.eMode=IIS_RX;
+	iis_config0.eWorkMode = IIS_MASTER;
+	iis_config0.eSampleRate=IIS_SAMPLERATE_48K;
+	iis_config0.eDataWidth=IIS_DATAWIDTH_16BIT;
+	iis_config0.eDataAlign=IIS;
+	iis_config0.eSclkFreq=I2S_SCLK_32FS;
+	iis_config0.eMclkFreq=I2S_MCLK_256FS;   
 	iis_config0.len=sizeof(wTempData);
-	iis_config0.hwInt=IIS_INTSRC_NONE;
+	iis_config0.eInt=IIS_INTSRC_NONE;
 
 	csi_iis_init(I2S0,&iis_config0); 
 
 	
 	// 2.配置slave tx iis1
 	csi_iis_config_t iis_config1;			//I2s slave 将wTempData的数据发送出去
-	iis_config1.mode=IIS_SLAVE_TX;
-	iis_config1.samplerate=IIS_SAMPLERATE_48K;
-	iis_config1.datawidth=IIS_DATAWIDTH_16BIT;
-	iis_config1.data_align=IIS;
-	iis_config1.sclk_freq=I2S_SCLK_32FS;
-	iis_config1.mclk_freq=I2S_MCLK_256FS;
+	iis_config1.eMode=IIS_TX;
+	iis_config1.eWorkMode=IIS_SLAVE;
+	iis_config1.eSampleRate=IIS_SAMPLERATE_48K;
+	iis_config1.eDataWidth=IIS_DATAWIDTH_16BIT;
+	iis_config1.eDataAlign=IIS;
+	iis_config1.eSclkFreq=I2S_SCLK_32FS;
+	iis_config1.eMclkFreq=I2S_MCLK_256FS;
 	iis_config1.len=sizeof(wTempData);
-	iis_config1.hwInt=IIS_INTSRC_NONE;
+	iis_config1.eInt=IIS_INTSRC_NONE;
 	csi_iis_init(I2S1,&iis_config1);
 	
 
@@ -192,14 +194,15 @@ void codec_record_demo(void)
 
 	// I2S 配置master rx iis0
 	csi_iis_config_t iis_config0;
-	iis_config0.mode=IIS_MASTER_RX;		//i2s接收ADC输出的数据
-	iis_config0.samplerate=IIS_SAMPLERATE_48K;
-	iis_config0.datawidth=IIS_DATAWIDTH_16BIT;
-	iis_config0.data_align=PCM;
-	iis_config0.sclk_freq=I2S_SCLK_32FS;
-	iis_config0.mclk_freq=I2S_MCLK_256FS;   
+	iis_config0.eMode=IIS_RX;		//i2s接收ADC输出的数据
+	iis_config0.eWorkMode=IIS_MASTER;
+	iis_config0.eSampleRate=IIS_SAMPLERATE_48K;
+	iis_config0.eDataWidth=IIS_DATAWIDTH_16BIT;
+	iis_config0.eDataAlign=PCM;
+	iis_config0.eSclkFreq=I2S_SCLK_32FS;
+	iis_config0.eMclkFreq=I2S_MCLK_256FS;   
 	iis_config0.len=sizeof(wRecordData);
-	iis_config0.hwInt=IIS_INTSRC_NONE;
+	iis_config0.eInt=IIS_INTSRC_NONE;
 
 	csi_iis_init(I2S0,&iis_config0); 
 
@@ -252,14 +255,15 @@ void codec_player_demo(void)
 	
 	// i2s 配置slave tx iis1
 	csi_iis_config_t iis_config1;   //配置结构体
-	iis_config1.mode=IIS_SLAVE_TX;  //配置模式：主机发送/主机接收/从机发送/从机接收
-	iis_config1.samplerate=IIS_SAMPLERATE_24K;  //配置采样频率 8/16/24/32/44.1/48/96/192kHz
-	iis_config1.datawidth=IIS_DATAWIDTH_16BIT;  //配置数据位宽 8/16/24/32bit
-	iis_config1.data_align=PCM;                 //配置数据对齐格式 IIS/RIGHT_JUSTIFY/LEFT_JUSTIFY/PCM
-	iis_config1.sclk_freq=I2S_SCLK_32FS;        //配置时钟信号 SCLK频率  16/32/48/64。   SCK频率=通道数(一般是2)*量化深度(也叫采样位数)*采样频率
-	iis_config1.mclk_freq=I2S_MCLK_256FS;       //配置主时钟信号 MCLK频率  256/384
+	iis_config1.eMode=IIS_TX;  //配置模式：主机发送/主机接收/从机发送/从机接收
+	iis_config1.eWorkMode=IIS_SLAVE;  
+	iis_config1.eSampleRate=IIS_SAMPLERATE_24K;  //配置采样频率 8/16/24/32/44.1/48/96/192kHz
+	iis_config1.eDataWidth=IIS_DATAWIDTH_16BIT;  //配置数据位宽 8/16/24/32bit
+	iis_config1.eDataAlign=PCM;                 //配置数据对齐格式 IIS/RIGHT_JUSTIFY/LEFT_JUSTIFY/PCM
+	iis_config1.eSclkFreq=I2S_SCLK_32FS;        //配置时钟信号 SCLK频率  16/32/48/64。   SCK频率=通道数(一般是2)*量化深度(也叫采样位数)*采样频率
+	iis_config1.eMclkFreq=I2S_MCLK_256FS;       //配置主时钟信号 MCLK频率  256/384
 	iis_config1.len=sizeof(wPlayerData);           //配置 发送数量
-	iis_config1.hwInt=IIS_INTSRC_NONE;          //不用中断
+	iis_config1.eInt=IIS_INTSRC_NONE;          //不用中断
 	
 	csi_iis_init(I2S1,&iis_config1);    //从机初始化
 	
@@ -313,17 +317,18 @@ void codec_karaoke_demo(void)
 	
 	// i2s 配置slave tx iis1
 	csi_iis_config_t iis_config1;   			//配置结构体
-	iis_config1.mode=IIS_SLAVE_TX;  			//配置模式：主机发送/主机接收/从机发送/从机接收
-	iis_config1.samplerate=IIS_SAMPLERATE_24K;  //配置采样频率 8/16/24/32/44.1/48/96/192kHz
-	iis_config1.datawidth=IIS_DATAWIDTH_16BIT;  //配置数据位宽 8/16/24/32bit
-	iis_config1.data_align=PCM;                 //配置数据对齐格式 IIS/RIGHT_JUSTIFY/LEFT_JUSTIFY/PCM
-	iis_config1.sclk_freq=I2S_SCLK_32FS;        //配置时钟信号 SCLK频率  16/32/48/64。   SCK频率=通道数(一般是2)*量化深度(也叫采样位数)*采样频率
-	iis_config1.mclk_freq=I2S_MCLK_256FS;       //配置主时钟信号 MCLK频率  256/384
+	iis_config1.eMode=IIS_TX;  			//配置模式：主机发送/主机接收/从机发送/从机接收
+	iis_config1.eWorkMode=IIS_SLAVE; 
+	iis_config1.eSampleRate=IIS_SAMPLERATE_24K;  //配置采样频率 8/16/24/32/44.1/48/96/192kHz
+	iis_config1.eDataWidth=IIS_DATAWIDTH_16BIT;  //配置数据位宽 8/16/24/32bit
+	iis_config1.eDataAlign=PCM;                 //配置数据对齐格式 IIS/RIGHT_JUSTIFY/LEFT_JUSTIFY/PCM
+	iis_config1.eSclkFreq=I2S_SCLK_32FS;        //配置时钟信号 SCLK频率  16/32/48/64。   SCK频率=通道数(一般是2)*量化深度(也叫采样位数)*采样频率
+	iis_config1.eMclkFreq=I2S_MCLK_256FS;       //配置主时钟信号 MCLK频率  256/384
 	iis_config1.len=sizeof(wPlayerData);        //配置 发送数量
-	iis_config1.hwInt=IIS_INTSRC_NONE;          //不用中断
+	iis_config1.eInt=IIS_INTSRC_NONE;          //不用中断
 	
 	csi_iis_init(I2S1,&iis_config1);    		//从机初始化
-	
+
 	
 	// 用DMA， TX RX data
 	csi_etb_init();								//使能ETB模块

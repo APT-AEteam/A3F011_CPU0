@@ -44,7 +44,7 @@ static int32_t config_iis_div(csp_i2s_t *ptI2sBase,csi_iis_config_t *iis_config)
 {
     uint32_t sample_rate;
 
-    switch(iis_config->samplerate)
+    switch(iis_config->eSampleRate)
     {
         case IIS_SAMPLERATE_8K:
 		sample_rate=8000;
@@ -76,29 +76,30 @@ static int32_t config_iis_div(csp_i2s_t *ptI2sBase,csi_iis_config_t *iis_config)
 
     }
 	
-    uint32_t div0_coefficient = 0;
-    uint32_t div0 = 0;
+//    uint32_t div0_coefficient = 0;
+     uint32_t div0 = 0;
 	
-    if (iis_config->mclk_freq != I2S_MCLK_256FS && iis_config->mclk_freq != I2S_MCLK_384FS) {
+    if (iis_config->eMclkFreq != I2S_MCLK_256FS && iis_config->eMclkFreq != I2S_MCLK_384FS) {
         return -1;
     }
 	
 	uint32_t mclkfreq;
-	switch (iis_config->mclk_freq) 
+	switch (iis_config->eMclkFreq) 
 	{
 		case I2S_MCLK_256FS:
-		mclkfreq=256;
+		mclkfreq=256 * sample_rate;
 		break;
         case I2S_MCLK_384FS:
-		mclkfreq=384;
+		mclkfreq=384 * sample_rate;
 		break;
         default:
         return -1;
         break;
 	}
 
-    div0_coefficient = I2S_SRC_CLK_FREQ / mclkfreq;      //   怎么获取i2s的src_clk呢？  
-    div0 = (div0_coefficient + div0_coefficient % sample_rate) / sample_rate;    // div0=1
+	div0 = I2S_SRC_CLK_FREQ/mclkfreq;  //div0 = scr_clk /mclkfreq
+//    div0_coefficient = I2S_SRC_CLK_FREQ / mclkfreq;      //   怎么获取i2s的src_clk呢？  
+//    div0 = (div0_coefficient + div0_coefficient % sample_rate) / sample_rate;    // div0=1
 
     if (div0 > 255) {
         return -1;
@@ -108,6 +109,9 @@ static int32_t config_iis_div(csp_i2s_t *ptI2sBase,csi_iis_config_t *iis_config)
     csp_i2s_set_div_sclk(ptI2sBase, div0);   //DIV0: 0x0 or 0x1不分频
     csp_i2s_set_div_ref_clk(ptI2sBase, 0);
 
+//    csp_i2s_set_div_sclk(ptI2sBase, 6);   //DIV0: 0x0 or 0x1不分频
+//    csp_i2s_set_div_ref_clk(ptI2sBase, 2);
+	
     return 0;
 }
 
@@ -160,6 +164,7 @@ static uint8_t apt_get_iis_idx(csp_i2s_t *ptI2sBase)
 
 csi_error_t csi_iis_init(csp_i2s_t *ptI2sBase,csi_iis_config_t *iis_config)
 {
+
 	if((ptI2sBase == NULL)||(iis_config == NULL))
 		{
 			return CSI_ERROR;
@@ -167,132 +172,63 @@ csi_error_t csi_iis_init(csp_i2s_t *ptI2sBase,csi_iis_config_t *iis_config)
 	
 	csp_i2s_disbale(ptI2sBase);   //ptI2sBase->IISEN=0
 	
-	//gpio配置放到主函数中
-	
-//	idx = apt_get_iis_idx(ptI2sBase);
-//	drv_iis_handle[idx].cb = (iis_cb_t)iis_config->cb;    // 回调函数
-//    drv_iis_handle[idx].data = iis_config->pdata;    // iis传输数据数据
-//    drv_iis_handle[idx].len = iis_config->len;    // iis传输数据长度
-	
-//	config_iis_div(ptI2sBase,iis_config);   // 根据采样频率，配置DIV3和DIV0
-	
-	switch(iis_config->mode)
-    {
-        case IIS_MASTER_TX:
-		//FUNCMODE: 设置为tx mode
-		csp_i2s_set_transmit_mode(ptI2sBase, 1);   
-		// IISCNFOUT: TX工作模式时选master
-		csp_i2s_set_transmit_mode_master(ptI2sBase);
-		//IISCNFOUT: 设置数据格式选择 IIS/LFET/RIGHT/PCM
-		csp_i2s_set_transmit_mode_format(ptI2sBase, iis_config->data_align); 
-		// DIV0,DIV1: MASTER模式时，更具采样频率配置DIV0,DIV1
+	//I2S  mode setting
+	if (iis_config->eMode == IIS_TX )
+	{
+		csp_i2s_set_transmit_mode(ptI2sBase);   //mode : tx 
+
+		if(iis_config->eWorkMode == IIS_MASTER)
+		{
+			csp_i2s_set_transmit_mode_master(ptI2sBase); //workmode :  master
+			config_iis_div(ptI2sBase,iis_config);   // DIV0,DIV3: MASTER模式时，更具采样频率配置DIV0,DIV3
+		}
+		else {
+			csp_i2s_set_transmit_mode_slave(ptI2sBase); //workmode :  slave
+//			csp_i2s_set_receive_mode_audio_input_rate_detected(ptI2sBase, I2S_AIRAD_EN);   //rx rate auto detect
+		}
+		
+		csp_i2s_set_transmit_data_format(ptI2sBase, iis_config->eDataAlign);  //data format
+		
+		//DMATDLR：TX FIFO DMA 阈值设置,当TX FIFO 中数据量小于或等于该值，产生DMA发送请求 dma_tx_req 
+		csp_i2s_set_transmit_dma_data_num_level(ptI2sBase, 16);   // 8：参照wn 8032 drv得来
+		// DMACR: Transmit DMA enabled， tx dma 使能
+		csp_i2s_set_transmit_dma(ptI2sBase, I2S_TDMA_EN);
+	}
+	else {//IIS_RX
+		
+	csp_i2s_set_receive_mode(ptI2sBase);  //mode : rx 	
+		
+				// DIV0,DIV3: MASTER模式时，更具采样频率配置DIV0,DIV3
+	if(iis_config->eWorkMode == IIS_MASTER)
+	{
 		config_iis_div(ptI2sBase,iis_config);   
-		//FSSTA:MCLK_SEL/SCLK_SEL/DATAWTH
-		csp_i2s_set_receive_mode_mclk_sel_multiple_fs(ptI2sBase,iis_config->mclk_freq); //FSSTA:MCLK_SEL
-		csp_i2s_set_receive_mode_sclk_sel_multiple_fs(ptI2sBase,iis_config->sclk_freq); //FSSTA:SCLK_SEL
-		csi_i2s_data_width_config(ptI2sBase, iis_config->datawidth); //FSSTA:DATAWTH
-		//DMATDLR：TX FIFO DMA 阈值设置,当TX FIFO 中数据量小于或等于该值，产生DMA发送请求 dma_tx_req 
-		csp_i2s_set_transmit_dma_data_num_level(ptI2sBase, 16);   // 8：参照wn 8032 drv得来
-		// DMACR: Transmit DMA enabled， tx dma 使能
-		csp_i2s_set_transmit_dma(ptI2sBase, I2S_TDMA_EN);
-		// iis使能
-		csp_i2s_enable(ptI2sBase);
-        break;
+		csp_i2s_set_receive_mode_master(ptI2sBase); //workmode :master
+	}
+	else {
+		csp_i2s_set_receive_mode_slave(ptI2sBase); //workmode :slave
+//		csp_i2s_set_receive_mode_audio_input_rate_detected(ptI2sBase, I2S_AIRAD_EN);   //rx rate auto detect
+	}
 		
-        case IIS_MASTER_RX:
-		//FUNCMODE: 设置为rx mode
-		csp_i2s_set_receive_mode(ptI2sBase, 1);
-		//IISCNFIN: RX工作模式时选matser
-		csp_i2s_set_receive_mode_master(ptI2sBase);
-		//IISCNFIN: 设置数据格式选择 IIS/LFET/RIGHT/PCM
-		csp_i2s_set_receive_mode_format(ptI2sBase, iis_config->data_align);
-		// DIV0,DIV1: MASTER模式时，更具采样频率配置DIV0,DIV1
-		config_iis_div(ptI2sBase,iis_config);
-		//FSSTA:MCLK_SEL/SCLK_SEL/DATAWTH
-		csp_i2s_set_receive_mode_mclk_sel_multiple_fs(ptI2sBase,iis_config->mclk_freq); //FSSTA:MCLK_SEL
-		csp_i2s_set_receive_mode_sclk_sel_multiple_fs(ptI2sBase,iis_config->sclk_freq); //FSSTA:SCLK_SEL
-		csi_i2s_data_width_config(ptI2sBase, iis_config->datawidth); //FSSTA:DATAWTH
-		//DMARDLR: 当RX FIFO 中数据量大于或等于该值，产生DMA接收请求 dma_rx_req 
-        csp_i2s_set_receive_dma_data_num_level(ptI2sBase, 24);  // 24：参照wn 8032 drv得来
-		// DMACR: Receive DMA enabled， rx dma 使能
-		csp_i2s_set_receive_dma(ptI2sBase, I2S_RDMA_EN);
-		// iis使能
-		csp_i2s_enable(ptI2sBase);
-        break;
-		
-		
-        case IIS_SLAVE_TX:
-		//FUNCMODE: 设置为tx mode
-		csp_i2s_set_transmit_mode(ptI2sBase, 1);  
-		//IISCNFOUT: TX工作模式时选slave
-		csp_i2s_set_transmit_mode_slave(ptI2sBase);
-		//IISCNFOUT: 设置数据格式选择 IIS/LFET/RIGHT/PCM
-		csp_i2s_set_transmit_mode_format(ptI2sBase, iis_config->data_align); 
-		//FSSTA:MCLK_SEL/SCLK_SEL/DATAWTH，从机的话，硬件自检测fs,AIRAD
-		csp_i2s_set_receive_mode_mclk_sel_multiple_fs(ptI2sBase,iis_config->mclk_freq); //FSSTA:MCLK_SEL
-		csp_i2s_set_receive_mode_sclk_sel_multiple_fs(ptI2sBase,iis_config->sclk_freq); //FSSTA:SCLK_SEL
-		csi_i2s_data_width_config(ptI2sBase, iis_config->datawidth); //FSSTA:DATAWTH
-		csp_i2s_set_receive_mode_audio_input_rate_detected(ptI2sBase, I2S_AIRAD_EN);    //FSSTA：AIRAD
-		//DMATDLR：TX FIFO DMA 阈值设置,当TX FIFO 中数据量小于或等于该值，产生DMA发送请求 dma_tx_req 
-		csp_i2s_set_transmit_dma_data_num_level(ptI2sBase, 16);   // 8：参照wn 8032 drv得来
-		// DMACR: Transmit DMA enabled， tx dma 使能
-		csp_i2s_set_transmit_dma(ptI2sBase, I2S_TDMA_EN);
-		// iis使能
-		csp_i2s_enable(ptI2sBase);		
-        break;
-		
-        case IIS_SLAVE_RX:
-		//FUNCMODE: 设置为rx mode
-		csp_i2s_set_receive_mode(ptI2sBase, 1);
-		// IISCNFIN: RX工作模式时选slave，并选择rx模式数据对其模式 tsafs
-		csp_i2s_set_receive_mode_slave(ptI2sBase);
-		//IISCNFIN: 设置数据格式选择 IIS/LFET/RIGHT/PCM
-		csp_i2s_set_receive_mode_format(ptI2sBase, iis_config->data_align);
-		//FSSTA:MCLK_SEL/SCLK_SEL/DATAWTH，从机的话，硬件自检测fs,AIRAD
-		csp_i2s_set_receive_mode_mclk_sel_multiple_fs(ptI2sBase,iis_config->mclk_freq); //FSSTA:MCLK_SEL
-		csp_i2s_set_receive_mode_sclk_sel_multiple_fs(ptI2sBase,iis_config->sclk_freq); //FSSTA:SCLK_SEL
-		csi_i2s_data_width_config(ptI2sBase, iis_config->datawidth); //FSSTA:DATAWTH
-		csp_i2s_set_receive_mode_audio_input_rate_detected(ptI2sBase, I2S_AIRAD_EN);    //FSSTA：AIRAD
-		//DMARDLR: 当RX FIFO 中数据量大于或等于该值，产生DMA接收请求 dma_rx_req 
-        csp_i2s_set_receive_dma_data_num_level(ptI2sBase, 24);  // 24：参照wn 8032 drv得来
-		// DMACR: Receive DMA enabled， rx dma 使能
-		csp_i2s_set_receive_dma(ptI2sBase, I2S_RDMA_EN);
-		// iis使能
-		csp_i2s_enable(ptI2sBase);	
-        break;
-    }
+	csp_i2s_set_receive_data_format(ptI2sBase, iis_config->eDataAlign); //data format
 	
+		
+		//DMARDLR: 当RX FIFO 中数据量大于或等于该值，产生DMA接收请求 dma_rx_req 
+	csp_i2s_set_receive_dma_data_num_level(ptI2sBase, 24);  // 24：参照wn 8032 drv得来
+		// DMACR: Receive DMA enabled， rx dma 使能
+	csp_i2s_set_receive_dma(ptI2sBase, I2S_RDMA_EN);
+		
+	}
 	
+	csp_i2s_set_receive_mode_mclk_sel_multiple_fs(ptI2sBase,iis_config->eMclkFreq); //FSSTA:MCLK_SEL
+	csp_i2s_set_receive_mode_sclk_sel_multiple_fs(ptI2sBase,iis_config->eSclkFreq); //FSSTA:SCLK_SEL
+	csi_i2s_data_width_config(ptI2sBase, iis_config->eDataWidth); //FSSTA:DATAWTH
+	
+	csp_i2s_enable(ptI2sBase);	
+
 	// 中断配置
-	csp_i2s_set_irq(ptI2sBase, iis_config->hwInt);
+	csp_i2s_set_irq(ptI2sBase, iis_config->eInt); 
 	
-	
-	
-//	// 配置 iis dma传输通道
-//	// 1 初始化etb   csi_etb_init();	
-//	csi_etb_init();								//使能ETB模块
-//	
-//	
-//    if((iis_config.mode == IIS_MASTER_TX)||(iis_config.mode == IIS_SLAVE_TX))    // TX DMA
-//    {
-//   // 2 配置tx iis dma 函数， csi_iis_dma_tx_init;发送数据
-//	csi_iis_dma_tx_init(ptI2sBase, DMA_CH1, ETB_CH10);	
-//	csi_iis_send_dma(ptI2sBase, DMA_CH1, (void *)bySdData, 26);
-//   
-//   
-//   
-//    }
-//    else     // RX DMA
-//    {
-//	// 3 配置rx iis dma 函数， csi_iis_dma_rx_init
-//	csi_iis_dma_rx_init(ptI2sBase, DMA_CH3, ETB_CH8);
-//	csi_iis_recv_dma(ptI2sBase, DMA_CH3, (void*)s_byRecvBuf,22);
-//	
-//    }
-	
-	
-	
-	
+		
 	return CSI_OK;
 	
 }
@@ -356,8 +292,7 @@ csi_error_t csi_iis_send_dma(csp_i2s_t *ptI2sBase, csi_dma_ch_e eDmaCh, const vo
 {
 	if(hwSize > 0xfff)
 		return CSI_ERROR;
-//	csp_i2s_set_transmit_dma(ptI2sBase, I2S_TDMA_EN);  // enable TX DMA
-//	csp_i2s_set_transmit_dma_data_num_level(ptI2sBase, 0x10);   // DMATDLR: default configure 16(0x10)
+
 	csi_dma_ch_start(DMA0, eDmaCh, (void *)pData, (void *)&(ptI2sBase->DR), hwSize);
 	
 	return CSI_OK;
@@ -433,7 +368,9 @@ csi_error_t csi_iis_recv_dma(csp_i2s_t *ptI2sBase, csi_dma_ch_e eDmaCh, void *pD
 
 
 
-
+static uint32_t cnt =0;
+static uint32_t txcnt =0;
+extern  uint32_t IISRxBuf[512];
 /** \brief iis interrupt handle 
  * 
  *  \param[in] ptI2sBase: pointer of iis register structure
@@ -441,8 +378,62 @@ csi_error_t csi_iis_recv_dma(csp_i2s_t *ptI2sBase, csi_dma_ch_e eDmaCh, void *pD
  */
 __attribute__((weak)) void iis_irqhandler(csp_i2s_t *ptI2sBase)
 {
+	uint32_t wIsq = csp_i2s_get_i2s_irq_status(ptI2sBase) & 0x3ff;
+	
+	if(  (wIsq & IIS_INTSRC_RXFIM )== IIS_INTSRC_RXFIM)
+	{
+		if(cnt <512)
+		{
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuf[cnt++] = ptI2sBase->DR;
+		}
+	}
+	if(  (wIsq & IIS_INTSRC_TXEIM )== IIS_INTSRC_TXEIM)
+	{
+	
+		if(txcnt<512)
+		{
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+			ptI2sBase->DR = txcnt++;
+		
+		}
+		
+	}
 	
 	csi_iis_clr_isr(ptI2sBase);
+	if(cnt == 512)
+	{
+//		CODEC->CLKCR = (0x0<<31  | 0x1<<0 | 0x1<<8); //接收完成关闭时钟，防止一直进中断
+		csi_irq_disable((uint32_t *)ptI2sBase);
+	}
 	
 }
 

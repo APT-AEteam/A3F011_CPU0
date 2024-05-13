@@ -74,7 +74,7 @@ void csi_qspi_gpio_init(void)
 	csi_pin_set_mux(PC7,PC7_QSPI_nCS0);					      // QSPI_nCS0
 	csi_pin_set_mux(PC8,PC8_QSPI_nCS1);					      // QSPI_nCS1
 	csi_pin_set_mux(PC9,PC9_QSPI_nCS2);					      // QSPI_nCS2
-	csi_pin_set_mux(PD6,PD6_QSPI_nCSIN);					  // QSPI_nCS3
+	csi_pin_set_mux(PB7,PB7_QSPI_nCS3);					  // QSPI_nCS3
 	csi_pin_set_mux(PB12,PB12_QSPI_CLK);					  // QSPI_SCK
 	
 	csi_pin_set_mux(PB13,PB13_QSPI_IO0);					  // QSPI_IO0

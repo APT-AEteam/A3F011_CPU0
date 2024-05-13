@@ -30,7 +30,7 @@
     __IOM  	uint32_t  VADCR;		//0x0018 Voice Activity Detection Control Register
     __IOM   uint32_t  ADCOUTCR; 	//0x001C ADC Output Control Register             
     __IOM   uint32_t  ADCTESTCR;	//0x0020 ADC Test Control Register    
-    __IM   	uint32_t  RSVD0[56];           
+    __IM   	uint32_t  RSVD0[55];           
     __IOM   uint32_t  DACINCR;  	//0x0100 DAC Input Control Register         
     __IOM   uint32_t  DACR0;    	//0x0104 DAC Control Register 0        
     __IOM   uint32_t  DACR1;    	//0x0108 DAC Control Register 1          

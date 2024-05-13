@@ -120,10 +120,9 @@ int can_send_demo(void)
 	csi_can_config_t 	 tCanConfig;						//CAN 初始化结构体
 	csi_can_tx_config_t  tCanTxConfig;						//CAN 发送报文配置结构体
 	
-#if (USE_GUI == 0)											//用户未选择图形化编程			
-	csi_gpio_set_mux(GPIOA, PA11, PA11_CAN_RX);				//CAN RX管脚配置
-	csi_gpio_set_mux(GPIOA, PA12, PA12_CAN_TX);				//CAN TX管脚配置
-#endif
+	
+	csi_pin_set_mux( PA11, PA11_CAN_RX);				//CAN RX管脚配置
+	csi_pin_set_mux(PA12, PA12_CAN_TX);				//CAN TX管脚配置
 
 	//初始化配置
 	tCanConfig.eClkSrc  = CAN_CLKSRC_PCLK;					//CAN CLK = PCLK		

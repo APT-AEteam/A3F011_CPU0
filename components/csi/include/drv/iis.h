@@ -18,8 +18,8 @@
 #include "csp.h"
 
 
-#define I2S_SRC_CLK_FREQ 12288000
-
+#define I2S_SRC_CLK_FREQ  12288000
+//#define I2S_SRC_CLK_FREQ  49152000
 
 
 typedef enum
@@ -40,11 +40,15 @@ typedef enum
 
 typedef enum
 {
-    IIS_MASTER_TX,   // I2S transmitter master mode
-    IIS_MASTER_RX,   // I2S transmitter slave mode
-    IIS_SLAVE_TX,    // I2S receiver master mode
-    IIS_SLAVE_RX,    // I2S receiver slave mode
+    IIS_TX,   // I2S transmitter mode
+    IIS_RX,    // I2S receiver mode
 } csi_iis_mode_e;	 //IIS_MODE_E;
+
+typedef enum
+{
+    IIS_MASTER,   // I2S  master mode
+    IIS_SLAVE,    // I2S r slave mode
+} csi_iis_workmode_e;	 //IIS_workMODE_E;
 
 typedef enum
 {
@@ -97,16 +101,17 @@ typedef struct
     GPIO_IDX_E iis_lrck;
     GPIO_IDX_E iis_bclk;
     GPIO_IDX_E iis_data;*/  //GPIO放到demo里设置
-    csi_iis_mode_e mode;    //IIS MODE
-    csi_iis_samplerate_e samplerate;  //IIS samplerate
-    csi_iis_datawidth_e datawidth;    //IIS datawidth
-    csi_iis_data_align_e data_align;  //IIS data align 
+	csi_iis_mode_e eMode; //IIS MODE : tx or rx
+    csi_iis_workmode_e eWorkMode;    //work mode  : slave or master
+    csi_iis_samplerate_e eSampleRate;  //IIS samplerate
+    csi_iis_datawidth_e eDataWidth;    //IIS datawidth
+    csi_iis_data_align_e eDataAlign;  //IIS data align 
     //uint32_t sys_mclk;     // system clock
 
-    csi_i2s_sclk_freq_e sclk_freq;                  ///< I2S sclk freq select. example:32fs = 32 * sample_rate
-    csi_i2s_mclk_freq_e mclk_freq;                  ///< I2S mclk freq select. example:256fs = 256 * sample_rate
+    csi_i2s_sclk_freq_e eSclkFreq;                  ///< I2S sclk freq select. example:32fs = 32 * sample_rate
+    csi_i2s_mclk_freq_e eMclkFreq;                  ///< I2S mclk freq select. example:256fs = 256 * sample_rate
 
-	csi_iis_intsrc_e hwInt;  	  //IIS INTERRPUT SET
+	csi_iis_intsrc_e eInt;  	  //IIS INTERRPUT SET
     uint16_t len;         //sizeof(data)
     uint32_t *pdata;      // pointer of i2s data 
     //dma_cb_t cb;   //??dma回调函数指针，不要回调函数了，不在中断中用DMA收发数据

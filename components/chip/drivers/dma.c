@@ -153,7 +153,7 @@ csi_error_t csi_dma_ch_start(csp_dma_t *ptDmaBase, csi_dma_ch_e eDmaCh, void *pS
 		wTranLtc = wTranLtc % 0xfff;
 	}
 	
-	//csp_dma_set_ch_trans_num(ptDmaChBase, wTranLtc, wTranHtc);	//data length
+	csp_dma_set_ch_trans_num(ptDmaChBase, wTranLtc, wTranHtc);	//data length
 	csp_dma_set_ch_trans_num(ptDmaChBase, wTranHtc, wTranLtc);	//data length switch
 	csp_dma_set_ch_src_addr(ptDmaChBase, (uint32_t)pSrcAddr);	//Src addr
 	csp_dma_set_ch_dst_addr(ptDmaChBase, (uint32_t)pDstAddr);	//dst addr

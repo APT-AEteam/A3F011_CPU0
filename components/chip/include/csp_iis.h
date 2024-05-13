@@ -462,51 +462,19 @@ static inline void csp_i2s_disbale(csp_i2s_t* ptI2sBase)
 	ptI2sBase->IISEN &= I2S_DISABLE;
 }
 
-static inline void csp_i2s_set_transmit_mode(csp_i2s_t* ptI2sBase, uint32_t en)
+static inline void csp_i2s_set_transmit_mode(csp_i2s_t* ptI2sBase)
 {
-	uint32_t val = ptI2sBase->FUNCMODE;
-
-	val |= I2S_TMODE_WEN_MSK;
-	val &= ~I2S_TMODE_MSK;
-
-	if (en) {
-		val |= I2S_TMODE_MSK;
-	}
-
-	ptI2sBase->FUNCMODE = val;
-
-
+	ptI2sBase->FUNCMODE =  (ptI2sBase->FUNCMODE & (~I2S_TMODE_MSK)) | (I2S_TMODE_WEN_MSK | I2S_TMODE_MSK);
 }
 
-static inline void csp_i2s_set_receive_mode(csp_i2s_t* ptI2sBase, uint32_t en)
+static inline void csp_i2s_set_receive_mode(csp_i2s_t* ptI2sBase)
 {
-	uint32_t val = ptI2sBase->FUNCMODE;
-
-	val |= I2S_RMODE_WEN_MSK;
-	val &= ~I2S_RMODE_MSK;
-
-	if (en) {
-		val |= I2S_RMODE_MSK;
-	}
-
-	ptI2sBase->FUNCMODE = val;
+	ptI2sBase->FUNCMODE = (ptI2sBase->FUNCMODE & (~I2S_RMODE_MSK))  |  I2S_RMODE_MSK | I2S_RMODE_WEN_MSK;
 }
 
 static inline void csp_i2s_set_full_duplex_mode(csp_i2s_t* ptI2sBase, uint32_t en)
 {
-	uint32_t val = ptI2sBase->FUNCMODE;
-
-	val |= I2S_TMODE_WEN_MSK;
-	val |= I2S_RMODE_WEN_MSK;
-	val &= ~I2S_TMODE_MSK;
-	val &= ~I2S_RMODE_MSK;
-
-	if (en) {
-		val |= I2S_TMODE_MSK;
-		val |= I2S_RMODE_MSK;
-	}
-
-	ptI2sBase->FUNCMODE = val;
+	ptI2sBase->FUNCMODE = I2S_TMODE_WEN_MSK | I2S_RMODE_WEN_MSK | I2S_TMODE_MSK | I2S_RMODE_MSK;
 }
 
 static inline void csp_i2s_set_receive_delay(csp_i2s_t* ptI2sBase, i2s_rdelay_e eRdelay)
@@ -544,7 +512,7 @@ static inline void csp_i2s_set_receive_mode_channel_polarity_for_left(csp_i2s_t*
 	ptI2sBase->IISCNF_IN = (ptI2sBase->IISCNF_IN & (~I2S_RALOLRC_MSK)) | (eRalolrc << I2S_RALOLRC_POS);
 }
 
-static inline void csp_i2s_set_receive_mode_format(csp_i2s_t* ptI2sBase, i2s_rsafs_e eRsafs)
+static inline void csp_i2s_set_receive_data_format(csp_i2s_t* ptI2sBase, i2s_rsafs_e eRsafs)
 {
 	ptI2sBase->IISCNF_IN = (ptI2sBase->IISCNF_IN & (~I2S_RSAFS_MSK)) | (eRsafs << I2S_RSAFS_POS);
 }
@@ -584,7 +552,7 @@ static inline void csp_i2s_set_transmit_mode_channel_polarity_for_left(csp_i2s_t
 	ptI2sBase->IISCNF_OUT = (ptI2sBase->IISCNF_OUT & (~I2S_TALOLRC_MSK)) | (eTalolrc << I2S_TALOLRC_POS);
 }
 
-static inline void csp_i2s_set_transmit_mode_format(csp_i2s_t* ptI2sBase, i2s_tsafs_e eTsafs)
+static inline void csp_i2s_set_transmit_data_format(csp_i2s_t* ptI2sBase, i2s_tsafs_e eTsafs)
 {
 	ptI2sBase->IISCNF_OUT = (ptI2sBase->IISCNF_OUT & (~I2S_TSAFS_MSK)) | (eTsafs << I2S_TSAFS_POS);
 }
