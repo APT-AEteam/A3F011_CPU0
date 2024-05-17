@@ -1468,29 +1468,16 @@
     </Peripheral>
     <Peripheral Name="CAN">
       <Register Name="CAN_ECR" Authority="RW" Address="0x40070050" Width="32" Description="CAN时钟使能寄存器">
-        <Bit Name="DBGEN" Authority="RO" Bits="31" Description="调试模式使能状态：&#xD;&#xA;0h: 调试模式被禁止&#xD;&#xA;1h: 调试模式被使能" />
-        <Bit Name="CLKEN" Authority="RO" Bits="1" Description="CAN模块时钟使能状态：&#xD;&#xA;0h:  时钟被禁止&#xD;&#xA;1h：时钟被使能" />
+        <Bit Name="DBGEN" Authority="RW" Bits="31" Description="调试模式使能状态：&#xD;&#xA;0h: 无效&#xD;&#xA;1h: 调试模式被使能" />
+        <Bit Name="CLKEN" Authority="RW" Bits="1" Description="CAN模块时钟使能状态：&#xD;&#xA;0h:  无效&#xD;&#xA;1h：时钟被使能" />
       </Register>
       <Register Name="CAN_DCR" Authority="RW" Address="0x40070054" Width="32" Description="CAN时钟禁止寄存器">
-        <Bit Name="DBGEN" Authority="RW" Bits="31" Description="调试模式使能：&#xD;&#xA;0h:无效&#xD;&#xA;1h：是能调试模式" />
-        <Bit Name="CLKEN" Authority="RW" Bits="1" Description="时钟使能：&#xD;&#xA;0h: 无效&#xD;&#xA;1h：使能CAN模块的时钟" />
+        <Bit Name="DBGEN" Authority="RW" Bits="31" Description="调试模式使能：&#xD;&#xA;0h: 无效&#xD;&#xA;1h: 禁止调试模式" />
+        <Bit Name="CLKEN" Authority="RW" Bits="1" Description="时钟使能：&#xD;&#xA;0h: 无效&#xD;&#xA;1h: 禁止CAN模块的时钟" />
       </Register>
-      <Register Name="CAN_CSR" Authority="RW" Address="0x40070058" Width="32" Description="CAN时钟状态寄存器">
+      <Register Name="CAN_PMSR" Authority="RW" Address="0x40070058" Width="32" Description="CAN时钟状态寄存器">
         <Bit Name="DBGEN" Authority="RW" Bits="31" Description="调试模式使能状态：&#xD;&#xA;0h:  调试模式被禁止&#xD;&#xA;1h：调试模式被使能" />
         <Bit Name="CLKEN" Authority="RW" Bits="1" Description="时钟使能：&#xD;&#xA;0h:  时钟被禁止&#xD;&#xA;1h：时钟被使能" />
-        <Bit Name="" Authority="" Bits="31-16" Description="" />
-        <Bit Name="CRC" Authority="RW" Bits="15" Description="清除CRC错误标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除CRC错误标志位" />
-        <Bit Name="BIT0" Authority="RW" Bits="14" Description="清除位低（bit to zero）错误标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除位低错误标志位" />
-        <Bit Name="BIT1" Authority="RW" Bits="13" Description="清除位高（bit to one）错误标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除位高错误标志位" />
-        <Bit Name="ACK" Authority="RW" Bits="12" Description="清除应答错误标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除应答错误标志位" />
-        <Bit Name="FORM" Authority="RW" Bits="11" Description="清除形式错误标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除形式错误标志位" />
-        <Bit Name="STUFF" Authority="RW" Bits="10" Description="清除填充错误标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除填充错误标志位" />
-        <Bit Name="TXOK" Authority="RW" Bits="9" Description="清除报文发送成功标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除报文发送成功标志位" />
-        <Bit Name="RXOK" Authority="RW" Bits="8" Description="清除报文接收成功标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除报文接收成功标志位" />
-        <Bit Name="ACTVT" Authority="RW" Bits="4" Description="清除活动状态中断标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除活动状态中断标志位" />
-        <Bit Name="BUSOFFTR" Authority="RW" Bits="3" Description="清除总线关闭转换中断标志位。&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除总线关闭转换中断标志位" />
-        <Bit Name="ERPASSTR" Authority="RW" Bits="2" Description="清除错误被动转换中断标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除错误被动转换中断标志位" />
-        <Bit Name="ERWARNTR" Authority="RW" Bits="1" Description="清除错误被动警告转换中断标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除错误被动警告转换中断标志位" />
       </Register>
       <Register Name="CAN_CR" Authority="RW" Address="0x40070060" Width="32" Description="CAN控制寄存器">
         <Bit Name="STSR" Authority="RW" Bits="10" Description="加载移位寄存器：&#xD;&#xA;0h：无效&#xD;&#xA;1h：将移位寄存器的值加载到IF1寄存器（基础模式）。这样就可以监控移位寄存器内的真实值。&#xD;&#xA;这位只在基础模式（CAN_TSTR[BASIC] = 1)时有效。" />
@@ -1511,7 +1498,21 @@
         <Bit Name="CSSEL" Authority="RW" Bits="10" Description="CAN时钟源选择：&#xD;&#xA;0h:  PCLK&#xD;&#xA;1h：EMCLK" />
         <Bit Name="BD" Authority="RW" Bits="9-0" Description="波特率预分频器：&#xD;&#xA;时间份额计算公式：TQ = (BD + 1) / CANCLK&#xD;&#xA;比特时间是由整数个时间份额组成的。" />
       </Register>
-      <Register Name="CAN_CSR" Authority="RW" Address="0x4007006c" Width="32" Description="CAN清除状态寄存器" />
+      <Register Name="CAN_CSR" Authority="RW" Address="0x4007006c" Width="32" Description="CAN清除状态寄存器">
+        <Bit Name="" Authority="" Bits="31-16" Description="" />
+        <Bit Name="CRC" Authority="RW" Bits="15" Description="清除CRC错误标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除CRC错误标志位" />
+        <Bit Name="BIT0" Authority="RW" Bits="14" Description="清除位低（bit to zero）错误标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除位低错误标志位" />
+        <Bit Name="BIT1" Authority="RW" Bits="13" Description="清除位高（bit to one）错误标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除位高错误标志位" />
+        <Bit Name="ACK" Authority="RW" Bits="12" Description="清除应答错误标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除应答错误标志位" />
+        <Bit Name="FORM" Authority="RW" Bits="11" Description="清除形式错误标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除形式错误标志位" />
+        <Bit Name="STUFF" Authority="RW" Bits="10" Description="清除填充错误标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除填充错误标志位" />
+        <Bit Name="TXOK" Authority="RW" Bits="9" Description="清除报文发送成功标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除报文发送成功标志位" />
+        <Bit Name="RXOK" Authority="RW" Bits="8" Description="清除报文接收成功标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除报文接收成功标志位" />
+        <Bit Name="ACTVT" Authority="RW" Bits="4" Description="清除活动状态中断标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除活动状态中断标志位" />
+        <Bit Name="BUSOFFTR" Authority="RW" Bits="3" Description="清除总线关闭转换中断标志位。&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除总线关闭转换中断标志位" />
+        <Bit Name="ERPASSTR" Authority="RW" Bits="2" Description="清除错误被动转换中断标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除错误被动转换中断标志位" />
+        <Bit Name="ERWARNTR" Authority="RW" Bits="1" Description="清除错误被动警告转换中断标志位&#xD;&#xA;0h：无效&#xD;&#xA;1h：清除错误被动警告转换中断标志位" />
+      </Register>
       <Register Name="CAN_SR" Authority="RW" Address="0x40070070" Width="32" Description="CAN状态寄存器">
         <Bit Name="" Authority="" Bits="31-26" Description="" />
         <Bit Name="BTXPD" Authority="RO" Bits="25" Description="基础传输挂起&#xD;&#xA;0h：基础模式下没有发送请求或者传输已经完成或者已经离开基础模式&#xD;&#xA;1h：IF0寄存器的发送被挂起或正在进行？？&#xD;&#xA;改位只在基础模式（CAN_TSTR[BASIC] = 1)下有效。" />
@@ -1553,20 +1554,20 @@
         <Bit Name="ERWARNTR" Authority="RW" Bits="1" Description="使能错误被动警告转换中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
       </Register>
       <Register Name="CAN_IDR" Authority="RW" Address="0x40070078" Width="32" Description="CAN中断使能寄存器">
-        <Bit Name="CRC" Authority="RW" Bits="15" Description="使能CRC错误中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
-        <Bit Name="BIT0" Authority="RW" Bits="14" Description="使能位低错误中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
-        <Bit Name="BIT1" Authority="RW" Bits="13" Description="使能位高错误中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
-        <Bit Name="ACK" Authority="RW" Bits="12" Description="使能应答错误中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
-        <Bit Name="FORM" Authority="RW" Bits="11" Description="使能填充错误中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
-        <Bit Name="STUFF" Authority="RW" Bits="10" Description="使能填充错误中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
-        <Bit Name="TXOK" Authority="RW" Bits="9" Description="使能报文发送成功中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
-        <Bit Name="RXOK" Authority="RW" Bits="8" Description="使能报文接收成功中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
-        <Bit Name="ACTVT" Authority="RW" Bits="4" Description="使能活动转换中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
-        <Bit Name="BUSOFFTR" Authority="RW" Bits="3" Description="使能总线关闭转换中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
-        <Bit Name="ERPASSTR" Authority="RW" Bits="2" Description="使能错误被动转换中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
-        <Bit Name="ERWARNTR" Authority="RW" Bits="1" Description="使能错误被动警告转换中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：使能中断" />
+        <Bit Name="CRC" Authority="RW" Bits="15" Description="使能CRC错误中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：禁止中断" />
+        <Bit Name="BIT0" Authority="RW" Bits="14" Description="使能位低错误中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：禁止中断" />
+        <Bit Name="BIT1" Authority="RW" Bits="13" Description="使能位高错误中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：禁止中断" />
+        <Bit Name="ACK" Authority="RW" Bits="12" Description="使能应答错误中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：禁止中断" />
+        <Bit Name="FORM" Authority="RW" Bits="11" Description="使能填充错误中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：禁止中断" />
+        <Bit Name="STUFF" Authority="RW" Bits="10" Description="使能填充错误中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：禁止中断" />
+        <Bit Name="TXOK" Authority="RW" Bits="9" Description="使能报文发送成功中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：禁止中断" />
+        <Bit Name="RXOK" Authority="RW" Bits="8" Description="使能报文接收成功中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：禁止中断" />
+        <Bit Name="ACTVT" Authority="RW" Bits="4" Description="使能活动转换中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：禁止中断" />
+        <Bit Name="BUSOFFTR" Authority="RW" Bits="3" Description="使能总线关闭转换中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：禁止中断" />
+        <Bit Name="ERPASSTR" Authority="RW" Bits="2" Description="使能错误被动转换中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：禁止中断" />
+        <Bit Name="ERWARNTR" Authority="RW" Bits="1" Description="使能错误被动警告转换中断&#xD;&#xA;0h：无效&#xD;&#xA;1h：禁止中断" />
       </Register>
-      <Register Name="CAN_IMR" Authority="RW" Address="0x4007007c" Width="32" Description="CAN中断状态寄存器">
+      <Register Name="CAN_IMR" Authority="RW" Address="0x4007007c" Width="32" Description="CAN中断使能状态寄存器">
         <Bit Name="CRC" Authority="RO" Bits="15" Description="CRC错误中断使能状态&#xD;&#xA;0h：禁止&#xD;&#xA;1h：使能" />
         <Bit Name="BIT0" Authority="RO" Bits="14" Description="位低错误中断使能状态&#xD;&#xA;0h：禁止&#xD;&#xA;1h：使能" />
         <Bit Name="BIT1" Authority="RO" Bits="13" Description="位高错误中断使能状态&#xD;&#xA;0h：禁止&#xD;&#xA;1h：使能" />
@@ -1682,7 +1683,7 @@
         <Bit Name="CH2" Authority="RW" Bits="1" Description="通道2中断" />
         <Bit Name="CH1" Authority="RW" Bits="0" Description="通道1中断" />
       </Register>
-      <Register Name="CAN_SIMR" Authority="RW" Address="0x40070090" Width="32" Description="CAN源中断状态寄存器">
+      <Register Name="CAN_SIMR" Authority="RW" Address="0x40070090" Width="32" Description="CAN源中断使能状态寄存器">
         <Bit Name="CH32" Authority="" Bits="31" Description="通道32中断" />
         <Bit Name="CH31" Authority="" Bits="30" Description="通道31中断" />
         <Bit Name="CH30" Authority="" Bits="29" Description="通道30中断" />
@@ -1764,7 +1765,8 @@
         <Bit Name="MSGLST" Authority="RW" Bits="14" Description="报文丢失&#xD;&#xA;0h：没有报文丢失&#xD;&#xA;1h：报文处理器在NEWDAT仍然为1的时候载入了一个新的报文。CPU丢失报文。&#xD;&#xA;该位只有在报文方向为接收时有效。" />
         <Bit Name="ITPND" Authority="RW" Bits="13" Description="中断挂起&#xD;&#xA;0h：该报文没有发生中断事件&#xD;&#xA;1h：该报文发生了中断事件" />
         <Bit Name="UMASK" Authority="RW" Bits="12" Description="使用接收过滤掩码&#xD;&#xA;0h：不使用掩码&#xD;&#xA;1h：使用掩码（BASEMASK, EXTMASK, MXTD and MMDIR）" />
-        <Bit Name="RXIE" Authority="RW" Bits="11" Description="接收中断使能&#xD;&#xA;0h：在成功接收到一个帧时，ITPND保持不变&#xD;&#xA;1h：在成功接收到一个帧时，ITPND置位" />
+        <Bit Name="TXIE" Authority="RW" Bits="11" Description="发送中断使能&#xD;&#xA;0h：在成功发送一个帧时，ITPND保持不变&#xD;&#xA;1h：在成功发送一个帧时，ITPND置位" />
+        <Bit Name="RXIE" Authority="RW" Bits="10" Description="接收中断使能&#xD;&#xA;0h：在成功接收到一个帧时，ITPND保持不变&#xD;&#xA;1h：在成功接收到一个帧时，ITPND置位" />
         <Bit Name="RMTEN" Authority="RW" Bits="9" Description="远程使能&#xD;&#xA;0h：在接收到远程帧时，TXRQST位保持不变&#xD;&#xA;1h：在接收到远程帧时，置位TXRQST" />
         <Bit Name="TXRQST" Authority="RW" Bits="8" Description="传输请求&#xD;&#xA;0h：报文对象没有有等待发送&#xD;&#xA;1h：报文对象已经请求发送，但还没有发送完成" />
         <Bit Name="OVERWRITE" Authority="RW" Bits="7" Description="覆盖模式&#xD;&#xA;0h：报文对象处于正常模式。此模式下，新来的帧不会覆盖之前的帧&#xD;&#xA;1h：报文对象处于覆盖模式。在该模式下，新来的帧会覆盖之前的帧&#xD;&#xA;这个控制位，用来将2个或2个以上的报文（最多32个）级联成一个FIFO缓存。对于不属于FIFO缓存的报文对象，，这一位必须始终为0。" />
@@ -1813,7 +1815,8 @@
         <Bit Name="MSGLST" Authority="RW" Bits="14" Description="报文丢失&#xD;&#xA;0h：没有报文丢失&#xD;&#xA;1h：报文处理器在NEWDAT仍然为1的时候载入了一个新的报文。CPU丢失报文。&#xD;&#xA;该位只有在报文方向为接收时有效。" />
         <Bit Name="ITPND" Authority="RW" Bits="13" Description="中断挂起&#xD;&#xA;0h：该报文没有发生中断事件&#xD;&#xA;1h：该报文发生了中断事件" />
         <Bit Name="UMASK" Authority="RW" Bits="12" Description="使用接收过滤掩码&#xD;&#xA;0h：不使用掩码&#xD;&#xA;1h：使用掩码（BASEMASK, EXTMASK, MXTD and MMDIR）" />
-        <Bit Name="RXIE" Authority="RW" Bits="11" Description="接收中断使能&#xD;&#xA;0h：在成功接收到一个帧时，ITPND保持不变&#xD;&#xA;1h：在成功接收到一个帧时，ITPND置位" />
+        <Bit Name="TXIE" Authority="RW" Bits="11" Description="发送中断使能&#xD;&#xA;0h：在成功发送一个帧时，ITPND保持不变&#xD;&#xA;1h：在成功发送一个帧时，ITPND置位" />
+        <Bit Name="RXIE" Authority="RW" Bits="10" Description="接收中断使能&#xD;&#xA;0h：在成功接收到一个帧时，ITPND保持不变&#xD;&#xA;1h：在成功接收到一个帧时，ITPND置位" />
         <Bit Name="RMTEN" Authority="RW" Bits="9" Description="远程使能&#xD;&#xA;0h：在接收到远程帧时，TXRQST位保持不变&#xD;&#xA;1h：在接收到远程帧时，置位TXRQST" />
         <Bit Name="TXRQST" Authority="RW" Bits="8" Description="传输请求&#xD;&#xA;0h：报文对象没有有等待发送&#xD;&#xA;1h：报文对象已经请求发送，但还没有发送完成" />
         <Bit Name="OVERWRITE" Authority="RW" Bits="7" Description="覆盖模式&#xD;&#xA;0h：报文对象处于正常模式。此模式下，新来的帧不会覆盖之前的帧&#xD;&#xA;1h：报文对象处于覆盖模式。在该模式下，新来的帧会覆盖之前的帧&#xD;&#xA;这个控制位，用来将2个或2个以上的报文（最多32个）级联成一个FIFO缓存。对于不属于FIFO缓存的报文对象，，这一位必须始终为0。" />
@@ -1856,77 +1859,77 @@
         <Bit Name="CH2" Authority="" Bits="1" Description="通道2发送请求" />
         <Bit Name="CH1" Authority="" Bits="0" Description="通道1发送请求" />
       </Register>
-      <Register Name="CAN_NDR" Authority="RW" Address="0x40070144" Width="32" Description="CAN发送请求寄存器">
-        <Bit Name="CH32" Authority="" Bits="31" Description="通道x报文有效性" />
-        <Bit Name="CH31" Authority="" Bits="30" Description="通道x报文有效性" />
-        <Bit Name="CH30" Authority="" Bits="29" Description="通道x报文有效性" />
-        <Bit Name="CH29" Authority="" Bits="28" Description="通道x报文有效性" />
-        <Bit Name="CH28" Authority="" Bits="27" Description="通道x报文有效性" />
-        <Bit Name="CH27" Authority="" Bits="26" Description="通道x报文有效性" />
-        <Bit Name="CH26" Authority="" Bits="25" Description="通道x报文有效性" />
-        <Bit Name="CH25" Authority="" Bits="24" Description="通道x报文有效性" />
-        <Bit Name="CH24" Authority="" Bits="23" Description="通道x报文有效性" />
-        <Bit Name="CH23" Authority="" Bits="22" Description="通道x报文有效性" />
-        <Bit Name="CH22" Authority="" Bits="21" Description="通道x报文有效性" />
-        <Bit Name="CH21" Authority="" Bits="20" Description="通道x报文有效性" />
-        <Bit Name="CH20" Authority="" Bits="19" Description="通道x报文有效性" />
-        <Bit Name="CH19" Authority="" Bits="18" Description="通道x报文有效性" />
-        <Bit Name="CH18" Authority="" Bits="17" Description="通道x报文有效性" />
-        <Bit Name="CH17" Authority="" Bits="16" Description="通道x报文有效性" />
-        <Bit Name="CH16" Authority="" Bits="15" Description="通道x报文有效性" />
-        <Bit Name="CH15" Authority="" Bits="14" Description="通道x报文有效性" />
-        <Bit Name="CH14" Authority="" Bits="13" Description="通道x报文有效性" />
-        <Bit Name="CH13" Authority="" Bits="12" Description="通道x报文有效性" />
-        <Bit Name="CH12" Authority="" Bits="11" Description="通道x报文有效性" />
-        <Bit Name="CH11" Authority="" Bits="10" Description="通道x报文有效性" />
-        <Bit Name="CH10" Authority="" Bits="9" Description="通道x报文有效性" />
-        <Bit Name="CH9" Authority="" Bits="8" Description="通道x报文有效性" />
-        <Bit Name="CH8" Authority="" Bits="7" Description="通道x报文有效性" />
-        <Bit Name="CH7" Authority="" Bits="6" Description="通道x报文有效性" />
-        <Bit Name="CH6" Authority="" Bits="5" Description="通道x报文有效性" />
-        <Bit Name="CH5" Authority="" Bits="4" Description="通道x报文有效性" />
-        <Bit Name="CH4" Authority="" Bits="3" Description="通道x报文有效性" />
-        <Bit Name="CH3" Authority="" Bits="2" Description="通道x报文有效性" />
-        <Bit Name="CH2" Authority="" Bits="1" Description="通道x报文有效性" />
-        <Bit Name="CH1" Authority="" Bits="0" Description="通道x报文有效性" />
+      <Register Name="CAN_NDR" Authority="RW" Address="0x40070144" Width="32" Description="CAN接收报文有效寄存器">
+        <Bit Name="CH32" Authority="RO" Bits="31" Description="通道x报文有效性" />
+        <Bit Name="CH31" Authority="RO" Bits="30" Description="通道x报文有效性" />
+        <Bit Name="CH30" Authority="RO" Bits="29" Description="通道x报文有效性" />
+        <Bit Name="CH29" Authority="RO" Bits="28" Description="通道x报文有效性" />
+        <Bit Name="CH28" Authority="RO" Bits="27" Description="通道x报文有效性" />
+        <Bit Name="CH27" Authority="RO" Bits="26" Description="通道x报文有效性" />
+        <Bit Name="CH26" Authority="RO" Bits="25" Description="通道x报文有效性" />
+        <Bit Name="CH25" Authority="RO" Bits="24" Description="通道x报文有效性" />
+        <Bit Name="CH24" Authority="RO" Bits="23" Description="通道x报文有效性" />
+        <Bit Name="CH23" Authority="RO" Bits="22" Description="通道x报文有效性" />
+        <Bit Name="CH22" Authority="RO" Bits="21" Description="通道x报文有效性" />
+        <Bit Name="CH21" Authority="RO" Bits="20" Description="通道x报文有效性" />
+        <Bit Name="CH20" Authority="RO" Bits="19" Description="通道x报文有效性" />
+        <Bit Name="CH19" Authority="RO" Bits="18" Description="通道x报文有效性" />
+        <Bit Name="CH18" Authority="RO" Bits="17" Description="通道x报文有效性" />
+        <Bit Name="CH17" Authority="RO" Bits="16" Description="通道x报文有效性" />
+        <Bit Name="CH16" Authority="RO" Bits="15" Description="通道x报文有效性" />
+        <Bit Name="CH15" Authority="RO" Bits="14" Description="通道x报文有效性" />
+        <Bit Name="CH14" Authority="RO" Bits="13" Description="通道x报文有效性" />
+        <Bit Name="CH13" Authority="RO" Bits="12" Description="通道x报文有效性" />
+        <Bit Name="CH12" Authority="RO" Bits="11" Description="通道x报文有效性" />
+        <Bit Name="CH11" Authority="RO" Bits="10" Description="通道x报文有效性" />
+        <Bit Name="CH10" Authority="RO" Bits="9" Description="通道x报文有效性" />
+        <Bit Name="CH9" Authority="RO" Bits="8" Description="通道x报文有效性" />
+        <Bit Name="CH8" Authority="RO" Bits="7" Description="通道x报文有效性" />
+        <Bit Name="CH7" Authority="RO" Bits="6" Description="通道x报文有效性" />
+        <Bit Name="CH6" Authority="RO" Bits="5" Description="通道x报文有效性" />
+        <Bit Name="CH5" Authority="RO" Bits="4" Description="通道x报文有效性" />
+        <Bit Name="CH4" Authority="RO" Bits="3" Description="通道x报文有效性" />
+        <Bit Name="CH3" Authority="RO" Bits="2" Description="通道x报文有效性" />
+        <Bit Name="CH2" Authority="RO" Bits="1" Description="通道x报文有效性" />
+        <Bit Name="CH1" Authority="RO" Bits="0" Description="通道x报文有效性" />
       </Register>
-      <Register Name="CAN_MVR" Authority="RW" Address="0x40070148" Width="32" Description="CAN发送请求寄存器">
-        <Bit Name="CH32" Authority="" Bits="31" Description="通道x新数据状态" />
-        <Bit Name="CH31" Authority="" Bits="30" Description="通道x新数据状态" />
-        <Bit Name="CH30" Authority="" Bits="29" Description="通道x新数据状态" />
-        <Bit Name="CH29" Authority="" Bits="28" Description="通道x新数据状态" />
-        <Bit Name="CH28" Authority="" Bits="27" Description="通道x新数据状态" />
-        <Bit Name="CH27" Authority="" Bits="26" Description="通道x新数据状态" />
-        <Bit Name="CH26" Authority="" Bits="25" Description="通道x新数据状态" />
-        <Bit Name="CH25" Authority="" Bits="24" Description="通道x新数据状态" />
-        <Bit Name="CH24" Authority="" Bits="23" Description="通道x新数据状态" />
-        <Bit Name="CH23" Authority="" Bits="22" Description="通道x新数据状态" />
-        <Bit Name="CH22" Authority="" Bits="21" Description="通道x新数据状态" />
-        <Bit Name="CH21" Authority="" Bits="20" Description="通道x新数据状态" />
-        <Bit Name="CH20" Authority="" Bits="19" Description="通道x新数据状态" />
-        <Bit Name="CH19" Authority="" Bits="18" Description="通道x新数据状态" />
-        <Bit Name="CH18" Authority="" Bits="17" Description="通道x新数据状态" />
-        <Bit Name="CH17" Authority="" Bits="16" Description="通道x新数据状态" />
-        <Bit Name="CH16" Authority="" Bits="15" Description="通道x新数据状态" />
-        <Bit Name="CH15" Authority="" Bits="14" Description="通道x新数据状态" />
-        <Bit Name="CH14" Authority="" Bits="13" Description="通道x新数据状态" />
-        <Bit Name="CH13" Authority="" Bits="12" Description="通道x新数据状态" />
-        <Bit Name="CH12" Authority="" Bits="11" Description="通道x新数据状态" />
-        <Bit Name="CH11" Authority="" Bits="10" Description="通道x新数据状态" />
-        <Bit Name="CH10" Authority="" Bits="9" Description="通道x新数据状态" />
-        <Bit Name="CH9" Authority="" Bits="8" Description="通道x新数据状态" />
-        <Bit Name="CH8" Authority="" Bits="7" Description="通道x新数据状态" />
-        <Bit Name="CH7" Authority="" Bits="6" Description="通道x新数据状态" />
-        <Bit Name="CH6" Authority="" Bits="5" Description="通道x新数据状态" />
-        <Bit Name="CH5" Authority="" Bits="4" Description="通道x新数据状态" />
-        <Bit Name="CH4" Authority="" Bits="3" Description="通道x新数据状态" />
-        <Bit Name="CH3" Authority="" Bits="2" Description="通道x新数据状态" />
-        <Bit Name="CH2" Authority="" Bits="1" Description="通道x新数据状态" />
-        <Bit Name="CH1" Authority="" Bits="0" Description="通道x新数据状态" />
+      <Register Name="CAN_MVR" Authority="RW" Address="0x40070148" Width="32" Description="CAN报文有效寄存器">
+        <Bit Name="CH32" Authority="RO" Bits="31" Description="通道x新数据状态" />
+        <Bit Name="CH31" Authority="RO" Bits="30" Description="通道x新数据状态" />
+        <Bit Name="CH30" Authority="RO" Bits="29" Description="通道x新数据状态" />
+        <Bit Name="CH29" Authority="RO" Bits="28" Description="通道x新数据状态" />
+        <Bit Name="CH28" Authority="RO" Bits="27" Description="通道x新数据状态" />
+        <Bit Name="CH27" Authority="RO" Bits="26" Description="通道x新数据状态" />
+        <Bit Name="CH26" Authority="RO" Bits="25" Description="通道x新数据状态" />
+        <Bit Name="CH25" Authority="RO" Bits="24" Description="通道x新数据状态" />
+        <Bit Name="CH24" Authority="RO" Bits="23" Description="通道x新数据状态" />
+        <Bit Name="CH23" Authority="RO" Bits="22" Description="通道x新数据状态" />
+        <Bit Name="CH22" Authority="RO" Bits="21" Description="通道x新数据状态" />
+        <Bit Name="CH21" Authority="RO" Bits="20" Description="通道x新数据状态" />
+        <Bit Name="CH20" Authority="RO" Bits="19" Description="通道x新数据状态" />
+        <Bit Name="CH19" Authority="RO" Bits="18" Description="通道x新数据状态" />
+        <Bit Name="CH18" Authority="RO" Bits="17" Description="通道x新数据状态" />
+        <Bit Name="CH17" Authority="RO" Bits="16" Description="通道x新数据状态" />
+        <Bit Name="CH16" Authority="RO" Bits="15" Description="通道x新数据状态" />
+        <Bit Name="CH15" Authority="RO" Bits="14" Description="通道x新数据状态" />
+        <Bit Name="CH14" Authority="RO" Bits="13" Description="通道x新数据状态" />
+        <Bit Name="CH13" Authority="RO" Bits="12" Description="通道x新数据状态" />
+        <Bit Name="CH12" Authority="RO" Bits="11" Description="通道x新数据状态" />
+        <Bit Name="CH11" Authority="RO" Bits="10" Description="通道x新数据状态" />
+        <Bit Name="CH10" Authority="RO" Bits="9" Description="通道x新数据状态" />
+        <Bit Name="CH9" Authority="RO" Bits="8" Description="通道x新数据状态" />
+        <Bit Name="CH8" Authority="RO" Bits="7" Description="通道x新数据状态" />
+        <Bit Name="CH7" Authority="RO" Bits="6" Description="通道x新数据状态" />
+        <Bit Name="CH6" Authority="RO" Bits="5" Description="通道x新数据状态" />
+        <Bit Name="CH5" Authority="RO" Bits="4" Description="通道x新数据状态" />
+        <Bit Name="CH4" Authority="RO" Bits="3" Description="通道x新数据状态" />
+        <Bit Name="CH3" Authority="RO" Bits="2" Description="通道x新数据状态" />
+        <Bit Name="CH2" Authority="RO" Bits="1" Description="通道x新数据状态" />
+        <Bit Name="CH1" Authority="RO" Bits="0" Description="通道x新数据状态" />
       </Register>
       <Register Name="CAN_TSTR" Authority="RW" Address="0x4007014c" Width="32" Description="CAN测试寄存器">
         <Bit Name="TSTKEY" Authority="RW" Bits="31-16" Description="测试寄存器KEY&#xD;&#xA;只有在写入CAN_TSTR时有效。读时为0。&#xD;&#xA;0x0C75：CAN_TSTR可以写入&#xD;&#xA;其他值：CAN_TSTR不可以写入" />
-        <Bit Name="RX" Authority="RW" Bits="6" Description="CAN_RX管脚电平值&#xD;&#xA;0h：显性（CAN_RX = ‘0’）&#xD;&#xA;1h：隐性（CAN_RX = ‘1’）" />
+        <Bit Name="RX" Authority="RO" Bits="6" Description="CAN_RX管脚电平值&#xD;&#xA;0h：显性（CAN_RX = ‘0’）&#xD;&#xA;1h：隐性（CAN_RX = ‘1’）" />
         <Bit Name="TXOPD" Authority="RW" Bits="5" Description="CAN_TX管脚开漏&#xD;&#xA;0h：CAN_TX管脚不配置为开漏输出&#xD;&#xA;1h：CAN_TX管脚配置为开漏输出。这允许将CAN控制器在没有外部收发器的情况下直接连接或工作于3.3V时仍然可以通过外部上拉电阻正常驱动5V的收发器。&#xD;&#xA;注意：这个控制位在切换时，需要关闭CAN，从而避免在CAN_TX管脚上次产生毛刺。" />
         <Bit Name="TX" Authority="" Bits="4-3" Description="CAN_TX管脚的控制&#xD;&#xA;当CAN在进行报文传输，或处于任何一个测试模式时（基础、回环或静默模式），CAN_TX必须处理其默认功能。CAN_TX的三种测试功能（监控、输出0，输出1）可以在其他所有CAN协议功能下使用。&#xD;&#xA;TX[1:0]	控制&#xD;&#xA;00	CAN核控制CAN_TX的状态&#xD;&#xA;01	CAN_TX监控采样点 (CAN控制器应处于使能状态）&#xD;&#xA;10	CAN_TX 输出显性值 (‘0’) &#xD;&#xA;11	CAN_TX 输出隐性值 (‘1’)" />
         <Bit Name="LBACK" Authority="RW" Bits="2" Description="回环模式&#xD;&#xA;0h：不使用回环模式&#xD;&#xA;1h：使用回环模式" />
@@ -5717,20 +5720,20 @@
       </Register>
       <Register Name="IIS_SCCR" Authority="RW" Address="0x40451018" Width="32" Description="采样压缩控制寄存器">
         <Bit Name="TVCCR" Authority="RW" Bits="12-8" Description="TX音频数据位移配置:&#xD;&#xA;将8/16/24/32位音频数据右移，用最高位补齐:&#xD;&#xA;0h:不位移&#xD;&#xA;1h:8/16/24/32 bits数据右移1位为7/15/23/31 bits数据&#xD;&#xA;2h:8/16/24/32 bits数据右移2位为6/14/22/30 bits数据&#xD;&#xA;...&#xD;&#xA;7h:8/16/24/32 bits数据右移7位为1/9/17/25 bits数据&#xD;&#xA;...&#xD;&#xA;fh:8/16/24/32 bits数据右移15位为0/1/9/17 bits数据" />
-        <Bit Name="SSRCR" Authority="RW" Bits="6-5" Description="RX数据压缩配置:&#xD;&#xA;0h:不压缩&#xD;&#xA;1h:每两个数据丢弃一个数据&#xD;&#xA;2h:每三个数据丢弃一个数据&#xD;&#xA;3h:不压缩" />
+        <Bit Name="SSRCR" Authority="RW" Bits="6-5" Description="RX数据压缩配置:&#xD;&#xA;0h:不压缩&#xD;&#xA;1h:每两个数据保留一个数据&#xD;&#xA;2h:每三个数据保留一个数据&#xD;&#xA;3h:不压缩" />
         <Bit Name="RVCCR" Authority="RW" Bits="4-0" Description="RX音频数据位移配置:&#xD;&#xA;将8/16/24/32位音频数据右移，用最高位补齐:&#xD;&#xA;0h:不位移&#xD;&#xA;1h:8/16/24/32 bits数据右移1位为7/15/23/31 bits数据&#xD;&#xA;2h:8/16/24/32 bits数据右移2位为6/14/22/30 bits数据&#xD;&#xA;...&#xD;&#xA;7h:8/16/24/32 bits数据右移7位为1/9/17/25 bits数据&#xD;&#xA;...&#xD;&#xA;fh:8/16/24/32 bits数据右移15位为0/1/9/17 bits数据" />
       </Register>
       <Register Name="IIS_TX_FLSEL" Authority="RW" Address="0x4045101c" Width="32" Description="发送数据FIFO阈值配置寄存器">
         <Bit Name="TFT" Authority="RW" Bits="4-0" Description="TX FIFO阈值配置:&#xD;&#xA;当TX FIFO中数据数量小于或等于该值，将产生中断。配置范围0-31，默认值16" />
       </Register>
       <Register Name="IIS_RX_FLSEL" Authority="RW" Address="0x40451020" Width="32" Description="接收数据FIFO阈值配置寄存器">
-        <Bit Name="RFT" Authority="RO" Bits="5-0" Description="RX FIFO阈值配置:&#xD;&#xA;当RX FIFO中数据数量小于或等于该值，将产生中断。配置范围0-31，默认值16" />
+        <Bit Name="RFT" Authority="RO" Bits="4-0" Description="RX FIFO阈值配置:&#xD;&#xA;当RX FIFO中数据数量小于或等于该值，将产生中断。配置范围0-31，默认值16" />
       </Register>
       <Register Name="IIS_TX_FL" Authority="RW" Address="0x40451024" Width="32" Description="发送数据FIFO数据量状态寄存器">
         <Bit Name="TXTFL" Authority="RO" Bits="5-0" Description="TX FIFO数据量寄存器&#xD;&#xA;表示当前TX FIFO中数据的数量" />
       </Register>
       <Register Name="IIS_RX_FL" Authority="RW" Address="0x40451028" Width="32" Description="接收数据FIFO数据量状态寄存器">
-        <Bit Name="RXTFL" Authority="RW" Bits="4-0" Description="RX FIFO数据量寄存器&#xD;&#xA;表示当前RX FIFO中数据的数量" />
+        <Bit Name="RXTFL" Authority="RW" Bits="5-0" Description="RX FIFO数据量寄存器&#xD;&#xA;表示当前RX FIFO中数据的数量" />
       </Register>
       <Register Name="IIS_SR" Authority="RW" Address="0x4045102c" Width="32" Description="状态寄存器">
         <Bit Name="RFF" Authority="RO" Bits="5" Description="RX FIFO满状态&#xD;&#xA;0 - RX FIFO非满&#xD;&#xA;1 - RX FIFO满" />
@@ -5849,20 +5852,20 @@
       </Register>
       <Register Name="IIS_SCCR" Authority="RW" Address="0x40452018" Width="32" Description="采样压缩控制寄存器">
         <Bit Name="TVCCR" Authority="RW" Bits="12-8" Description="TX音频数据位移配置:&#xD;&#xA;将8/16/24/32位音频数据右移，用最高位补齐:&#xD;&#xA;0h:不位移&#xD;&#xA;1h:8/16/24/32 bits数据右移1位为7/15/23/31 bits数据&#xD;&#xA;2h:8/16/24/32 bits数据右移2位为6/14/22/30 bits数据&#xD;&#xA;...&#xD;&#xA;7h:8/16/24/32 bits数据右移7位为1/9/17/25 bits数据&#xD;&#xA;...&#xD;&#xA;fh:8/16/24/32 bits数据右移15位为0/1/9/17 bits数据" />
-        <Bit Name="SSRCR" Authority="RW" Bits="6-5" Description="RX数据压缩配置:&#xD;&#xA;0h:不压缩&#xD;&#xA;1h:每两个数据丢弃一个数据&#xD;&#xA;2h:每三个数据丢弃一个数据&#xD;&#xA;3h:不压缩" />
+        <Bit Name="SSRCR" Authority="RW" Bits="6-5" Description="RX数据压缩配置:&#xD;&#xA;0h:不压缩&#xD;&#xA;1h:每两个数据保留一个数据&#xD;&#xA;2h:每三个数据保留一个数据&#xD;&#xA;3h:不压缩" />
         <Bit Name="RVCCR" Authority="RW" Bits="4-0" Description="RX音频数据位移配置:&#xD;&#xA;将8/16/24/32位音频数据右移，用最高位补齐:&#xD;&#xA;0h:不位移&#xD;&#xA;1h:8/16/24/32 bits数据右移1位为7/15/23/31 bits数据&#xD;&#xA;2h:8/16/24/32 bits数据右移2位为6/14/22/30 bits数据&#xD;&#xA;...&#xD;&#xA;7h:8/16/24/32 bits数据右移7位为1/9/17/25 bits数据&#xD;&#xA;...&#xD;&#xA;fh:8/16/24/32 bits数据右移15位为0/1/9/17 bits数据" />
       </Register>
       <Register Name="IIS_TX_FLSEL" Authority="RW" Address="0x4045201c" Width="32" Description="发送数据FIFO阈值配置寄存器">
         <Bit Name="TFT" Authority="RW" Bits="4-0" Description="TX FIFO阈值配置:&#xD;&#xA;当TX FIFO中数据数量小于或等于该值，将产生中断。配置范围0-31，默认值16" />
       </Register>
       <Register Name="IIS_RX_FLSEL" Authority="RW" Address="0x40452020" Width="32" Description="接收数据FIFO阈值配置寄存器">
-        <Bit Name="RFT" Authority="RO" Bits="5-0" Description="RX FIFO阈值配置:&#xD;&#xA;当RX FIFO中数据数量小于或等于该值，将产生中断。配置范围0-31，默认值16" />
+        <Bit Name="RFT" Authority="RO" Bits="4-0" Description="RX FIFO阈值配置:&#xD;&#xA;当RX FIFO中数据数量小于或等于该值，将产生中断。配置范围0-31，默认值16" />
       </Register>
       <Register Name="IIS_TX_FL" Authority="RW" Address="0x40452024" Width="32" Description="发送数据FIFO数据量状态寄存器">
         <Bit Name="TXTFL" Authority="RO" Bits="5-0" Description="TX FIFO数据量寄存器&#xD;&#xA;表示当前TX FIFO中数据的数量" />
       </Register>
       <Register Name="IIS_RX_FL" Authority="RW" Address="0x40452028" Width="32" Description="接收数据FIFO数据量状态寄存器">
-        <Bit Name="RXTFL" Authority="RW" Bits="4-0" Description="RX FIFO数据量寄存器&#xD;&#xA;表示当前RX FIFO中数据的数量" />
+        <Bit Name="RXTFL" Authority="RW" Bits="5-0" Description="RX FIFO数据量寄存器&#xD;&#xA;表示当前RX FIFO中数据的数量" />
       </Register>
       <Register Name="IIS_SR" Authority="RW" Address="0x4045202c" Width="32" Description="状态寄存器">
         <Bit Name="RFF" Authority="RO" Bits="5" Description="RX FIFO满状态&#xD;&#xA;0 - RX FIFO非满&#xD;&#xA;1 - RX FIFO满" />

@@ -12,6 +12,7 @@
 
 /* Includes ---------------------------------------------------------------*/
 #include <drv/can.h>
+#include <irq.h>
 
 /* Private function--------------------------------------------------------*/
 static void apt_can_msg_clr(csp_can_t *ptCanBase);
@@ -191,6 +192,7 @@ void csi_can_close(csp_can_t *ptCanBase)
  */
 void csi_can_int_enable(csp_can_t *ptCanBase, csi_can_intsrc_e eStaIntSrc)
 {
+	csi_irq_enable((uint32_t *)ptCanBase);
 	csp_can_int_enable(ptCanBase, (can_int_e)eStaIntSrc);
 }
 /** \brief can interrupt(message status) disable
@@ -202,6 +204,7 @@ void csi_can_int_enable(csp_can_t *ptCanBase, csi_can_intsrc_e eStaIntSrc)
 void csi_can_int_disable(csp_can_t *ptCanBase, csi_can_intsrc_e eStaIntSrc)
 {
 	csp_can_int_disable(ptCanBase, (can_int_e)eStaIntSrc);
+	csi_irq_disable((uint32_t *)ptCanBase);
 }
 /** \brief can message channel interrupt enable
  * 
@@ -277,7 +280,7 @@ void csi_can_msg_send(csp_can_t *ptCanBase, csi_can_ch_e eChNum, uint8_t byDataL
 {
 	uint32_t wMcrVal;
 	
-	//read MCR reg
+	//read MCR reg -- must read before update MCR reg!!!
 	csp_can_clr_sr(CAN0, CAN_INT_TXOK);											//clear TXOK status 
 	csp_can_set_tmr(ptCanBase, eChNum, CAN_IF1, CAN_AMCR_MSK);
 	while(csp_can_get_sr(ptCanBase) & CAN_STA_BUSY1);
@@ -302,7 +305,7 @@ void csi_can_msg_send_int(csp_can_t *ptCanBase, csi_can_ch_e eChNum, uint8_t byD
 	csp_can_clr_sr(CAN0, CAN_INT_ERR_ALL);							//clear all error status interrupt 
 	csp_can_int_enable(ptCanBase, CAN_INT_ERR_ALL);					//enable all error status interrupt
 	csp_can_ch_int_enable(ptCanBase, (0x01ul << (eChNum -1)));		//enable channel interrupt
-	//read MCR reg
+	//read MCR reg-- must read before update MCR reg!!!
 	csp_can_set_tmr(ptCanBase, eChNum, CAN_IF1, CAN_AMCR_MSK);
 	while(csp_can_get_sr(ptCanBase) & CAN_STA_BUSY1);
 	wMcrVal = (csp_can_get_mcr(ptCanBase) & 0xfe80);
@@ -346,7 +349,7 @@ void csi_can_msg_receive_int(csp_can_t *ptCanBase, csi_can_recv_t *ptRecv, uint8
  */ 
 void csi_can_set_adata(csp_can_t *ptCanBase, csi_can_ch_e eChNum, uint8_t *pbyData)
 {
-	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_ADAR_MSK);				//first read
+	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_ADAR_MSK);				//first read-- must read before update TMR reg!!!
 	while(csp_can_get_sr(ptCanBase) & CAN_STA_BUSY1);
 	
 	csp_can_set_adata(ptCanBase, pbyData);						
@@ -362,7 +365,7 @@ void csi_can_set_adata(csp_can_t *ptCanBase, csi_can_ch_e eChNum, uint8_t *pbyDa
  */ 
 void csi_can_set_bdata(csp_can_t *ptCanBase, csi_can_ch_e eChNum, uint8_t *pbyData)
 {
-	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_ADBR_MSK);				//first read
+	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_ADBR_MSK);				//first read-- must read before update TMR reg!!!
 	while(csp_can_get_sr(ptCanBase) & CAN_STA_BUSY1);
 	
 	csp_can_set_bdata(ptCanBase, pbyData);						
@@ -378,7 +381,7 @@ void csi_can_set_bdata(csp_can_t *ptCanBase, csi_can_ch_e eChNum, uint8_t *pbyDa
  */ 
 void csi_can_set_msk(csp_can_t *ptCanBase, csi_can_ch_e eChNum, csi_can_msk_config_t *ptMsk)
 {
-	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_AMSKR_MSK);				//first read
+	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_AMSKR_MSK);				//first read -- must read before update TMR reg!!!
 	while(csp_can_get_sr(ptCanBase) & CAN_STA_BUSY1);
 	//csp_can_get_mskr(ptCanBase);
 	csp_can_set_msk_mode(ptCanBase, ptMsk->wExtIdMsk, ptMsk->hwStdIdMsk, CAN_MMDIR_DIS, (can_mxtd_e)ptMsk->eIdMdMsk);
@@ -394,7 +397,7 @@ void csi_can_set_msk(csp_can_t *ptCanBase, csi_can_ch_e eChNum, csi_can_msk_conf
  */ 
 void csi_can_set_id(csp_can_t *ptCanBase, csi_can_ch_e eChNum, csi_can_id_config_t *ptId)
 {
-	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_AIR_MSK);				//first read
+	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_AIR_MSK);				//first read -- must read before update TMR reg!!!
 	while(csp_can_get_sr(ptCanBase) & CAN_STA_BUSY1);
 	//csp_can_get_ir(ptCanBase);
 	csp_can_set_id_mode(ptCanBase, ptId->wExtId, ptId->hwStdId, (can_mdir_e)ptId->eMsgDir, (can_xtd_e)ptId->eIdMode, CAN_MSGVAL_VALID);
@@ -410,7 +413,7 @@ void csi_can_set_id(csp_can_t *ptCanBase, csi_can_ch_e eChNum, csi_can_id_config
  */ 
 void csi_can_set_mc_tx(csp_can_t *ptCanBase, csi_can_ch_e eChNum, csi_can_mc_tx_config_t *ptMcr)
 {
-	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_AMCR_MSK);				//first read
+	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_AMCR_MSK);				//first read -- must read before update TMR reg!!!
 	while(csp_can_get_sr(ptCanBase) & CAN_STA_BUSY1);
 	
 	csp_can_set_mcr_tx(ptCanBase, ptMcr->byDataLen, ptMcr->bTxReqEn, ptMcr->bTxIeEn, ptMcr->bRmtEn);
@@ -426,7 +429,7 @@ void csi_can_set_mc_tx(csp_can_t *ptCanBase, csi_can_ch_e eChNum, csi_can_mc_tx_
  */ 
 void csi_can_set_mc_rx(csp_can_t *ptCanBase, csi_can_ch_e eChNum, csi_can_mc_rx_config_t *ptMcr)
 {
-	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_AMCR_MSK);				//first read
+	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_AMCR_MSK);				//first read -- must read before update TMR reg!!!
 	while(csp_can_get_sr(ptCanBase) & CAN_STA_BUSY1);
 	
 	csp_can_set_mcr_rx(ptCanBase, ptMcr->byDataLen, ptMcr->bOverWrEn, ptMcr->bRxIeEn, ptMcr->bMskEn);
@@ -443,7 +446,7 @@ void csi_can_set_mc_rx(csp_can_t *ptCanBase, csi_can_ch_e eChNum, csi_can_mc_rx_
 void csi_can_msg_valid_enable(csp_can_t *ptCanBase, csi_can_ch_e eChNum, bool bEnbale)
 {
 	uint32_t wIrVal;
-	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_AIR_MSK);					//first read
+	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_AIR_MSK);					//first read -- must read before update TMR reg!!!
 	while(csp_can_get_sr(ptCanBase) & CAN_STA_BUSY1);
 	wIrVal = csp_can_get_ir(ptCanBase) ;
 	
@@ -460,7 +463,7 @@ void csi_can_msg_valid_enable(csp_can_t *ptCanBase, csi_can_ch_e eChNum, bool bE
 void csi_can_txrqst_enable(csp_can_t *ptCanBase, csi_can_ch_e eChNum)
 {
 	uint32_t wMcrVal;
-	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_AMCR_MSK);			//first read
+	csp_can_set_tmr(ptCanBase, eChNum, 1, CAN_AMCR_MSK);			//first read -- must read before update TMR reg!!!
 	while(csp_can_get_sr(ptCanBase) & CAN_STA_BUSY1);
 	wMcrVal = csp_can_get_mcr(ptCanBase);
 	

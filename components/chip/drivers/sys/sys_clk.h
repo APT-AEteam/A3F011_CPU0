@@ -70,21 +70,21 @@ typedef enum{
 }pclk_div_e;
 
 typedef enum{
-	SCLK_DIV1	= 1,
+	SCLK_DIV1	= 0,
 	SCLK_DIV2,
 	SCLK_DIV3,
 	SCLK_DIV4,
 	SCLK_DIV5,
 	SCLK_DIV6,
 	SCLK_DIV8	=7,
-	SCLK_DIV12	=8,
-	SCLK_DIV16	=9,
-	SCLK_DIV24	=10,
-	SCLK_DIV32	=11,
-	SCLK_DIV36	=12,
-	SCLK_DIV64	=13,
-	SCLK_DIV128	=14,
-	SCLK_DIV256	=15
+	SCLK_DIV12	=11,
+	SCLK_DIV16	=15,
+	SCLK_DIV24	=23,
+	SCLK_DIV32	=31,
+	SCLK_DIV36	=36,
+	SCLK_DIV64	=63,
+	SCLK_DIV128	=127,
+	SCLK_DIV256	=255
 }hclk_div_e;
 
 /// \struct system_clk_config_t

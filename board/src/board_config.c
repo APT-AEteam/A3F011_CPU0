@@ -35,7 +35,7 @@ csi_clk_config_t g_tClkConfig =
 //	{SRC_HFOSC, HFOSC_3M_VALUE, SCLK_DIV1, PCLK_DIV1,HFOSC_3M_VALUE, HFOSC_3M_VALUE};
 //	{SRC_HF_PLL, PLLP_VALUE, SCLK_DIV1, PCLK_DIV1, PLLP_VALUE, PLLP_VALUE};
 	{SRC_EM_PLL, PLLP_VALUE, SCLK_DIV1, PCLK_DIV1, PLLP_VALUE, PLLP_VALUE};
-//	{SRC_EMOSC, EMOSC_VALUE, SCLK_DIV2, PCLK_DIV2, EMOSC_VALUE/2, EMOSC_VALUE/4};
+//{SRC_EMOSC, EMOSC_24M_VALUE, SCLK_DIV1, PCLK_DIV1, EMOSC_24M_VALUE, EMOSC_24M_VALUE};
 //	{SRC_IMOSC, IMOSC_5M_VALUE, SCLK_DIV1, PCLK_DIV1,IMOSC_5M_VALUE, IMOSC_5M_VALUE};
 //	{SRC_IMOSC, IMOSC_4M_VALUE, SCLK_DIV1, PCLK_DIV1,IMOSC_4M_VALUE, IMOSC_4M_VALUE};
 //	{SRC_IMOSC, IMOSC_2M_VALUE, SCLK_DIV1, PCLK_DIV1,IMOSC_2M_VALUE, IMOSC_2M_VALUE};
@@ -88,11 +88,11 @@ csi_clk_config_t g_tClkConfig =
 csi_pll_config_t g_tPllClkConfig = 
 //	{PLL_SEL_EMOSC_24M, 5, 48, 0,CKQ_DIV2};		//PLLP = 192M  PLLQ=100M
 //	{PLL_SEL_EMOSC_24M, 3, 30, 0,CKQ_DIV2};		//PLLP = 180M  PLLQ=90M
-	{PLL_SEL_EMOSC_24M, 3, 25, 0,CKQ_DIV2};		//PLLP = 150M  PLLQ=75M
+//	{PLL_SEL_EMOSC_24M, 3, 25, 0,CKQ_DIV2};		//PLLP = 150M  PLLQ=75M
 //	{PLL_SEL_HFOSC_24M, 3, 35, 1,CKQ_DIV4};       //PLLP = 105M  PLLQ=52.2M
 //	{PLL_SEL_HFOSC_12M, 1, 35, 1,CKQ_DIV4};
 //	{PLL_SEL_HFOSC_6M,  0, 35, 1,CKQ_DIV4};
-//	{PLL_SEL_EMOSC_24M, 3, 35, 1,CKQ_DIV4};	
+	{PLL_SEL_EMOSC_24M, 3, 35, 1,CKQ_DIV4};	
 //	{PLL_SEL_HFOSC_24M, 2, 24, 1,CKQ_DIV4};		  //PLLP = 96M  PLLQ=48M
 //	{PLL_SEL_HFOSC_24M, 2, 36, 2,CKQ_DIV6};
 //	{PLL_SEL_HFOSC_24M, 3, 32, 1,CKQ_DIV4};		  
@@ -114,22 +114,48 @@ csi_pll_config_t g_tPllClkConfig =
 //	{PLL_SEL_EMOSC_24M, 2, 36, 3,CKQ_DIV6};	
 
 /// can bit timer parameters config, Standard baud rate
-const csi_can_bittime_t  tBitTime[] = {
+const csi_can_bittime_t  g_tBitTime[] = {
 	
 	
 	//CAN clk source = pclk = 6MHz
 	//Baudrate			SyncJump	PhaseSeg1	PhaseSeg2	BaudDiv
-//	{CAN_BDR_200K, 		1, 			3,			4,			2		},			//Tq num = 10, T_bit = 5us	
-//	{CAN_BDR_250K, 		1, 			4,			5,			1		},			//Tq num = 12, T_bit = 4us
-//	{CAN_BDR_500K, 		2, 			4,			5,			0		},			//Tq num = 12, T_bit = 2us
+//	{CAN_BDR_200K, 		1, 			4,			3,			2		},			//Tq num = 10, T_bit = 5us	
+//	{CAN_BDR_250K, 		1, 			5,			4,			1		},			//Tq num = 12, T_bit = 4us
+//	{CAN_BDR_500K, 		1, 			5,			4,			0		},			//Tq num = 12, T_bit = 2us
+//	{CAN_BDR_1000K, 	1, 			2,			1,			0		},			//Tq num = 6,  T_bit = 2us
 //	{0, 				0, 			0,			0,			0		},	
 	
-	//CAN clk source = pclk = 32MHz
+	//CAN clk source = pclk = 24MHz
 	//Baudrate			SyncJump	PhaseSeg1	PhaseSeg2	BaudDiv
-	{CAN_BDR_200K, 		3, 			3,			4,			15		},			//Tq num = 10, T_bit = 5us	
-	{CAN_BDR_250K, 		2, 			2,			3,			15		},			//Tq num = 12, T_bit = 4us
-	{CAN_BDR_500K, 		2, 			2,			3,			7		},			//Tq num = 8,  T_bit = 2us
-	{0, 				0, 			0,			0,			0		},		
+//	{CAN_BDR_200K, 		1, 			5,			5,			9		},			//Tq num = 12, T_bit = 5us	
+//	{CAN_BDR_250K, 		1, 			5,			4,			7		},			//Tq num = 12, T_bit = 4us
+//	{CAN_BDR_500K, 		1, 			3,			2,			5		},			//Tq num = 8,  T_bit = 2us
+//	{CAN_BDR_1000K, 	1, 			3,			2,			2		},			//Tq num = 8,  T_bit = 1us
+//	{0, 				0, 			0,			0,			0		},	
+	
+		//CAN clk source = pclk = 48MHz
+	//Baudrate			SyncJump	PhaseSeg1	PhaseSeg2	BaudDiv
+//	{CAN_BDR_200K, 		1, 			7,			5,			15		},			//Tq num = 15, T_bit = 5us	
+//	{CAN_BDR_250K, 		1, 			5,			4,			15		},			//Tq num = 12, T_bit = 4us
+//	{CAN_BDR_500K, 		1, 			3,			2,			11		},			//Tq num = 8,  T_bit = 2us
+//	{CAN_BDR_1000K, 	1, 			3,			2,			5		},			//Tq num = 8, T_bit = 1us
+//	{0, 				0, 			0,			0,			0		},	
+	
+	//CAN clk source = pclk = 96MHz
+	//Baudrate			SyncJump	PhaseSeg1	PhaseSeg2	BaudDiv
+//	{CAN_BDR_200K, 		1, 			7,			5,			31		},			//Tq num = 15, T_bit = 5us	
+//	{CAN_BDR_250K, 		1, 			5,			4,			31		},			//Tq num = 12, T_bit = 4us
+//	{CAN_BDR_500K, 		1, 			3,			2,			23		},			//Tq num = 8,  T_bit = 2us
+//	{CAN_BDR_1000K, 	1, 			3,			2,			11		},			//Tq num = 8, T_bit = 1us
+//	{0, 				0, 			0,			0,			0		},	
+	
+	//CAN clk source = pclk = 105MHz
+	//Baudrate			SyncJump	PhaseSeg1	PhaseSeg2	BaudDiv
+	{CAN_BDR_200K, 		1, 			7,			5,			34		},			//Tq num = 15, T_bit = 5us	
+	{CAN_BDR_250K, 		1, 			5,			4,			34		},			//Tq num = 12, T_bit = 4us
+	{CAN_BDR_500K, 		1, 			6,			5,			14		},			//Tq num = 14,  T_bit = 2us
+	{CAN_BDR_1000K, 	1, 			3,			1,			14		},			//Tq num = 8, T_bit = 1us
+	{0, 				0, 			0,			0,			0		},	
 };
 
 /** \brief board initialize config; 

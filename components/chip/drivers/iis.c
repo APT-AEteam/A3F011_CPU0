@@ -370,36 +370,37 @@ csi_error_t csi_iis_recv_dma(csp_i2s_t *ptI2sBase, csi_dma_ch_e eDmaCh, void *pD
 
 static uint32_t cnt =0;
 static uint32_t txcnt =0;
-extern  uint32_t IISRxBuf[512];
+
 /** \brief iis interrupt handle 
  * 
  *  \param[in] ptI2sBase: pointer of iis register structure
  *  \return none
  */
-__attribute__((weak)) void iis_irqhandler(csp_i2s_t *ptI2sBase)
+void iis_irqhandler(csp_i2s_t *ptI2sBase)
 {
+	uint32_t IISRxBuffer[512];
 	uint32_t wIsq = csp_i2s_get_i2s_irq_status(ptI2sBase) & 0x3ff;
 	
 	if(  (wIsq & IIS_INTSRC_RXFIM )== IIS_INTSRC_RXFIM)
 	{
 		if(cnt <512)
 		{
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
-			IISRxBuf[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
+			IISRxBuffer[cnt++] = ptI2sBase->DR;
 		}
 	}
 	if(  (wIsq & IIS_INTSRC_TXEIM )== IIS_INTSRC_TXEIM)

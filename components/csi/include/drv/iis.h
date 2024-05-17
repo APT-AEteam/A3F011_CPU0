@@ -195,7 +195,7 @@ csi_error_t csi_iis_recv_dma(csp_i2s_t *ptI2sBase, csi_dma_ch_e eDmaCh, void *pD
  *  \param[in] ptI2sBase: pointer of iis register structure
  *  \return none
  */
-__attribute__((weak)) void iis_irqhandler(csp_i2s_t *ptI2sBase);
+void iis_irqhandler(csp_i2s_t *ptI2sBase);
 
 
 
