@@ -436,15 +436,16 @@ void exiline15_int_handler(void)
 #endif
 }
 
-ATTRIBUTE_ISR void __attribute__((weak)) can_int_handler(void) 
+void can_int_handler(void) 
 {
     // ISR content ...
 //	CSI_INTRPT_ENTER();
-#if (USE_CAN_CALLBACK == 1)
-	csi_can_irqhandler(CAN0, 0);
-#else
-	csp_can_clr_isr(CAN0, csp_can_get_isr(CAN0));
-#endif
+//#if (USE_CAN_CALLBACK == 1)
+//	csi_can_irqhandler(CAN0, 0);
+//#else
+//	csp_can_clr_isr(CAN0, csp_can_get_isr(CAN0));
+//#endif
+	can_irqhandler(CAN0);
 //	CSI_INTRPT_EXIT();
 }
 
