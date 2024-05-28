@@ -1728,10 +1728,11 @@
       <Register Name="CAN_TMR0" Authority="RW" Address="0x40070100" Width="32" Description="CAN IF0/1传输管理寄存器">
         <Bit Name="CLRIT" Authority="RW" Bits="15" Description="清除中断标志位&#xD;&#xA;0h：ITPND位保持不变&#xD;&#xA;1h：清除报文对象的ITPND&#xD;&#xA;在写入模式时，该位无效。" />
         <Bit Name="TRND" Authority="RW" Bits="14" Description="TXRQST和NEWDAT的操作&#xD;&#xA;0h：TXRQST和NEWDAT不变&#xD;&#xA;1h：写入时（WR=1），置位报文对象的TXRQST；读取时（WR=0），清除报文对象的NEWDAT&#xD;&#xA;&#xD;&#xA;在写入模式下（WR=1），如果通过置位本寄存器的TXRQST来发起一次传输请求，将会忽略CAN_MCRx中的TXRQST位。&#xD;&#xA;在读取模式下（WR=0），对报文对象的读取会和ITPND和NEWDAT的清除同时发生。&#xD;&#xA;&#xD;&#xA;CAN_MCRx始终反应这些位在被清除之前的状态。" />
-        <Bit Name="AMCR" Authority="RW" Bits="12" Description="访问报文控制寄存器。&#xD;&#xA;0h：报文控制位不变&#xD;&#xA;1h：报文对象和CAN_MSKRx寄存器间需要传输报文控制位" />
-        <Bit Name="AIR" Authority="RW" Bits="11" Description="访问识别符寄存器。&#xD;&#xA;0h：识别符不变&#xD;&#xA;1h：报文对象和CAN_MSKRx寄存器间需要传输识别符" />
+        <Bit Name="AMCR" Authority="RW" Bits="12" Description="访问报文控制寄存器。&#xD;&#xA;0h：报文控制位不变&#xD;&#xA;1h：报文对象和CAN_MCRx寄存器间需要传输报文控制位" />
+        <Bit Name="AIR" Authority="RW" Bits="11" Description="访问识别符寄存器。&#xD;&#xA;0h：识别符不变&#xD;&#xA;1h：报文对象和CAN_IRx寄存器间需要传输识别符" />
         <Bit Name="AMSKR" Authority="RW" Bits="10" Description="访问屏蔽寄存器。&#xD;&#xA;0h：屏蔽位不变&#xD;&#xA;1h：报文对象和CAN_MSKRx寄存器间需要传输屏蔽位" />
-        <Bit Name="ADAR" Authority="RW" Bits="9-8" Description="访问Data A寄存器。&#xD;&#xA;0h：Data 字节4~7 不变&#xD;&#xA;1h：报文对象和CAN_DARx间需要传输 Data 字节4~7" />
+        <Bit Name="ADBR" Authority="RW" Bits="9" Description="访问Data B寄存器。&#xD;&#xA;0h：Data 字节4~7 不变&#xD;&#xA;1h：报文对象和CAN_DARx间需要传输 Data 字节4~7" />
+        <Bit Name="ADAR" Authority="RW" Bits="8" Description="访问Data A寄存器。&#xD;&#xA;0h：Data 字节0~3 不变&#xD;&#xA;1h：报文对象和CAN_DARx间需要传输 Data 字节0~3" />
         <Bit Name="WR" Authority="RW" Bits="7" Description="读/写方向。&#xD;&#xA;0h：读。传输从报文对象y到选中的IFx寄存器。&#xD;&#xA;1h：写。传输从选中的IFx寄存器到报文对象y。" />
         <Bit Name="NUMBER" Authority="RW" Bits="5-0" Description="报文序号。&#xD;&#xA;有效值为0x01到0x20（含）。" />
       </Register>
@@ -1778,10 +1779,11 @@
       <Register Name="CAN_TMR1" Authority="RW" Address="0x40070120" Width="32" Description="CAN IF0/1传输管理寄存器">
         <Bit Name="CLRIT" Authority="RW" Bits="15" Description="清除中断标志位&#xD;&#xA;0h：ITPND位保持不变&#xD;&#xA;1h：清除报文对象的ITPND&#xD;&#xA;在写入模式时，该位无效。" />
         <Bit Name="TRND" Authority="RW" Bits="14" Description="TXRQST和NEWDAT的操作&#xD;&#xA;0h：TXRQST和NEWDAT不变&#xD;&#xA;1h：写入时（WR=1），置位报文对象的TXRQST；读取时（WR=0），清除报文对象的NEWDAT&#xD;&#xA;&#xD;&#xA;在写入模式下（WR=1），如果通过置位本寄存器的TXRQST来发起一次传输请求，将会忽略CAN_MCRx中的TXRQST位。&#xD;&#xA;在读取模式下（WR=0），对报文对象的读取会和ITPND和NEWDAT的清除同时发生。&#xD;&#xA;&#xD;&#xA;CAN_MCRx始终反应这些位在被清除之前的状态。" />
-        <Bit Name="AMCR" Authority="RW" Bits="12" Description="访问报文控制寄存器。&#xD;&#xA;0h：报文控制位不变&#xD;&#xA;1h：报文对象和CAN_MSKRx寄存器间需要传输报文控制位" />
-        <Bit Name="AIR" Authority="RW" Bits="11" Description="访问识别符寄存器。&#xD;&#xA;0h：识别符不变&#xD;&#xA;1h：报文对象和CAN_MSKRx寄存器间需要传输识别符" />
+        <Bit Name="AMCR" Authority="RW" Bits="12" Description="访问报文控制寄存器。&#xD;&#xA;0h：报文控制位不变&#xD;&#xA;1h：报文对象和CAN_MCRx寄存器间需要传输报文控制位" />
+        <Bit Name="AIR" Authority="RW" Bits="11" Description="访问识别符寄存器。&#xD;&#xA;0h：识别符不变&#xD;&#xA;1h：报文对象和CAN_IRx寄存器间需要传输识别符" />
         <Bit Name="AMSKR" Authority="RW" Bits="10" Description="访问屏蔽寄存器。&#xD;&#xA;0h：屏蔽位不变&#xD;&#xA;1h：报文对象和CAN_MSKRx寄存器间需要传输屏蔽位" />
-        <Bit Name="ADAR" Authority="RW" Bits="9-8" Description="访问Data A寄存器。&#xD;&#xA;0h：Data 字节4~7 不变&#xD;&#xA;1h：报文对象和CAN_DARx间需要传输 Data 字节4~7" />
+        <Bit Name="ADBR" Authority="RW" Bits="9" Description="访问Data B寄存器。&#xD;&#xA;0h：Data 字节4~7 不变&#xD;&#xA;1h：报文对象和CAN_DARx间需要传输 Data 字节4~7" />
+        <Bit Name="ADAR" Authority="RW" Bits="8" Description="访问Data A寄存器。&#xD;&#xA;0h：Data 字节0~3 不变&#xD;&#xA;1h：报文对象和CAN_DARx间需要传输 Data 字节0~3" />
         <Bit Name="WR" Authority="RW" Bits="7" Description="读/写方向。&#xD;&#xA;0h：读。传输从报文对象y到选中的IFx寄存器。&#xD;&#xA;1h：写。传输从选中的IFx寄存器到报文对象y。" />
         <Bit Name="NUMBER" Authority="RW" Bits="5-0" Description="报文序号。&#xD;&#xA;有效值为0x01到0x20（含）。" />
       </Register>
@@ -7262,7 +7264,7 @@
       </Register>
     </Peripheral>
     <Peripheral Name="GPIOB">
-      <Register Name="GPIO_CONLR" Authority="RW" Address="0x50002000" Width="32" Description="低位控制寄存器">
+      <Register Name="GPIO_CONLR" Authority="RW" Address="0x50020000" Width="32" Description="低位控制寄存器">
         <Bit Name="P7" Authority="RW" Bits="31-28" Description="IO管脚7的模式配置" />
         <Bit Name="P6" Authority="RW" Bits="27-24" Description="IO管脚6的模式配置" />
         <Bit Name="P5" Authority="RW" Bits="23-20" Description="IO管脚5的模式配置" />
@@ -7272,7 +7274,7 @@
         <Bit Name="P1" Authority="RW" Bits="7-4" Description="IO管脚1的模式配置" />
         <Bit Name="P0" Authority="RW" Bits="3-0" Description="IO管脚0的模式配置" />
       </Register>
-      <Register Name="GPIO_CONHR" Authority="RW" Address="0x50002004" Width="32" Description="高位控制寄存器">
+      <Register Name="GPIO_CONHR" Authority="RW" Address="0x50020004" Width="32" Description="高位控制寄存器">
         <Bit Name="P15" Authority="RW" Bits="31-28" Description="IO管脚15的模式配置" />
         <Bit Name="P14" Authority="RW" Bits="27-24" Description="IO管脚14的模式配置" />
         <Bit Name="P13" Authority="RW" Bits="23-20" Description="IO管脚13的模式配置" />
@@ -7282,7 +7284,7 @@
         <Bit Name="P9" Authority="RW" Bits="7-4" Description="IO管脚9的模式配置" />
         <Bit Name="P8" Authority="RW" Bits="3-0" Description="IO管脚8的模式配置" />
       </Register>
-      <Register Name="GPIO_WODR" Authority="RW" Address="0x50002008" Width="32" Description="输出数据寄存器">
+      <Register Name="GPIO_WODR" Authority="RW" Address="0x50020008" Width="32" Description="输出数据寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -7300,7 +7302,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_SODR" Authority="RW" Address="0x5000200c" Width="32" Description="输出置位寄存器">
+      <Register Name="GPIO_SODR" Authority="RW" Address="0x5002000c" Width="32" Description="输出置位寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -7318,7 +7320,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_CODR" Authority="RW" Address="0x50002010" Width="32" Description="输出清除寄存器">
+      <Register Name="GPIO_CODR" Authority="RW" Address="0x50020010" Width="32" Description="输出清除寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -7336,7 +7338,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_ODSR" Authority="RW" Address="0x50002014" Width="32" Description="输出状态寄存器">
+      <Register Name="GPIO_ODSR" Authority="RW" Address="0x50020014" Width="32" Description="输出状态寄存器">
         <Bit Name="P15" Authority="RO" Bits="15" Description="" />
         <Bit Name="P14" Authority="RO" Bits="14" Description="" />
         <Bit Name="P13" Authority="RO" Bits="13" Description="" />
@@ -7354,7 +7356,7 @@
         <Bit Name="P1" Authority="RO" Bits="1" Description="" />
         <Bit Name="P0" Authority="RO" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_PSDR" Authority="RW" Address="0x50002018" Width="32" Description="管脚状态寄存器">
+      <Register Name="GPIO_PSDR" Authority="RW" Address="0x50020018" Width="32" Description="管脚状态寄存器">
         <Bit Name="P15" Authority="RO" Bits="15" Description="" />
         <Bit Name="P14" Authority="RO" Bits="14" Description="" />
         <Bit Name="P13" Authority="RO" Bits="13" Description="" />
@@ -7372,7 +7374,7 @@
         <Bit Name="P1" Authority="RO" Bits="1" Description="" />
         <Bit Name="P0" Authority="RO" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_FLTEN" Authority="RW" Address="0x5000201c" Width="32" Description="输入信号滤波器使能控制寄存器">
+      <Register Name="GPIO_FLTEN" Authority="RW" Address="0x5002001c" Width="32" Description="输入信号滤波器使能控制寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -7390,7 +7392,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_PUDR" Authority="RW" Address="0x50002020" Width="32" Description="上拉/下拉配置寄存器">
+      <Register Name="GPIO_PUDR" Authority="RW" Address="0x50020020" Width="32" Description="上拉/下拉配置寄存器">
         <Bit Name="P15" Authority="RW" Bits="31-30" Description="上拉/下拉IO 管脚15" />
         <Bit Name="P14" Authority="RW" Bits="29-28" Description="上拉/下拉IO 管脚14" />
         <Bit Name="P13" Authority="RW" Bits="27-26" Description="上拉/下拉IO 管脚13" />
@@ -7408,7 +7410,7 @@
         <Bit Name="P1" Authority="RW" Bits="3-2" Description="上拉/下拉IO 管脚1" />
         <Bit Name="P0" Authority="RW" Bits="1-0" Description="上拉/下拉IO 管脚0" />
       </Register>
-      <Register Name="GPIO_DSCR" Authority="RW" Address="0x50002024" Width="32" Description="驱动强度配置寄存器">
+      <Register Name="GPIO_DSCR" Authority="RW" Address="0x50020024" Width="32" Description="驱动强度配置寄存器">
         <Bit Name="P15" Authority="RW" Bits="31-30" Description="" />
         <Bit Name="P14" Authority="RW" Bits="29-28" Description="" />
         <Bit Name="P13" Authority="RW" Bits="27-26" Description="" />
@@ -7426,7 +7428,7 @@
         <Bit Name="P1" Authority="RW" Bits="3-2" Description="" />
         <Bit Name="P0" Authority="RW" Bits="1-0" Description="" />
       </Register>
-      <Register Name="GPIO_OMCR" Authority="RW" Address="0x50002028" Width="32" Description="输出模式配置寄存器">
+      <Register Name="GPIO_OMCR" Authority="RW" Address="0x50020028" Width="32" Description="输出模式配置寄存器">
         <Bit Name="CCM15" Authority="RW" Bits="31" Description="" />
         <Bit Name="CCM14" Authority="RW" Bits="30" Description="" />
         <Bit Name="CCM13" Authority="RW" Bits="29" Description="" />
@@ -7460,7 +7462,7 @@
         <Bit Name="ODP1" Authority="RW" Bits="1" Description="" />
         <Bit Name="ODP0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_IECR" Authority="RW" Address="0x5000202c" Width="32" Description="外部中断使能寄存器">
+      <Register Name="GPIO_IECR" Authority="RW" Address="0x5002002c" Width="32" Description="外部中断使能寄存器">
         <Bit Name="IEN15" Authority="RW" Bits="15" Description="" />
         <Bit Name="IEN14" Authority="RW" Bits="14" Description="" />
         <Bit Name="IEN13" Authority="RW" Bits="13" Description="" />
@@ -7478,7 +7480,7 @@
         <Bit Name="IEN1" Authority="RW" Bits="1" Description="" />
         <Bit Name="IEN0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_IEER" Authority="RW" Address="0x50002030" Width="32" Description="外部中断使能设置寄存器">
+      <Register Name="GPIO_IEER" Authority="RW" Address="0x50020030" Width="32" Description="外部中断使能设置寄存器">
         <Bit Name="IEE15" Authority="RW" Bits="15" Description="" />
         <Bit Name="IEE14" Authority="RW" Bits="14" Description="" />
         <Bit Name="IEE13" Authority="RW" Bits="13" Description="" />
@@ -7496,7 +7498,7 @@
         <Bit Name="IEE1" Authority="RW" Bits="1" Description="" />
         <Bit Name="IEE0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_IEDR" Authority="RW" Address="0x50002034" Width="32" Description="外部中断使能清除寄存器">
+      <Register Name="GPIO_IEDR" Authority="RW" Address="0x50020034" Width="32" Description="外部中断使能清除寄存器">
         <Bit Name="IED15" Authority="RW" Bits="15" Description="" />
         <Bit Name="IED14" Authority="RW" Bits="14" Description="" />
         <Bit Name="IED13" Authority="RW" Bits="13" Description="" />
@@ -7516,7 +7518,7 @@
       </Register>
     </Peripheral>
     <Peripheral Name="GPIOC">
-      <Register Name="GPIO_CONLR" Authority="RW" Address="0x50004000" Width="32" Description="低位控制寄存器">
+      <Register Name="GPIO_CONLR" Authority="RW" Address="0x50040000" Width="32" Description="低位控制寄存器">
         <Bit Name="P7" Authority="RW" Bits="31-28" Description="IO管脚7的模式配置" />
         <Bit Name="P6" Authority="RW" Bits="27-24" Description="IO管脚6的模式配置" />
         <Bit Name="P5" Authority="RW" Bits="23-20" Description="IO管脚5的模式配置" />
@@ -7526,7 +7528,7 @@
         <Bit Name="P1" Authority="RW" Bits="7-4" Description="IO管脚1的模式配置" />
         <Bit Name="P0" Authority="RW" Bits="3-0" Description="IO管脚0的模式配置" />
       </Register>
-      <Register Name="GPIO_CONHR" Authority="RW" Address="0x50004004" Width="32" Description="高位控制寄存器">
+      <Register Name="GPIO_CONHR" Authority="RW" Address="0x50040004" Width="32" Description="高位控制寄存器">
         <Bit Name="P15" Authority="RW" Bits="31-28" Description="IO管脚15的模式配置" />
         <Bit Name="P14" Authority="RW" Bits="27-24" Description="IO管脚14的模式配置" />
         <Bit Name="P13" Authority="RW" Bits="23-20" Description="IO管脚13的模式配置" />
@@ -7536,7 +7538,7 @@
         <Bit Name="P9" Authority="RW" Bits="7-4" Description="IO管脚9的模式配置" />
         <Bit Name="P8" Authority="RW" Bits="3-0" Description="IO管脚8的模式配置" />
       </Register>
-      <Register Name="GPIO_WODR" Authority="RW" Address="0x50004008" Width="32" Description="输出数据寄存器">
+      <Register Name="GPIO_WODR" Authority="RW" Address="0x50040008" Width="32" Description="输出数据寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -7554,7 +7556,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_SODR" Authority="RW" Address="0x5000400c" Width="32" Description="输出置位寄存器">
+      <Register Name="GPIO_SODR" Authority="RW" Address="0x5004000c" Width="32" Description="输出置位寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -7572,7 +7574,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_CODR" Authority="RW" Address="0x50004010" Width="32" Description="输出清除寄存器">
+      <Register Name="GPIO_CODR" Authority="RW" Address="0x50040010" Width="32" Description="输出清除寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -7590,7 +7592,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_ODSR" Authority="RW" Address="0x50004014" Width="32" Description="输出状态寄存器">
+      <Register Name="GPIO_ODSR" Authority="RW" Address="0x50040014" Width="32" Description="输出状态寄存器">
         <Bit Name="P15" Authority="RO" Bits="15" Description="" />
         <Bit Name="P14" Authority="RO" Bits="14" Description="" />
         <Bit Name="P13" Authority="RO" Bits="13" Description="" />
@@ -7608,7 +7610,7 @@
         <Bit Name="P1" Authority="RO" Bits="1" Description="" />
         <Bit Name="P0" Authority="RO" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_PSDR" Authority="RW" Address="0x50004018" Width="32" Description="管脚状态寄存器">
+      <Register Name="GPIO_PSDR" Authority="RW" Address="0x50040018" Width="32" Description="管脚状态寄存器">
         <Bit Name="P15" Authority="RO" Bits="15" Description="" />
         <Bit Name="P14" Authority="RO" Bits="14" Description="" />
         <Bit Name="P13" Authority="RO" Bits="13" Description="" />
@@ -7626,7 +7628,7 @@
         <Bit Name="P1" Authority="RO" Bits="1" Description="" />
         <Bit Name="P0" Authority="RO" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_FLTEN" Authority="RW" Address="0x5000401c" Width="32" Description="输入信号滤波器使能控制寄存器">
+      <Register Name="GPIO_FLTEN" Authority="RW" Address="0x5004001c" Width="32" Description="输入信号滤波器使能控制寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -7644,7 +7646,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_PUDR" Authority="RW" Address="0x50004020" Width="32" Description="上拉/下拉配置寄存器">
+      <Register Name="GPIO_PUDR" Authority="RW" Address="0x50040020" Width="32" Description="上拉/下拉配置寄存器">
         <Bit Name="P15" Authority="RW" Bits="31-30" Description="上拉/下拉IO 管脚15" />
         <Bit Name="P14" Authority="RW" Bits="29-28" Description="上拉/下拉IO 管脚14" />
         <Bit Name="P13" Authority="RW" Bits="27-26" Description="上拉/下拉IO 管脚13" />
@@ -7662,7 +7664,7 @@
         <Bit Name="P1" Authority="RW" Bits="3-2" Description="上拉/下拉IO 管脚1" />
         <Bit Name="P0" Authority="RW" Bits="1-0" Description="上拉/下拉IO 管脚0" />
       </Register>
-      <Register Name="GPIO_DSCR" Authority="RW" Address="0x50004024" Width="32" Description="驱动强度配置寄存器">
+      <Register Name="GPIO_DSCR" Authority="RW" Address="0x50040024" Width="32" Description="驱动强度配置寄存器">
         <Bit Name="P15" Authority="RW" Bits="31-30" Description="" />
         <Bit Name="P14" Authority="RW" Bits="29-28" Description="" />
         <Bit Name="P13" Authority="RW" Bits="27-26" Description="" />
@@ -7680,7 +7682,7 @@
         <Bit Name="P1" Authority="RW" Bits="3-2" Description="" />
         <Bit Name="P0" Authority="RW" Bits="1-0" Description="" />
       </Register>
-      <Register Name="GPIO_OMCR" Authority="RW" Address="0x50004028" Width="32" Description="输出模式配置寄存器">
+      <Register Name="GPIO_OMCR" Authority="RW" Address="0x50040028" Width="32" Description="输出模式配置寄存器">
         <Bit Name="CCM15" Authority="RW" Bits="31" Description="" />
         <Bit Name="CCM14" Authority="RW" Bits="30" Description="" />
         <Bit Name="CCM13" Authority="RW" Bits="29" Description="" />
@@ -7714,7 +7716,7 @@
         <Bit Name="ODP1" Authority="RW" Bits="1" Description="" />
         <Bit Name="ODP0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_IECR" Authority="RW" Address="0x5000402c" Width="32" Description="外部中断使能寄存器">
+      <Register Name="GPIO_IECR" Authority="RW" Address="0x5004002c" Width="32" Description="外部中断使能寄存器">
         <Bit Name="IEN15" Authority="RW" Bits="15" Description="" />
         <Bit Name="IEN14" Authority="RW" Bits="14" Description="" />
         <Bit Name="IEN13" Authority="RW" Bits="13" Description="" />
@@ -7732,7 +7734,7 @@
         <Bit Name="IEN1" Authority="RW" Bits="1" Description="" />
         <Bit Name="IEN0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_IEER" Authority="RW" Address="0x50004030" Width="32" Description="外部中断使能设置寄存器">
+      <Register Name="GPIO_IEER" Authority="RW" Address="0x50040030" Width="32" Description="外部中断使能设置寄存器">
         <Bit Name="IEE15" Authority="RW" Bits="15" Description="" />
         <Bit Name="IEE14" Authority="RW" Bits="14" Description="" />
         <Bit Name="IEE13" Authority="RW" Bits="13" Description="" />
@@ -7750,7 +7752,7 @@
         <Bit Name="IEE1" Authority="RW" Bits="1" Description="" />
         <Bit Name="IEE0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_IEDR" Authority="RW" Address="0x50004034" Width="32" Description="外部中断使能清除寄存器">
+      <Register Name="GPIO_IEDR" Authority="RW" Address="0x50040034" Width="32" Description="外部中断使能清除寄存器">
         <Bit Name="IED15" Authority="RW" Bits="15" Description="" />
         <Bit Name="IED14" Authority="RW" Bits="14" Description="" />
         <Bit Name="IED13" Authority="RW" Bits="13" Description="" />
@@ -7770,7 +7772,7 @@
       </Register>
     </Peripheral>
     <Peripheral Name="GPIOD">
-      <Register Name="GPIO_CONLR" Authority="RW" Address="0x50006000" Width="32" Description="低位控制寄存器">
+      <Register Name="GPIO_CONLR" Authority="RW" Address="0x50060000" Width="32" Description="低位控制寄存器">
         <Bit Name="P7" Authority="RW" Bits="31-28" Description="IO管脚7的模式配置" />
         <Bit Name="P6" Authority="RW" Bits="27-24" Description="IO管脚6的模式配置" />
         <Bit Name="P5" Authority="RW" Bits="23-20" Description="IO管脚5的模式配置" />
@@ -7780,7 +7782,7 @@
         <Bit Name="P1" Authority="RW" Bits="7-4" Description="IO管脚1的模式配置" />
         <Bit Name="P0" Authority="RW" Bits="3-0" Description="IO管脚0的模式配置" />
       </Register>
-      <Register Name="GPIO_CONHR" Authority="RW" Address="0x50006004" Width="32" Description="高位控制寄存器">
+      <Register Name="GPIO_CONHR" Authority="RW" Address="0x50060004" Width="32" Description="高位控制寄存器">
         <Bit Name="P15" Authority="RW" Bits="31-28" Description="IO管脚15的模式配置" />
         <Bit Name="P14" Authority="RW" Bits="27-24" Description="IO管脚14的模式配置" />
         <Bit Name="P13" Authority="RW" Bits="23-20" Description="IO管脚13的模式配置" />
@@ -7790,7 +7792,7 @@
         <Bit Name="P9" Authority="RW" Bits="7-4" Description="IO管脚9的模式配置" />
         <Bit Name="P8" Authority="RW" Bits="3-0" Description="IO管脚8的模式配置" />
       </Register>
-      <Register Name="GPIO_WODR" Authority="RW" Address="0x50006008" Width="32" Description="输出数据寄存器">
+      <Register Name="GPIO_WODR" Authority="RW" Address="0x50060008" Width="32" Description="输出数据寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -7808,7 +7810,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_SODR" Authority="RW" Address="0x5000600c" Width="32" Description="输出置位寄存器">
+      <Register Name="GPIO_SODR" Authority="RW" Address="0x5006000c" Width="32" Description="输出置位寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -7826,7 +7828,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_CODR" Authority="RW" Address="0x50006010" Width="32" Description="输出清除寄存器">
+      <Register Name="GPIO_CODR" Authority="RW" Address="0x50060010" Width="32" Description="输出清除寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -7844,7 +7846,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_ODSR" Authority="RW" Address="0x50006014" Width="32" Description="输出状态寄存器">
+      <Register Name="GPIO_ODSR" Authority="RW" Address="0x50060014" Width="32" Description="输出状态寄存器">
         <Bit Name="P15" Authority="RO" Bits="15" Description="" />
         <Bit Name="P14" Authority="RO" Bits="14" Description="" />
         <Bit Name="P13" Authority="RO" Bits="13" Description="" />
@@ -7862,7 +7864,7 @@
         <Bit Name="P1" Authority="RO" Bits="1" Description="" />
         <Bit Name="P0" Authority="RO" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_PSDR" Authority="RW" Address="0x50006018" Width="32" Description="管脚状态寄存器">
+      <Register Name="GPIO_PSDR" Authority="RW" Address="0x50060018" Width="32" Description="管脚状态寄存器">
         <Bit Name="P15" Authority="RO" Bits="15" Description="" />
         <Bit Name="P14" Authority="RO" Bits="14" Description="" />
         <Bit Name="P13" Authority="RO" Bits="13" Description="" />
@@ -7880,7 +7882,7 @@
         <Bit Name="P1" Authority="RO" Bits="1" Description="" />
         <Bit Name="P0" Authority="RO" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_FLTEN" Authority="RW" Address="0x5000601c" Width="32" Description="输入信号滤波器使能控制寄存器">
+      <Register Name="GPIO_FLTEN" Authority="RW" Address="0x5006001c" Width="32" Description="输入信号滤波器使能控制寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -7898,7 +7900,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_PUDR" Authority="RW" Address="0x50006020" Width="32" Description="上拉/下拉配置寄存器">
+      <Register Name="GPIO_PUDR" Authority="RW" Address="0x50060020" Width="32" Description="上拉/下拉配置寄存器">
         <Bit Name="P15" Authority="RW" Bits="31-30" Description="上拉/下拉IO 管脚15" />
         <Bit Name="P14" Authority="RW" Bits="29-28" Description="上拉/下拉IO 管脚14" />
         <Bit Name="P13" Authority="RW" Bits="27-26" Description="上拉/下拉IO 管脚13" />
@@ -7916,7 +7918,7 @@
         <Bit Name="P1" Authority="RW" Bits="3-2" Description="上拉/下拉IO 管脚1" />
         <Bit Name="P0" Authority="RW" Bits="1-0" Description="上拉/下拉IO 管脚0" />
       </Register>
-      <Register Name="GPIO_DSCR" Authority="RW" Address="0x50006024" Width="32" Description="驱动强度配置寄存器">
+      <Register Name="GPIO_DSCR" Authority="RW" Address="0x50060024" Width="32" Description="驱动强度配置寄存器">
         <Bit Name="P15" Authority="RW" Bits="31-30" Description="" />
         <Bit Name="P14" Authority="RW" Bits="29-28" Description="" />
         <Bit Name="P13" Authority="RW" Bits="27-26" Description="" />
@@ -7934,7 +7936,7 @@
         <Bit Name="P1" Authority="RW" Bits="3-2" Description="" />
         <Bit Name="P0" Authority="RW" Bits="1-0" Description="" />
       </Register>
-      <Register Name="GPIO_OMCR" Authority="RW" Address="0x50006028" Width="32" Description="输出模式配置寄存器">
+      <Register Name="GPIO_OMCR" Authority="RW" Address="0x50060028" Width="32" Description="输出模式配置寄存器">
         <Bit Name="CCM15" Authority="RW" Bits="31" Description="" />
         <Bit Name="CCM14" Authority="RW" Bits="30" Description="" />
         <Bit Name="CCM13" Authority="RW" Bits="29" Description="" />
@@ -7968,7 +7970,7 @@
         <Bit Name="ODP1" Authority="RW" Bits="1" Description="" />
         <Bit Name="ODP0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_IECR" Authority="RW" Address="0x5000602c" Width="32" Description="外部中断使能寄存器">
+      <Register Name="GPIO_IECR" Authority="RW" Address="0x5006002c" Width="32" Description="外部中断使能寄存器">
         <Bit Name="IEN15" Authority="RW" Bits="15" Description="" />
         <Bit Name="IEN14" Authority="RW" Bits="14" Description="" />
         <Bit Name="IEN13" Authority="RW" Bits="13" Description="" />
@@ -7986,7 +7988,7 @@
         <Bit Name="IEN1" Authority="RW" Bits="1" Description="" />
         <Bit Name="IEN0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_IEER" Authority="RW" Address="0x50006030" Width="32" Description="外部中断使能设置寄存器">
+      <Register Name="GPIO_IEER" Authority="RW" Address="0x50060030" Width="32" Description="外部中断使能设置寄存器">
         <Bit Name="IEE15" Authority="RW" Bits="15" Description="" />
         <Bit Name="IEE14" Authority="RW" Bits="14" Description="" />
         <Bit Name="IEE13" Authority="RW" Bits="13" Description="" />
@@ -8004,7 +8006,7 @@
         <Bit Name="IEE1" Authority="RW" Bits="1" Description="" />
         <Bit Name="IEE0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_IEDR" Authority="RW" Address="0x50006034" Width="32" Description="外部中断使能清除寄存器">
+      <Register Name="GPIO_IEDR" Authority="RW" Address="0x50060034" Width="32" Description="外部中断使能清除寄存器">
         <Bit Name="IED15" Authority="RW" Bits="15" Description="" />
         <Bit Name="IED14" Authority="RW" Bits="14" Description="" />
         <Bit Name="IED13" Authority="RW" Bits="13" Description="" />
@@ -8024,7 +8026,7 @@
       </Register>
     </Peripheral>
     <Peripheral Name="GPIO_EXI">
-      <Register Name="GPIO_CONLR" Authority="RW" Address="0x6000f000" Width="32" Description="低位控制寄存器">
+      <Register Name="GPIO_CONLR" Authority="RW" Address="0x500f0000" Width="32" Description="低位控制寄存器">
         <Bit Name="P7" Authority="RW" Bits="31-28" Description="IO管脚7的模式配置" />
         <Bit Name="P6" Authority="RW" Bits="27-24" Description="IO管脚6的模式配置" />
         <Bit Name="P5" Authority="RW" Bits="23-20" Description="IO管脚5的模式配置" />
@@ -8034,7 +8036,7 @@
         <Bit Name="P1" Authority="RW" Bits="7-4" Description="IO管脚1的模式配置" />
         <Bit Name="P0" Authority="RW" Bits="3-0" Description="IO管脚0的模式配置" />
       </Register>
-      <Register Name="GPIO_CONHR" Authority="RW" Address="0x6000f004" Width="32" Description="高位控制寄存器">
+      <Register Name="GPIO_CONHR" Authority="RW" Address="0x500f0004" Width="32" Description="高位控制寄存器">
         <Bit Name="P15" Authority="RW" Bits="31-28" Description="IO管脚15的模式配置" />
         <Bit Name="P14" Authority="RW" Bits="27-24" Description="IO管脚14的模式配置" />
         <Bit Name="P13" Authority="RW" Bits="23-20" Description="IO管脚13的模式配置" />
@@ -8044,7 +8046,7 @@
         <Bit Name="P9" Authority="RW" Bits="7-4" Description="IO管脚9的模式配置" />
         <Bit Name="P8" Authority="RW" Bits="3-0" Description="IO管脚8的模式配置" />
       </Register>
-      <Register Name="GPIO_EXILINE0" Authority="RW" Address="0x6000f004" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE0" Authority="RW" Address="0x500f0004" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD" />
         <Bit Name="EXMOD" Authority="RW" Bits="5" Description="Extend mode config of different GRP combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="EXMODEN" Authority="RW" Bits="4" Description="Extend Mode Enable&#xD;&#xA;0h: normal mode: from line input&#xD;&#xA;1h: extend mode: from group inputs (result of INPSEL and EXMOD)" />
@@ -8053,7 +8055,7 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_WODR" Authority="RW" Address="0x6000f008" Width="32" Description="输出数据寄存器">
+      <Register Name="GPIO_WODR" Authority="RW" Address="0x500f0008" Width="32" Description="输出数据寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -8071,7 +8073,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_EXILINE1" Authority="RW" Address="0x6000f008" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE1" Authority="RW" Address="0x500f0008" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD" />
         <Bit Name="EXMOD" Authority="RW" Bits="5" Description="Extend mode config of different GRP combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="EXMODEN" Authority="RW" Bits="4" Description="Extend Mode Enable&#xD;&#xA;0h: normal mode: from line input&#xD;&#xA;1h: extend mode: from group inputs (result of INPSEL and EXMOD)" />
@@ -8080,7 +8082,7 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_SODR" Authority="RW" Address="0x6000f00c" Width="32" Description="输出置位寄存器">
+      <Register Name="GPIO_SODR" Authority="RW" Address="0x500f000c" Width="32" Description="输出置位寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -8098,7 +8100,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_EXILINE2" Authority="RW" Address="0x6000f00c" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE2" Authority="RW" Address="0x500f000c" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD" />
         <Bit Name="EXMOD" Authority="RW" Bits="5" Description="Extend mode config of different GRP combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="EXMODEN" Authority="RW" Bits="4" Description="Extend Mode Enable&#xD;&#xA;0h: normal mode: from line input&#xD;&#xA;1h: extend mode: from group inputs (result of INPSEL and EXMOD)" />
@@ -8107,7 +8109,7 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_CODR" Authority="RW" Address="0x6000f010" Width="32" Description="输出清除寄存器">
+      <Register Name="GPIO_CODR" Authority="RW" Address="0x500f0010" Width="32" Description="输出清除寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -8125,7 +8127,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_EXILINE3" Authority="RW" Address="0x6000f010" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE3" Authority="RW" Address="0x500f0010" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD" />
         <Bit Name="EXMOD" Authority="RW" Bits="5" Description="Extend mode config of different GRP combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="EXMODEN" Authority="RW" Bits="4" Description="Extend Mode Enable&#xD;&#xA;0h: normal mode: from line input&#xD;&#xA;1h: extend mode: from group inputs (result of INPSEL and EXMOD)" />
@@ -8134,7 +8136,7 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_ODSR" Authority="RW" Address="0x6000f014" Width="32" Description="输出状态寄存器">
+      <Register Name="GPIO_ODSR" Authority="RW" Address="0x500f0014" Width="32" Description="输出状态寄存器">
         <Bit Name="P15" Authority="RO" Bits="15" Description="" />
         <Bit Name="P14" Authority="RO" Bits="14" Description="" />
         <Bit Name="P13" Authority="RO" Bits="13" Description="" />
@@ -8152,7 +8154,7 @@
         <Bit Name="P1" Authority="RO" Bits="1" Description="" />
         <Bit Name="P0" Authority="RO" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_PSDR" Authority="RW" Address="0x6000f018" Width="32" Description="管脚状态寄存器">
+      <Register Name="GPIO_PSDR" Authority="RW" Address="0x500f0018" Width="32" Description="管脚状态寄存器">
         <Bit Name="P15" Authority="RO" Bits="15" Description="" />
         <Bit Name="P14" Authority="RO" Bits="14" Description="" />
         <Bit Name="P13" Authority="RO" Bits="13" Description="" />
@@ -8170,7 +8172,7 @@
         <Bit Name="P1" Authority="RO" Bits="1" Description="" />
         <Bit Name="P0" Authority="RO" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_FLTEN" Authority="RW" Address="0x6000f01c" Width="32" Description="输入信号滤波器使能控制寄存器">
+      <Register Name="GPIO_FLTEN" Authority="RW" Address="0x500f001c" Width="32" Description="输入信号滤波器使能控制寄存器">
         <Bit Name="P15" Authority="RW" Bits="15" Description="" />
         <Bit Name="P14" Authority="RW" Bits="14" Description="" />
         <Bit Name="P13" Authority="RW" Bits="13" Description="" />
@@ -8188,7 +8190,7 @@
         <Bit Name="P1" Authority="RW" Bits="1" Description="" />
         <Bit Name="P0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_PUDR" Authority="RW" Address="0x6000f020" Width="32" Description="上拉/下拉配置寄存器">
+      <Register Name="GPIO_PUDR" Authority="RW" Address="0x500f0020" Width="32" Description="上拉/下拉配置寄存器">
         <Bit Name="P15" Authority="RW" Bits="31-30" Description="上拉/下拉IO 管脚15" />
         <Bit Name="P14" Authority="RW" Bits="29-28" Description="上拉/下拉IO 管脚14" />
         <Bit Name="P13" Authority="RW" Bits="27-26" Description="上拉/下拉IO 管脚13" />
@@ -8206,7 +8208,7 @@
         <Bit Name="P1" Authority="RW" Bits="3-2" Description="上拉/下拉IO 管脚1" />
         <Bit Name="P0" Authority="RW" Bits="1-0" Description="上拉/下拉IO 管脚0" />
       </Register>
-      <Register Name="GPIO_EXILINE0" Authority="RW" Address="0x6000f020" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE0" Authority="RW" Address="0x500f0020" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx &#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx &#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PAy &#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PBy&#xD;&#xA;0x0bh: RSVD" />
         <Bit Name="MODE" Authority="RW" Bits="5-4" Description="Mode config of different MUX combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="GRP3EN" Authority="RW" Bits="3" Description="Group3 input enable in current EXILINE" />
@@ -8214,7 +8216,7 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_DSCR" Authority="RW" Address="0x6000f024" Width="32" Description="驱动强度配置寄存器">
+      <Register Name="GPIO_DSCR" Authority="RW" Address="0x500f0024" Width="32" Description="驱动强度配置寄存器">
         <Bit Name="P15" Authority="RW" Bits="31-30" Description="" />
         <Bit Name="P14" Authority="RW" Bits="29-28" Description="" />
         <Bit Name="P13" Authority="RW" Bits="27-26" Description="" />
@@ -8232,7 +8234,7 @@
         <Bit Name="P1" Authority="RW" Bits="3-2" Description="" />
         <Bit Name="P0" Authority="RW" Bits="1-0" Description="" />
       </Register>
-      <Register Name="GPIO_EXILINE1" Authority="RW" Address="0x6000f024" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE1" Authority="RW" Address="0x500f0024" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx &#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx &#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PAy &#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PBy&#xD;&#xA;0x0bh: RSVD" />
         <Bit Name="MODE" Authority="RW" Bits="5-4" Description="Mode config of different MUX combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="GRP3EN" Authority="RW" Bits="3" Description="Group3 input enable in current EXILINE" />
@@ -8240,7 +8242,7 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_OMCR" Authority="RW" Address="0x6000f028" Width="32" Description="输出模式配置寄存器">
+      <Register Name="GPIO_OMCR" Authority="RW" Address="0x500f0028" Width="32" Description="输出模式配置寄存器">
         <Bit Name="CCM15" Authority="RW" Bits="31" Description="" />
         <Bit Name="CCM14" Authority="RW" Bits="30" Description="" />
         <Bit Name="CCM13" Authority="RW" Bits="29" Description="" />
@@ -8274,7 +8276,7 @@
         <Bit Name="ODP1" Authority="RW" Bits="1" Description="" />
         <Bit Name="ODP0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_EXILINE2" Authority="RW" Address="0x6000f028" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE2" Authority="RW" Address="0x500f0028" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx &#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx &#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PAy &#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PBy&#xD;&#xA;0x0bh: RSVD" />
         <Bit Name="MODE" Authority="RW" Bits="5-4" Description="Mode config of different MUX combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="GRP3EN" Authority="RW" Bits="3" Description="Group3 input enable in current EXILINE" />
@@ -8282,7 +8284,7 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_IECR" Authority="RW" Address="0x6000f02c" Width="32" Description="外部中断使能寄存器">
+      <Register Name="GPIO_IECR" Authority="RW" Address="0x500f002c" Width="32" Description="外部中断使能寄存器">
         <Bit Name="IEN15" Authority="RW" Bits="15" Description="" />
         <Bit Name="IEN14" Authority="RW" Bits="14" Description="" />
         <Bit Name="IEN13" Authority="RW" Bits="13" Description="" />
@@ -8300,7 +8302,7 @@
         <Bit Name="IEN1" Authority="RW" Bits="1" Description="" />
         <Bit Name="IEN0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_EXILINE3" Authority="RW" Address="0x6000f02c" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE3" Authority="RW" Address="0x500f002c" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx &#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx &#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PAy &#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PBy&#xD;&#xA;0x0bh: RSVD" />
         <Bit Name="MODE" Authority="RW" Bits="5-4" Description="Mode config of different MUX combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="GRP3EN" Authority="RW" Bits="3" Description="Group3 input enable in current EXILINE" />
@@ -8308,7 +8310,7 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_IEER" Authority="RW" Address="0x6000f030" Width="32" Description="外部中断使能设置寄存器">
+      <Register Name="GPIO_IEER" Authority="RW" Address="0x500f0030" Width="32" Description="外部中断使能设置寄存器">
         <Bit Name="IEE15" Authority="RW" Bits="15" Description="" />
         <Bit Name="IEE14" Authority="RW" Bits="14" Description="" />
         <Bit Name="IEE13" Authority="RW" Bits="13" Description="" />
@@ -8326,7 +8328,7 @@
         <Bit Name="IEE1" Authority="RW" Bits="1" Description="" />
         <Bit Name="IEE0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_EXILINE4" Authority="RW" Address="0x6000f030" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE4" Authority="RW" Address="0x500f0030" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx &#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx &#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PAy &#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PBy&#xD;&#xA;0x0bh: RSVD" />
         <Bit Name="MODE" Authority="RW" Bits="5-4" Description="Mode config of different MUX combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="GRP3EN" Authority="RW" Bits="3" Description="Group3 input enable in current EXILINE" />
@@ -8334,7 +8336,7 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_IEDR" Authority="RW" Address="0x6000f034" Width="32" Description="外部中断使能清除寄存器">
+      <Register Name="GPIO_IEDR" Authority="RW" Address="0x500f0034" Width="32" Description="外部中断使能清除寄存器">
         <Bit Name="IED15" Authority="RW" Bits="15" Description="" />
         <Bit Name="IED14" Authority="RW" Bits="14" Description="" />
         <Bit Name="IED13" Authority="RW" Bits="13" Description="" />
@@ -8352,7 +8354,7 @@
         <Bit Name="IED1" Authority="RW" Bits="1" Description="" />
         <Bit Name="IED0" Authority="RW" Bits="0" Description="" />
       </Register>
-      <Register Name="GPIO_EXILINE5" Authority="RW" Address="0x6000f034" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE5" Authority="RW" Address="0x500f0034" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx &#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx &#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PAy &#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PBy&#xD;&#xA;0x0bh: RSVD" />
         <Bit Name="MODE" Authority="RW" Bits="5-4" Description="Mode config of different MUX combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="GRP3EN" Authority="RW" Bits="3" Description="Group3 input enable in current EXILINE" />
@@ -8360,7 +8362,7 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_EXILINE6" Authority="RW" Address="0x6000f038" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE6" Authority="RW" Address="0x500f0038" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx &#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx &#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PAy &#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PBy&#xD;&#xA;0x0bh: RSVD" />
         <Bit Name="MODE" Authority="RW" Bits="5-4" Description="Mode config of different MUX combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="GRP3EN" Authority="RW" Bits="3" Description="Group3 input enable in current EXILINE" />
@@ -8368,7 +8370,7 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_EXILINE7" Authority="RW" Address="0x6000f03c" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE7" Authority="RW" Address="0x500f003c" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx &#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx &#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PAy &#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PBy&#xD;&#xA;0x0bh: RSVD" />
         <Bit Name="MODE" Authority="RW" Bits="5-4" Description="Mode config of different MUX combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="GRP3EN" Authority="RW" Bits="3" Description="Group3 input enable in current EXILINE" />
@@ -8376,7 +8378,7 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_EXILINE8" Authority="RW" Address="0x6000f040" Width="32" Description="外部中断组配置寄存器">
+      <Register Name="GPIO_EXILINE8" Authority="RW" Address="0x500f0040" Width="32" Description="外部中断组配置寄存器">
         <Bit Name="INPSEL" Authority="RW" Bits="11-8" Description="LINEx输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx &#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx &#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PAy &#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PBy&#xD;&#xA;0x0bh: RSVD" />
         <Bit Name="MODE" Authority="RW" Bits="5-4" Description="Mode config of different MUX combination&#xD;&#xA;0h: (GRP0 &amp; EN0) | (GRP1 &amp; EN1) | (GRP2 &amp; EN2) | (GRP3 &amp; EN3)&#xD;&#xA;1h: (GRP0 | ~EN0) &amp; (GRP1 | ~EN1) &amp; (GRP2 | ~EN2) &amp; (GRP3 | ~EN3)" />
         <Bit Name="GRP3EN" Authority="RW" Bits="3" Description="Group3 input enable in current EXILINE" />
@@ -8384,13 +8386,13 @@
         <Bit Name="GRP1EN" Authority="RW" Bits="1" Description="Group1 input enable in current EXILINE" />
         <Bit Name="GRP0EN" Authority="RW" Bits="0" Description="Group0 input enable in current EXILINE" />
       </Register>
-      <Register Name="GPIO_CLKEN" Authority="RW" Address="0x6000f044" Width="32" Description="GPIO组时钟使能控制寄存器">
+      <Register Name="GPIO_CLKEN" Authority="RW" Address="0x500f0044" Width="32" Description="GPIO组时钟使能控制寄存器">
         <Bit Name="CLK_PD" Authority="" Bits="6" Description="GPIOD组控制时钟使能/禁止" />
         <Bit Name="CLK_PC" Authority="RW" Bits="4" Description="GPIOC组控制时钟使能/禁止" />
         <Bit Name="CLK_PB" Authority="RW" Bits="2" Description="GPIOB组控制时钟使能/禁止" />
         <Bit Name="CLK_PA" Authority="RW" Bits="0" Description="GPIOA组控制时钟使能/禁止" />
       </Register>
-      <Register Name="GPIO_EXIRT" Authority="RW" Address="0x6000f048" Width="32" Description="外部中断上升沿选择寄存器">
+      <Register Name="GPIO_EXIRT" Authority="RW" Address="0x500f0048" Width="32" Description="外部中断上升沿选择寄存器">
         <Bit Name="LINE15" Authority="RW" Bits="15" Description="外部中断上升沿使能控制。" />
         <Bit Name="LINE14" Authority="RW" Bits="14" Description="外部中断上升沿使能控制。" />
         <Bit Name="LINE13" Authority="RW" Bits="13" Description="外部中断上升沿使能控制。" />
@@ -8408,7 +8410,7 @@
         <Bit Name="LINE1" Authority="RW" Bits="1" Description="外部中断上升沿使能控制。" />
         <Bit Name="LINE0" Authority="RW" Bits="0" Description="外部中断上升沿使能控制。" />
       </Register>
-      <Register Name="GPIO_EXIFT" Authority="RW" Address="0x6000f04c" Width="32" Description="外部中断上升沿选择寄存器">
+      <Register Name="GPIO_EXIFT" Authority="RW" Address="0x500f004c" Width="32" Description="外部中断上升沿选择寄存器">
         <Bit Name="LINE15" Authority="RW" Bits="15" Description="外部中断下降沿使能控制。" />
         <Bit Name="LINE14" Authority="RW" Bits="14" Description="外部中断下降沿使能控制。" />
         <Bit Name="LINE13" Authority="RW" Bits="13" Description="外部中断下降沿使能控制。" />
@@ -8426,7 +8428,7 @@
         <Bit Name="LINE1" Authority="RW" Bits="1" Description="外部中断下降沿使能控制。" />
         <Bit Name="LINE0" Authority="RW" Bits="0" Description="外部中断下降沿使能控制。" />
       </Register>
-      <Register Name="GPIO_EXIMCR" Authority="RW" Address="0x6000f050" Width="32" Description="外部中断使能/禁止寄存器">
+      <Register Name="GPIO_EXIMCR" Authority="RW" Address="0x500f0050" Width="32" Description="外部中断使能/禁止寄存器">
         <Bit Name="LINE15" Authority="" Bits="15" Description="EXI_LINE15中断&#xD;&#xA;0 = 禁止中断&#xD;&#xA;1 = 使能中断" />
         <Bit Name="LINE14" Authority="" Bits="14" Description="EXI_LINE14中断&#xD;&#xA;0 = 禁止中断&#xD;&#xA;1 = 使能中断" />
         <Bit Name="LINE13" Authority="" Bits="13" Description="EXI_LINE13中断&#xD;&#xA;0 = 禁止中断&#xD;&#xA;1 = 使能中断" />
@@ -8444,7 +8446,7 @@
         <Bit Name="LINE1" Authority="" Bits="1" Description="EXI_LINE1中断&#xD;&#xA;0 = 禁止中断&#xD;&#xA;1 = 使能中断" />
         <Bit Name="EXI_LINE0" Authority="" Bits="0" Description="EXI_LINE0中断&#xD;&#xA;0 = 禁止中断&#xD;&#xA;1 = 使能中断" />
       </Register>
-      <Register Name="GPIO_EXIMSR" Authority="RW" Address="0x6000f054" Width="32" Description="外部中断状态清除寄存器">
+      <Register Name="GPIO_EXIMSR" Authority="RW" Address="0x500f0054" Width="32" Description="外部中断状态清除寄存器">
         <Bit Name="LINE15" Authority="RO" Bits="15" Description="EXI_LINE15中断状态寄存器" />
         <Bit Name="LINE14" Authority="RO" Bits="14" Description="EXI_LINE14中断状态寄存器" />
         <Bit Name="LINE13" Authority="RO" Bits="13" Description="EXI_LINE13中断状态寄存器" />
@@ -8462,7 +8464,7 @@
         <Bit Name="LINE1" Authority="RO" Bits="1" Description="EXI_LINE1中断状态寄存器" />
         <Bit Name="LINE0" Authority="RO" Bits="0" Description="EXI_LINE0中断状态寄存器" />
       </Register>
-      <Register Name="GPIO_EXICR" Authority="RW" Address="0x6000f058" Width="32" Description="外部中断状态清除寄存器">
+      <Register Name="GPIO_EXICR" Authority="RW" Address="0x500f0058" Width="32" Description="外部中断状态清除寄存器">
         <Bit Name="LINE15" Authority="RW" Bits="15" Description="EXI_LINE15中断状态清除&#xD;&#xA;0 = 无效&#xD;&#xA;1 = 清除中断状态" />
         <Bit Name="LINE14" Authority="RW" Bits="14" Description="EXI_LINE14中断状态清除&#xD;&#xA;0 = 无效&#xD;&#xA;1 = 清除中断状态" />
         <Bit Name="LINE13" Authority="RW" Bits="13" Description="EXI_LINE13中断状态清除&#xD;&#xA;0 = 无效&#xD;&#xA;1 = 清除中断状态" />
@@ -8480,7 +8482,7 @@
         <Bit Name="LINE1" Authority="RW" Bits="1" Description="EXI_LINE1中断状态清除&#xD;&#xA;0 = 无效&#xD;&#xA;1 = 清除中断状态" />
         <Bit Name="EXI_LINE0" Authority="RW" Bits="0" Description="EXI_LINE0中断状态清除&#xD;&#xA;0 = 无效&#xD;&#xA;1 = 清除中断状态" />
       </Register>
-      <Register Name="GPIO_EXIRSR" Authority="RW" Address="0x6000f05c" Width="32" Description="外部原始中断状态寄存器">
+      <Register Name="GPIO_EXIRSR" Authority="RW" Address="0x500f005c" Width="32" Description="外部原始中断状态寄存器">
         <Bit Name="LINE15" Authority="RO" Bits="15" Description="EXI_LINE15原始中断状态寄存器" />
         <Bit Name="LINE14" Authority="RO" Bits="14" Description="EXI_LINE14原始中断状态寄存器" />
         <Bit Name="LINE13" Authority="RO" Bits="13" Description="EXI_LINE13原始中断状态寄存器" />
@@ -8498,7 +8500,7 @@
         <Bit Name="LINE1" Authority="RO" Bits="1" Description="EXI_LINE1原始中断状态寄存器" />
         <Bit Name="LINE0" Authority="RO" Bits="0" Description="EXI_LINE0原始中断状态寄存器" />
       </Register>
-      <Register Name="GPIO_EXIEVTRG" Authority="RW" Address="0x6000f060" Width="32" Description="外部事件触发配置寄存器">
+      <Register Name="GPIO_EXIEVTRG" Authority="RW" Address="0x500f0060" Width="32" Description="外部事件触发配置寄存器">
         <Bit Name="TRG3OE" Authority="RW" Bits="31" Description="外部触发端口TRGOUT3使能。&#xD;&#xA;0h：禁止触发输出。&#xD;&#xA;1h：允许触发输出。" />
         <Bit Name="TRG2OE" Authority="RW" Bits="30" Description="外部触发端口TRGOUT2使能。&#xD;&#xA;0h：禁止触发输出。&#xD;&#xA;1h：允许触发输出。" />
         <Bit Name="TRG1OE" Authority="RW" Bits="29" Description="外部触发端口TRGOUT1使能。&#xD;&#xA;0h：禁止触发输出。&#xD;&#xA;1h：允许触发输出。" />
@@ -8512,7 +8514,7 @@
         <Bit Name="TRGSEL1" Authority="RW" Bits="7-4" Description="TRGEVx事件的触发源选择。&#xD;&#xA;0h：选择EXI_LIN0事件作为当前触发通道事件。&#xD;&#xA;1h：选择EXI_LIN1事件作为当前触发通道事件。&#xD;&#xA;2h：选择EXI_LIN2事件作为当前触发通道事件。&#xD;&#xA;3h：选择EXI_LIN3事件作为当前触发通道事件。&#xD;&#xA;……&#xD;&#xA;Fh：选择EXI_LIN15事件作为当前触发通道事件。" />
         <Bit Name="TRGSEL0" Authority="RW" Bits="3-0" Description="TRGEVx事件的触发源选择。&#xD;&#xA;0h：选择EXI_LIN0事件作为当前触发通道事件。&#xD;&#xA;1h：选择EXI_LIN1事件作为当前触发通道事件。&#xD;&#xA;2h：选择EXI_LIN2事件作为当前触发通道事件。&#xD;&#xA;3h：选择EXI_LIN3事件作为当前触发通道事件。&#xD;&#xA;……&#xD;&#xA;Fh：选择EXI_LIN15事件作为当前触发通道事件。" />
       </Register>
-      <Register Name="GPIO_G0_LINE0" Authority="RW" Address="0x6000f064" Width="32" Description="外部GROUP0中断LINE配置寄存器">
+      <Register Name="GPIO_G0_LINE0" Authority="RW" Address="0x500f0064" Width="32" Description="外部GROUP0中断LINE配置寄存器">
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="11-8" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;x = 0,1,2,3" />
         <Bit Name="EXMOD" Authority="RW" Bits="5" Description="扩展模式输出逻辑关系选择：&#xD;&#xA;0h：LINE0 | LINE1 | LINE2 | LINE3&#xD;&#xA;1h：LINE0 &amp; LINE1 &amp; LINE2 &amp; LINE3&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
         <Bit Name="EXMODEN" Authority="RW" Bits="4" Description="扩展模式使能：&#xD;&#xA;0h: 普通模式: EXTLINE来自当前LINE的输入&#xD;&#xA;1h: 扩展模式: EXTLINE来自 group内多个LINE输入 (受LINEx_INSEL、GROUP_LINExEN和EXMOD控制)" />
@@ -8521,7 +8523,7 @@
         <Bit Name="GROUP0_LINE1EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE1" />
         <Bit Name="GROUP0_LINE0EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE0" />
       </Register>
-      <Register Name="GPIO_G0_LINE1" Authority="RW" Address="0x6000f068" Width="32" Description="外部GROUP0中断LINE配置寄存器">
+      <Register Name="GPIO_G0_LINE1" Authority="RW" Address="0x500f0068" Width="32" Description="外部GROUP0中断LINE配置寄存器">
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="11-8" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;x = 0,1,2,3" />
         <Bit Name="EXMOD" Authority="RW" Bits="5" Description="扩展模式输出逻辑关系选择：&#xD;&#xA;0h：LINE0 | LINE1 | LINE2 | LINE3&#xD;&#xA;1h：LINE0 &amp; LINE1 &amp; LINE2 &amp; LINE3&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
         <Bit Name="EXMODEN" Authority="RW" Bits="4" Description="扩展模式使能：&#xD;&#xA;0h: 普通模式: EXTLINE来自当前LINE的输入&#xD;&#xA;1h: 扩展模式: EXTLINE来自 group内多个LINE输入 (受LINEx_INSEL、GROUP_LINExEN和EXMOD控制)" />
@@ -8530,7 +8532,7 @@
         <Bit Name="GROUP0_LINE1EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE1" />
         <Bit Name="GROUP0_LINE0EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE0" />
       </Register>
-      <Register Name="GPIO_G0_LINE2" Authority="RW" Address="0x6000f06c" Width="32" Description="外部GROUP0中断LINE配置寄存器">
+      <Register Name="GPIO_G0_LINE2" Authority="RW" Address="0x500f006c" Width="32" Description="外部GROUP0中断LINE配置寄存器">
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="11-8" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;x = 0,1,2,3" />
         <Bit Name="EXMOD" Authority="RW" Bits="5" Description="扩展模式输出逻辑关系选择：&#xD;&#xA;0h：LINE0 | LINE1 | LINE2 | LINE3&#xD;&#xA;1h：LINE0 &amp; LINE1 &amp; LINE2 &amp; LINE3&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
         <Bit Name="EXMODEN" Authority="RW" Bits="4" Description="扩展模式使能：&#xD;&#xA;0h: 普通模式: EXTLINE来自当前LINE的输入&#xD;&#xA;1h: 扩展模式: EXTLINE来自 group内多个LINE输入 (受LINEx_INSEL、GROUP_LINExEN和EXMOD控制)" />
@@ -8539,7 +8541,7 @@
         <Bit Name="GROUP0_LINE1EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE1" />
         <Bit Name="GROUP0_LINE0EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE0" />
       </Register>
-      <Register Name="GPIO_G0_LINE3" Authority="RW" Address="0x6000f070" Width="32" Description="外部GROUP0中断LINE配置寄存器">
+      <Register Name="GPIO_G0_LINE3" Authority="RW" Address="0x500f0070" Width="32" Description="外部GROUP0中断LINE配置寄存器">
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="11-8" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;x = 0,1,2,3" />
         <Bit Name="EXMOD" Authority="RW" Bits="5" Description="扩展模式输出逻辑关系选择：&#xD;&#xA;0h：LINE0 | LINE1 | LINE2 | LINE3&#xD;&#xA;1h：LINE0 &amp; LINE1 &amp; LINE2 &amp; LINE3&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
         <Bit Name="EXMODEN" Authority="RW" Bits="4" Description="扩展模式使能：&#xD;&#xA;0h: 普通模式: EXTLINE来自当前LINE的输入&#xD;&#xA;1h: 扩展模式: EXTLINE来自 group内多个LINE输入 (受LINEx_INSEL、GROUP_LINExEN和EXMOD控制)" />
@@ -8548,7 +8550,7 @@
         <Bit Name="GROUP0_LINE1EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE1" />
         <Bit Name="GROUP0_LINE0EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE0" />
       </Register>
-      <Register Name="GPIO_G1_LINE4" Authority="RW" Address="0x6000f074" Width="32" Description="外部GROUP1中断LINE配置寄存器">
+      <Register Name="GPIO_G1_LINE4" Authority="RW" Address="0x500f0074" Width="32" Description="外部GROUP1中断LINE配置寄存器">
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="11-8" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;x = 4,5,6,7" />
         <Bit Name="MODE" Authority="RW" Bits="4" Description="输出逻辑关系选择：&#xD;&#xA;0h：LINE4 | LINE5 | LINE6 | LINE7&#xD;&#xA;1h：LINE4 &amp; LINE5 &amp; LINE6 &amp; LINE7&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
         <Bit Name="GROUP1_LINE7EN" Authority="RW" Bits="3" Description="输出逻辑关系包含LINE7" />
@@ -8556,7 +8558,7 @@
         <Bit Name="GROUP1_LINE5EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE5" />
         <Bit Name="GROUP1_LINE4EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE4" />
       </Register>
-      <Register Name="GPIO_G1_LINE5" Authority="RW" Address="0x6000f078" Width="32" Description="外部GROUP1中断LINE配置寄存器">
+      <Register Name="GPIO_G1_LINE5" Authority="RW" Address="0x500f0078" Width="32" Description="外部GROUP1中断LINE配置寄存器">
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="11-8" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;x = 4,5,6,7" />
         <Bit Name="MODE" Authority="RW" Bits="4" Description="输出逻辑关系选择：&#xD;&#xA;0h：LINE4 | LINE5 | LINE6 | LINE7&#xD;&#xA;1h：LINE4 &amp; LINE5 &amp; LINE6 &amp; LINE7&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
         <Bit Name="GROUP1_LINE7EN" Authority="RW" Bits="3" Description="输出逻辑关系包含LINE7" />
@@ -8564,7 +8566,7 @@
         <Bit Name="GROUP1_LINE5EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE5" />
         <Bit Name="GROUP1_LINE4EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE4" />
       </Register>
-      <Register Name="GPIO_G1_LINE6" Authority="RW" Address="0x6000f07c" Width="32" Description="外部GROUP1中断LINE配置寄存器">
+      <Register Name="GPIO_G1_LINE6" Authority="RW" Address="0x500f007c" Width="32" Description="外部GROUP1中断LINE配置寄存器">
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="11-8" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;x = 4,5,6,7" />
         <Bit Name="MODE" Authority="RW" Bits="4" Description="输出逻辑关系选择：&#xD;&#xA;0h：LINE4 | LINE5 | LINE6 | LINE7&#xD;&#xA;1h：LINE4 &amp; LINE5 &amp; LINE6 &amp; LINE7&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
         <Bit Name="GROUP1_LINE7EN" Authority="RW" Bits="3" Description="输出逻辑关系包含LINE7" />
@@ -8572,7 +8574,7 @@
         <Bit Name="GROUP1_LINE5EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE5" />
         <Bit Name="GROUP1_LINE4EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE4" />
       </Register>
-      <Register Name="GPIO_G1_LINE7" Authority="RW" Address="0x6000f080" Width="32" Description="外部GROUP1中断LINE配置寄存器">
+      <Register Name="GPIO_G1_LINE7" Authority="RW" Address="0x500f0080" Width="32" Description="外部GROUP1中断LINE配置寄存器">
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="11-8" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;x = 4,5,6,7" />
         <Bit Name="MODE" Authority="RW" Bits="4" Description="输出逻辑关系选择：&#xD;&#xA;0h：LINE4 | LINE5 | LINE6 | LINE7&#xD;&#xA;1h：LINE4 &amp; LINE5 &amp; LINE6 &amp; LINE7&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
         <Bit Name="GROUP1_LINE7EN" Authority="RW" Bits="3" Description="输出逻辑关系包含LINE7" />
@@ -8580,7 +8582,7 @@
         <Bit Name="GROUP1_LINE5EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE5" />
         <Bit Name="GROUP1_LINE4EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE4" />
       </Register>
-      <Register Name="GPIO_G2_LINE8" Authority="RW" Address="0x6000f084" Width="32" Description="外部GROUP2中断LINE配置寄存器">
+      <Register Name="GPIO_G2_LINE8" Authority="RW" Address="0x500f0084" Width="32" Description="外部GROUP2中断LINE配置寄存器">
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="11-8" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PA0&#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PB0&#xD;&#xA;&#xD;&#xA;x = 8,9,10,11" />
         <Bit Name="MODE" Authority="RW" Bits="4" Description="输出逻辑关系选择：&#xD;&#xA;0h：LINE8 | LINE9 | LINE10 | LINE11&#xD;&#xA;1h：LINE8 &amp; LINE9 &amp; LINE10 &amp; LINE11&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
         <Bit Name="GROUP2_LINE11EN" Authority="RW" Bits="3" Description="输出逻辑关系包含LINE11" />
@@ -8588,7 +8590,7 @@
         <Bit Name="GROUP2_LINE9EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE9" />
         <Bit Name="GROUP2_LINE8EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE8" />
       </Register>
-      <Register Name="GPIO_G2_LINE9" Authority="RW" Address="0x6000f088" Width="32" Description="外部GROUP2中断LINE配置寄存器">
+      <Register Name="GPIO_G2_LINE9" Authority="RW" Address="0x500f0088" Width="32" Description="外部GROUP2中断LINE配置寄存器">
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="11-8" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PA0&#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PB0&#xD;&#xA;&#xD;&#xA;x = 8,9,10,11" />
         <Bit Name="MODE" Authority="RW" Bits="4" Description="输出逻辑关系选择：&#xD;&#xA;0h：LINE8 | LINE9 | LINE10 | LINE11&#xD;&#xA;1h：LINE8 &amp; LINE9 &amp; LINE10 &amp; LINE11&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
         <Bit Name="GROUP2_LINE11EN" Authority="RW" Bits="3" Description="输出逻辑关系包含LINE11" />
@@ -8596,7 +8598,7 @@
         <Bit Name="GROUP2_LINE9EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE9" />
         <Bit Name="GROUP2_LINE8EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE8" />
       </Register>
-      <Register Name="GPIO_G2_LINE10" Authority="RW" Address="0x6000f08c" Width="32" Description="外部GROUP2中断LINE配置寄存器">
+      <Register Name="GPIO_G2_LINE10" Authority="RW" Address="0x500f008c" Width="32" Description="外部GROUP2中断LINE配置寄存器">
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="11-8" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PA0&#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PB0&#xD;&#xA;&#xD;&#xA;x = 8,9,10,11" />
         <Bit Name="MODE" Authority="RW" Bits="4" Description="输出逻辑关系选择：&#xD;&#xA;0h：LINE8 | LINE9 | LINE10 | LINE11&#xD;&#xA;1h：LINE8 &amp; LINE9 &amp; LINE10 &amp; LINE11&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
         <Bit Name="GROUP2_LINE11EN" Authority="RW" Bits="3" Description="输出逻辑关系包含LINE11" />
@@ -8604,7 +8606,7 @@
         <Bit Name="GROUP2_LINE9EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE9" />
         <Bit Name="GROUP2_LINE8EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE8" />
       </Register>
-      <Register Name="GPIO_G2_LINE11" Authority="RW" Address="0x6000f090" Width="32" Description="外部GROUP2中断LINE配置寄存器">
+      <Register Name="GPIO_G2_LINE11" Authority="RW" Address="0x500f0090" Width="32" Description="外部GROUP2中断LINE配置寄存器">
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="11-8" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PA0&#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PB0&#xD;&#xA;&#xD;&#xA;x = 8,9,10,11" />
         <Bit Name="MODE" Authority="RW" Bits="4" Description="输出逻辑关系选择：&#xD;&#xA;0h：LINE8 | LINE9 | LINE10 | LINE11&#xD;&#xA;1h：LINE8 &amp; LINE9 &amp; LINE10 &amp; LINE11&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
         <Bit Name="GROUP2_LINE11EN" Authority="RW" Bits="3" Description="输出逻辑关系包含LINE11" />
@@ -8612,7 +8614,7 @@
         <Bit Name="GROUP2_LINE9EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE9" />
         <Bit Name="GROUP2_LINE8EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE8" />
       </Register>
-      <Register Name="GPIO_G3_LINE12" Authority="RW" Address="0x6000f094" Width="32" Description="外部GROUP3中断LINE配置寄存器">
+      <Register Name="GPIO_G3_LINE12" Authority="RW" Address="0x500f0094" Width="32" Description="外部GROUP3中断LINE配置寄存器">
         <Bit Name="LINE_INSEL" Authority="RW" Bits="11" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PA1&#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PB1&#xD;&#xA;&#xD;&#xA;x = 12,13,14,15" />
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="10-8" Description="" />
         <Bit Name="MODE" Authority="RW" Bits="4" Description="输出逻辑关系选择：&#xD;&#xA;0h：LINE12 | LINE13 | LINE14 | LINE15&#xD;&#xA;1h：LINE12 &amp; LINE13 &amp; LINE14 &amp; LINE15&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
@@ -8621,7 +8623,7 @@
         <Bit Name="GROUP3_LINE13EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE13" />
         <Bit Name="GROUP3_LINE12EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE12" />
       </Register>
-      <Register Name="GPIO_G3_LINE13" Authority="RW" Address="0x6000f098" Width="32" Description="外部GROUP3中断LINE配置寄存器">
+      <Register Name="GPIO_G3_LINE13" Authority="RW" Address="0x500f0098" Width="32" Description="外部GROUP3中断LINE配置寄存器">
         <Bit Name="LINE_INSEL" Authority="RW" Bits="11" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PA1&#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PB1&#xD;&#xA;&#xD;&#xA;x = 12,13,14,15" />
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="10-8" Description="" />
         <Bit Name="MODE" Authority="RW" Bits="4" Description="输出逻辑关系选择：&#xD;&#xA;0h：LINE12 | LINE13 | LINE14 | LINE15&#xD;&#xA;1h：LINE12 &amp; LINE13 &amp; LINE14 &amp; LINE15&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
@@ -8630,7 +8632,7 @@
         <Bit Name="GROUP3_LINE13EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE13" />
         <Bit Name="GROUP3_LINE12EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE12" />
       </Register>
-      <Register Name="GPIO_G3_LINE14" Authority="RW" Address="0x6000f09c" Width="32" Description="外部GROUP3中断LINE配置寄存器">
+      <Register Name="GPIO_G3_LINE14" Authority="RW" Address="0x500f009c" Width="32" Description="外部GROUP3中断LINE配置寄存器">
         <Bit Name="LINE_INSEL" Authority="RW" Bits="11" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PA1&#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PB1&#xD;&#xA;&#xD;&#xA;x = 12,13,14,15" />
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="10-8" Description="" />
         <Bit Name="MODE" Authority="RW" Bits="4" Description="输出逻辑关系选择：&#xD;&#xA;0h：LINE12 | LINE13 | LINE14 | LINE15&#xD;&#xA;1h：LINE12 &amp; LINE13 &amp; LINE14 &amp; LINE15&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
@@ -8639,7 +8641,7 @@
         <Bit Name="GROUP3_LINE13EN" Authority="RW" Bits="1" Description="输出逻辑关系包含LINE13" />
         <Bit Name="GROUP3_LINE12EN" Authority="RW" Bits="0" Description="输出逻辑关系包含LINE12" />
       </Register>
-      <Register Name="GPIO_G3_LINE15" Authority="RW" Address="0x6000f0a0" Width="32" Description="外部GROUP3中断LINE配置寄存器">
+      <Register Name="GPIO_G3_LINE15" Authority="RW" Address="0x500f00a0" Width="32" Description="外部GROUP3中断LINE配置寄存器">
         <Bit Name="LINE_INSEL" Authority="RW" Bits="11" Description="LINEx 输入管脚选择&#xD;&#xA;0x00h: PAx&#xD;&#xA;0x01h: RSVD&#xD;&#xA;0x02h: PBx&#xD;&#xA;0x03h: RSVD&#xD;&#xA;0x04h: PCx&#xD;&#xA;0x05h: RSVD&#xD;&#xA;0x06h: PDx&#xD;&#xA;0x07h: RSVD&#xD;&#xA;&#xD;&#xA;0x08h: PA1&#xD;&#xA;0x09h: RSVD&#xD;&#xA;0x0ah: PB1&#xD;&#xA;&#xD;&#xA;x = 12,13,14,15" />
         <Bit Name="LINEx_INSEL" Authority="RW" Bits="10-8" Description="" />
         <Bit Name="MODE" Authority="RW" Bits="4" Description="输出逻辑关系选择：&#xD;&#xA;0h：LINE12 | LINE13 | LINE14 | LINE15&#xD;&#xA;1h：LINE12 &amp; LINE13 &amp; LINE14 &amp; LINE15&#xD;&#xA;注：如果对应LINE 未使能，则不参与“&amp;”或“|”操作。" />
@@ -10755,7 +10757,7 @@
       <Register Name="QSPI_SPICR" Authority="RW" Address="0x600000f4" Width="32" Description="QSPI SPI控制寄存器">
         <Bit Name="XIP_DFSHC" Authority="RW" Bits="19" Description="XIP_DFSHC：XIP传输中数据帧大小固定控制位&#xD;&#xA;0：数据帧长度由AHB总线自主决定&#xD;&#xA;1：数据帧大小由CR0中的DFS决定" />
         <Bit Name="INTSDDRE" Authority="RW" Bits="17" Description="INTSDDRE: 增强型SPI模式下指令阶段DDR使能控制位。&#xD;&#xA;0：禁止&#xD;&#xA;1：使能" />
-        <Bit Name="DDRE" Authority="RW" Bits="16" Description="DDRE: 增强型SPI模式下DDR使能控制位。&#xD;&#xA;0：禁止&#xD;&#xA;1：使能" />
+        <Bit Name="DDRE" Authority="RW" Bits="16" Description="DDRE: 增强型SPI模式下数据和地址DDR使能控制位。&#xD;&#xA;0：禁止&#xD;&#xA;1：使能" />
         <Bit Name="WCYCLE" Authority="RW" Bits="15-11" Description="WCYCLE：增强型SPI模式下发送控制帧和数据接收之间的等待时间。&#xD;&#xA;TWAIT = WCYCLE * TSPICLK" />
         <Bit Name="INSTL" Authority="RW" Bits="9-8" Description="INSTL：增强型SPI模式(双线/四线SPI)指令长度选择。&#xD;&#xA;0x0：没有指令&#xD;&#xA;0x1:  4-bit&#xD;&#xA;0x2:  8-bit&#xD;&#xA;0x3:  16-bit" />
         <Bit Name="XIPMBE" Authority="RW" Bits="7" Description="XIPMBE：XIP模式下模式位（mode bits）使能控制。&#xD;&#xA;0：地址后不插入模式位&#xD;&#xA;1：地址后插入模式位&#xD;&#xA;注意：只有在XIP模式时有效。" />
