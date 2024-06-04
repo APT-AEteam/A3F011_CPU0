@@ -9,13 +9,13 @@
  * *********************************************************************
 */
 
-#include <sys_clk.h>
-#include <drv/usbd.h>
-#include <drv/usbd_descriptor.h>
-#include <drv/usbd_audio.h>
-#include <drv/irq.h>
-#include <drv/pin.h>
-#include <drv/tick.h>
+#include "sys_clk.h"
+#include "drv/usbd.h"
+#include "drv/usbd_descriptor.h"
+#include "drv/usbd_audio.h"
+#include "drv/irq.h"
+#include "drv/pin.h"
+#include "drv/tick.h"
 
 /* Private macro------------------------------------------------------*/
 /* externs function---------------------------------------------------*/
@@ -1383,50 +1383,61 @@ void csi_usb_setup_handler(csp_usb_t *ptUsbBase)
  *  \param[in] idx: id num
  *  \return none
  */
+uint32_t  wUsbDeviceStatus[20] = {0};
 void usb_irqhandler(csp_usb_t *ptUsbBase,int32_t idx)
 {
 	switch(csp_usb_get_isr(ptUsbBase))
 	{
 		case 1:
 			csi_usb_reset(ptUsbBase);
+			wUsbDeviceStatus[1]++;
 	//		 hal_SendDataPullUp();
 			break;
 		case 2:
 			csi_usb_suspend(ptUsbBase);
+			wUsbDeviceStatus[2]++;
 			break;
 		case 3:
 			csi_usb_sof(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[3]++;
 			break;
 		case 4:
 			csi_pin_set_high(PA3);	
 			csi_usb_setup_handler(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[4]++;
 			csi_pin_set_low(PA3);	
 			break;
 		case 5:
 			csi_usb_ep0_rx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[5]++;
 			break;
 		case 6:
 			csi_usb_ep1_rx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[6]++;
 			break;
 		case 7:
 			csi_usb_ep2_rx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[7]++;
 			break;
 		case 8:
 			csi_usb_ep3_rx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[8]++;
 			break;
 		case 9:
 			csi_usb_ep4_rx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[9]++;
 			break;
 		case 10:
 			csi_usb_ep5_rx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[10]++;
 			break;
 		case 11:
 			csi_usb_ep6_rx(ptUsbBase);
@@ -1435,30 +1446,37 @@ void usb_irqhandler(csp_usb_t *ptUsbBase,int32_t idx)
 		case 13:
 			csi_usb_ep0_tx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[13]++;
 			break;
 		case 14:
 			csi_usb_ep1_tx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[14]++;
 			break;
 		case 15:
 			csi_usb_ep2_tx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[15]++;
 			break;
 		case 16:
 			csi_usb_ep3_tx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[16]++;
 			break;
 		case 17:
 			csi_usb_ep4_tx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[17]++;
 			break;
 		case 18:
 			csi_usb_ep5_tx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[18]++;
 			break;
 		case 19:
 			csi_usb_ep6_tx(ptUsbBase);
 			tUsbSoftCtrl.byUsbActiv = 1;
+			wUsbDeviceStatus[19]++;
 			break;
 		default:
 			break;
@@ -1540,43 +1558,6 @@ void csi_usb_clk_config(csp_usb_t *ptUsbBase,csi_usb_config_t ptUsbCfg)
 #endif	
 }
 
-/** \brief usb_audio_samp_demo 
- * 
- *  \param[in] ptUsbBase: pointer of usb register structure
- *  \return none
- */  
-void usb_audio_samp_demo(csp_usb_t *ptUsbBase)
-{  
-    csi_error_t tRet;  
-    char  usb_dev_name[16] = "USB Audio Device";
-	csi_usb_config_t       tUsbCtrl;
-
-    tUsbCtrl.wFifoBaseAddress = 0x44000000;//0x20004000; 0x44000000
-     // ep out fifo length,byte
-    tUsbCtrl.hwFifoOutLen[0] = 64;    
-    tUsbCtrl.hwFifoOutLen[1] = (48*4*2);    
-    tUsbCtrl.hwFifoOutLen[2] = 8;    
-    tUsbCtrl.hwFifoOutLen[3] = 8;    
-    tUsbCtrl.hwFifoOutLen[4] = 64;    
-    tUsbCtrl.hwFifoOutLen[5] = 8;    
-    tUsbCtrl.hwFifoOutLen[6] = 8;    
-
-    // ep in fifo length,byte
-    tUsbCtrl.hwFifoInLen[0] = 64;      
-    tUsbCtrl.hwFifoInLen[1] = (48*4*2);   
-    tUsbCtrl.hwFifoInLen[2] = 8;   
-    tUsbCtrl.hwFifoInLen[3] = 16;   
-    tUsbCtrl.hwFifoInLen[4] = 64;   
-    tUsbCtrl.hwFifoInLen[5] = 16;   
-    tUsbCtrl.hwFifoInLen[6] = 16;   
-    tUsbCtrl.eUsbPhyMode = USB_PHY_EXTERN_OSC;
-
-    csi_usb_set_product_string(usb_dev_name,sizeof(usb_dev_name));	
-    tRet = csi_usb_init(ptUsbBase,tUsbCtrl);
-    if(tRet == CSI_ERROR){
-        // Err
-    }
-}
 
 
 

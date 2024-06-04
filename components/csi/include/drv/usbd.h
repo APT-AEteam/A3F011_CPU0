@@ -196,12 +196,6 @@ void csi_usb_dp_pull_up_disable(csp_usb_t *ptUsbBase);
  */  
 void csi_usb_clk_config(csp_usb_t *ptUsbBase,csi_usb_config_t ptUsbCfg);
 
-/** \brief power on init usb  
- * 
- *  \param[in] ptUsbBase: pointer of usb register structure
- *  \return none
- */ 
-void usb_audio_samp_demo(csp_usb_t *ptUsbBase);
 
 /** \brief usb dp pull up enable 
  * 

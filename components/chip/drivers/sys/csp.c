@@ -48,6 +48,7 @@ csp_gpta_t 		*GPTA0     	= (csp_gpta_t 	*)(APB_GPTA0_BASE);
 csp_gpta_t 		*GPTA1     	= (csp_gpta_t 	*)(APB_GPTA1_BASE);
 csp_gpta_t 		*GPTA2     	= (csp_gpta_t 	*)(APB_GPTA2_BASE);
 csp_gpta_t 		*GPTA3     	= (csp_gpta_t 	*)(APB_GPTA3_BASE);
+csp_trng_t      *TRNG		= (csp_trng_t   *)(AHB_TRNG_BASE);
 //csp_gptb_t 		*GPTB0     	= (csp_gptb_t 	*)(APB_GPTB0_BASE);
 //csp_gptb_t 		*GPTB1     	= (csp_gptb_t 	*)(APB_GPTB1_BASE);
 //csp_gptb_t 		*GPTB2     	= (csp_gptb_t 	*)(APB_GPTB2_BASE);
