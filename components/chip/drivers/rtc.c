@@ -19,93 +19,68 @@
 
 /* externs function--------------------------------------------------------*/
 /* private function--------------------------------------------------------*/
-
-
 static void apt_rtc_alm_set_time(csp_rtc_t *ptRtc, uint8_t byAlm, uint8_t byDay, bool byPm, uint8_t byHor, uint8_t byMin,uint8_t bySec);
 static csp_error_t apt_rtc_set_time(csp_rtc_t *ptRtc, bool bPm, uint8_t byHor, uint8_t byMin,uint8_t bySec);
 static csp_error_t apt_rtc_set_date(csp_rtc_t *ptRtc, uint8_t byYear, uint8_t byMon, uint8_t byWday, uint8_t byDay);
 csp_error_t apt_rtc_set_trgsrc(csp_rtc_t *ptRtc, uint8_t byTrg, csp_rtc_trgsel_e eSrc);
 csp_error_t apt_rtc_set_trgprd(csp_rtc_t *ptRtc, uint8_t byTrg, uint8_t byPrd);
-
 /* externs variablesr------------------------------------------------------*/
 /* Private variablesr------------------------------------------------------*/
 
-/**
-  \brief       Initialize RTC Interface. Initializes the resources needed for the RTC interface
-  \param       ptRtc    pointer of rtc register structure
-  \param	   tConfig  rtc basic parameters \ref csi_rtc_config_t
-  \return      none
-*/
-csp_rtc_time_t tRtcAlarmTime;
+uint32_t wFlag1,wFlag2,wFlag3,wFlag4,wFlag5,wFlag6;
+csi_rtc_time_t tRtcTime,tRtcTimeRdbk1;
 void csi_rtc_init(csp_rtc_t *ptRtc, csi_rtc_config_t *tConfig)
 {
     uint8_t byDiva = 0;
 	uint16_t hwDivs = 0;
-	
-	soc_clk_enable(RTC_SYS_CLK);
-		
-	csp_rtc_stop(ptRtc);
+	uint32_t flash_err;
 	
 	switch (tConfig->byClkSrc)
 	{ 
 		case (RTC_ISOSC):
-			csi_isosc_enable();
+//			csi_isosc_enable();
+			*(unsigned int *)(0x80000004) |=  0x1 <<2; 
+			while((*(unsigned int *)(0x80000010)&0x4) != 0x4);
 			byDiva = 49;
-			hwDivs = 134;
+			hwDivs = 269;
 			break;
 		case (RTC_EMOSC):
-			csi_emosc_enable(EMOSC_VALUE);
-			byDiva = 3;
-			hwDivs = 2047;
+			csi_esosc_enable();
+			byDiva = 3;//63;
+			hwDivs = 4095;//31;
 			break;
 		case (RTC_IMOSC_DIV4):
-			switch(csp_get_imosc_fre(SYSCON))
-			{
-				case (0):	//5.556MHz
-					byDiva = 124;
-					hwDivs = 2777;
-					break;
-				case (1):	//4.194MHz
-					byDiva = 124;
-					hwDivs = 2096;
-					break;
-				case (2):	//2.097MHz
-					byDiva = 124;
-					hwDivs = 1047;
-					break;
-				case (3):	//131.072KHz
-					byDiva = 124;
-					hwDivs = 127;
-					break;
-				default:
-					break;
-			}			
+			byDiva = 99;
+			hwDivs = 9999;
 			break;
 		case (RTC_EMOSC_DIV4):
-			csi_emosc_enable(EMOSC_VALUE);
-			byDiva = 63;
-			hwDivs = 31;
+			csi_emosc_enable(EMOSC_24M_VALUE);
+//			*(unsigned int *)(0x80000004) |=  0x1 <<4; 
+//			while((*(unsigned int *)(0x80000010)&0x10) != 0x10);
+			byDiva = 99;//3;
+			hwDivs = 29999;//4095;
 			break;
 		default:
 			break;
 	}
 	
 	ptRtc->KEY = 0xCA53;
-	ptRtc->CCR = (ptRtc->CCR & (~RTC_CLKSRC_MSK) & (~RTC_DIVA_MSK)& (~RTC_DIVS_MSK)) | (tConfig->byClkSrc << RTC_CLKSRC_POS)|(byDiva << RTC_DIVA_POS)| (hwDivs << RTC_DIVS_POS) | (RTC_CLKEN);
+	ptRtc->CCR |= (tConfig->byClkSrc << RTC_CLKSRC_POS)|(byDiva << RTC_DIVA_POS)| (hwDivs << RTC_DIVS_POS) | RTC_CLKEN ;
+	while(ptRtc->CCR &RTC_CCR_BSY);
 	ptRtc->KEY = 0x0;
+	
 	while((ptRtc->CCR & RTC_CLK_STABLE) == 0);
 	
-	//csp_rtc_ers_key(ptRtc);
+	csp_rtc_stop(ptRtc);
+
 	csp_rtc_rb_enable(ptRtc, ENABLE);
+	//csp_rtc_debug_enable(ptRtc, ENABLE);
 	csp_rtc_set_fmt(ptRtc, tConfig->byFmt);
 	csp_rtc_alm_enable(ptRtc, RTC_ALMB, DISABLE);
 	csp_rtc_alm_enable(ptRtc, RTC_ALMA, DISABLE);
 	
-	
 	csp_rtc_int_enable(ptRtc, RTC_INT_ALMA|RTC_INT_ALMB|RTC_INT_CPRD|RTC_INT_TRGEV0|RTC_INT_TRGEV1, DISABLE);
 	csp_rtc_int_clr(ptRtc, RTC_INT_ALMA|RTC_INT_ALMB|RTC_INT_CPRD|RTC_INT_TRGEV0|RTC_INT_TRGEV1);
-
-
 }
 
 /**
@@ -355,6 +330,7 @@ void csi_rtc_int_enable(csp_rtc_t *ptRtc, rtc_int_e eIntSrc, bool bEnable)
 */
 void csi_rtc_get_time(csp_rtc_t *ptRtc, csi_rtc_time_t *rtctime)
 {
+	//csp_rtc_rb_enable(ptRtc, ENABLE);
 	rtctime->tm_year = csp_rtc_read_year(ptRtc);
 	rtctime->tm_mon = csp_rtc_read_mon(ptRtc);
 	rtctime->tm_wday = csp_rtc_read_wday(ptRtc);
@@ -363,6 +339,7 @@ void csi_rtc_get_time(csp_rtc_t *ptRtc, csi_rtc_time_t *rtctime)
 	rtctime->tm_min = csp_rtc_read_min(ptRtc);
 	rtctime->tm_sec = csp_rtc_read_sec(ptRtc);
 	rtctime->tm_pm = csp_rtc_read_pm(ptRtc);
+	//csp_rtc_rb_enable(ptRtc, DISABLE);
 }
 
 /**

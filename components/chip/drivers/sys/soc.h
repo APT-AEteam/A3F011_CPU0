@@ -41,7 +41,7 @@ extern "C" {
 #endif
 
 #ifndef IMOSC_5M_VALUE
-#define IMOSC_5M_VALUE		32000000U
+#define IMOSC_5M_VALUE		8000000U//32000000U
 #endif
 #ifndef IMOSC_4M_VALUE
 #define IMOSC_4M_VALUE      4194000U
@@ -57,7 +57,7 @@ extern "C" {
 #define HFOSC_48M_VALUE     48000000U
 #endif
 #ifndef HFOSC_24M_VALUE
-#define HFOSC_24M_VALUE     24000000U
+#define HFOSC_24M_VALUE     48000000U//24000000U
 #endif
 #ifndef HFOSC_12M_VALUE
 #define HFOSC_12M_VALUE     12000000U
