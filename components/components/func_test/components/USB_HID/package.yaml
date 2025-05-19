@@ -1,0 +1,40 @@
+name: USB_CustomerHID
+version: v1.0.0
+description: for HID
+tag: ""
+keywords: 
+author:
+  name: WNN
+license: ""
+homepage: 
+type: common
+depends: 
+depends_forward: 
+yoc_version: 
+hw_info:
+  cpu_id: ""
+  cpu_name: ""
+  vendor_name: ""
+  chip_name: ""
+  board_name: ""
+  ld_script: ""
+  flash_program: ""
+build_config:
+  include:
+    - inc/
+    - ../../../../../components/chip/include/
+    - ../../../../../components/csi/include/drv/
+  internal_include: 
+  cflag: -O0
+  cxxflag: -O0
+  asmflag: ""
+  define: 
+  libs: 
+  libpath: 
+source_file:
+  - src/usbd_core.c
+  - src/usbd_hid.c
+  - src/usbd_hid_descriptor.c
+  - src/usbd_hid_demo.c
+def_config: 
+install: 

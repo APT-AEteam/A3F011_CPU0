@@ -1,0 +1,40 @@
+name: USB_AUDIO
+version: v1.0.0
+description: For USB Audio
+tag: ""
+keywords: 
+author:
+  name: ""
+license: ""
+homepage: 
+type: common
+depends: 
+depends_forward: 
+yoc_version: 
+hw_info:
+  cpu_id: ""
+  cpu_name: ""
+  vendor_name: ""
+  chip_name: ""
+  board_name: ""
+  ld_script: ""
+  flash_program: ""
+build_config:
+  include:
+    - inc/
+    - ../../../../../components/chip/include/
+    - ../../../../../components/components/demo/include/
+  internal_include: 
+  cflag: -O0
+  cxxflag: -O0
+  asmflag: ""
+  define: 
+  libs: 
+  libpath: 
+source_file:
+  - src/usbd.c
+  - src/usbd_audio.c
+  - src/usbd_descriptor.c
+  - src/usb_audio_demo.c
+def_config: 
+install: 

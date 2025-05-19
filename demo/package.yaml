@@ -22,16 +22,19 @@ author:
 license: ""
 type: solution
 depends:
-  - A3F011_CPU0_demo: v0.0.0
+  - USB_AUDIO: v1.0.0
+  - USB_CustomerHID: v1.0.0
+  - func_test: v1.0.0
   - sdk_011_CPU0: v0.0.0
 build_config:
   include:
     - include
     - ./
+    - ../components/components/func_test/include/
   internal_include: 
   cflag: -O0   -Wall  -ffunction-sections  -fdata-sections
   cxxflag: -O0   -Wall  -ffunction-sections  -fdata-sections
-  asmflag: -Wa,--gdwarf2
+  asmflag: -Wa,-gdwarf-2
   define: 
   libs: 
   libpath: 
@@ -39,7 +42,9 @@ source_file:
   - src/main.c
   - src/user_demo.c
 depends_forward:
-  - A3F011_CPU0_demo: v0.0.0
+  - USB_AUDIO: v1.0.0
+  - USB_CustomerHID: v1.0.0
+  - func_test: v1.0.0
   - sdk_011_CPU0: v0.0.0
 install: 
 homepage: 

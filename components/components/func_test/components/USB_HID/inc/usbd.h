@@ -27,8 +27,8 @@ extern "C" {
 #define DVIDL       0x83//0x06
 #define DVIDH       0x04//0x32
 
-#define DPIDL       0xDF//0x02
-#define DPIDH       0x11//0x10
+#define DPIDL       0x51//0x02
+#define DPIDH       0x57//0x10
 
 #define   USB_ENUM_STEP_DEVICE_DESC			0x0001
 #define   USB_ENUM_STEP_CONFIG_DESC			0x0002
@@ -70,8 +70,8 @@ typedef struct
 {
     usb_phy_osc_e eUsbPhyMode;
     uint32_t   wFifoBaseAddress;
-    uint16_t   hwFifoOutLen[7];     // ep out fifo length,byte
-    uint16_t   hwFifoInLen[7];      // ep in fifo length,byte
+    uint16_t   hwFifoOutLen[7];     // ep0~6 out fifo length,byte
+    uint16_t   hwFifoInLen[7];      // ep0~6 in fifo length,byte
     uint16_t   hwHpVolumeInit;
     uint16_t   hwMicVolumeInit;
 }csi_usb_config_t;
@@ -181,6 +181,14 @@ typedef struct
  */  
 csi_error_t  csi_usb_init(csp_usb_t *ptUsbBase,csi_usb_config_t ptUsbCfg);
 
+
+/** \brief usb reset
+ * 
+ *  \param[in] ptUsbBase: pointer of usb register structure
+ *  \return none
+ */ 
+void csi_usb_reset(csp_usb_t *ptUsbBase);
+
 /** \brief usb dp pull up disable 
  * 
  *  \param[in] ptUsbBase: pointer of usb register structure
@@ -196,12 +204,6 @@ void csi_usb_dp_pull_up_disable(csp_usb_t *ptUsbBase);
  */  
 void csi_usb_clk_config(csp_usb_t *ptUsbBase,csi_usb_config_t ptUsbCfg);
 
-/** \brief power on init usb  
- * 
- *  \param[in] ptUsbBase: pointer of usb register structure
- *  \return none
- */ 
-void usb_audio_samp_demo(csp_usb_t *ptUsbBase);
 
 /** \brief usb dp pull up enable 
  * 

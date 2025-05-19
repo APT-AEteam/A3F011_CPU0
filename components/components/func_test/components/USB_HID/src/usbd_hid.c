@@ -9,14 +9,14 @@
  * *********************************************************************
 */
 
-#include <sys_clk.h>
-#include <drv/usbd.h>
-#include <drv/usbd_audio.h>
+#include "sys_clk.h"
+#include "usbd_core.h"
+#include "usbd_hid.h"
 
 extern csi_usb_ep0_ctrl_t     tUsbEp0Ctrl;
 extern csi_usb_soft_ctrl_t    tUsbSoftCtrl;
 extern csi_usb_ep_fifo_adr_t  tUsbEpFifoAddr;
-extern volatile char string_index2_table[58];
+extern volatile char byHidStringProdcut[58];
 
 /** \brief USB start enum  
  * 
@@ -47,7 +47,9 @@ csi_error_t  csi_usb_enum_complete(void)
 	temp = USB_ENUM_STEP_DEVICE_DESC
 				| USB_ENUM_STEP_CONFIG_DESC
 				| USB_ENUM_STEP_LANGUAGE_ID
-				| USB_ENUM_STEP_INF3_REPORT
+				//| USB_ENUM_STEP_INF3_REPORT
+				|USB_ENUM_STEP_HIDREPORT_DESC
+				|USB_ENUM_STEP_SERIAL_STRING
 				;
 	if((tUsbSoftCtrl.hwUsbEnumStep & temp) == temp)
 	{	// DEVICE_DESC,CONFIG_DESC,LANGUAGE_ID,INF0_REPORT
@@ -98,125 +100,6 @@ void  csi_usb_clear_vendor_interrupt_state(void)
     tUsbSoftCtrl.byVendorReceiveOnePacket = 0;
 }
 
-/** \brief USB get mic interrupt state
- * 
- *  \param[in] none
- *  \return error code \ref csi_error_t
- */
-csi_error_t  csi_usb_get_mic_interrupt_state(void)
-{
-    return (tUsbSoftCtrl.byMicInterrupt == 1) ? CSI_OK:CSI_ERROR;
-}
-
-/** \brief USB get hp interrupt state
- * 
- *  \param[in] none
- *  \return error code \ref csi_error_t
- */
-csi_error_t  csi_usb_get_hp_interrupt_state(void)
-{
-    return (tUsbSoftCtrl.byHpInterrupt == 1) ? CSI_OK:CSI_ERROR;
-}
-
-/** \brief USB clear mic interrupt state
- * 
- *  \param[in] none
- *  \return none
- */ 
-void  csi_usb_clear_mic_interrupt_state(void)
-{
-    tUsbSoftCtrl.byMicInterrupt = 0;
-}
-
-/** \brief USB clear hp interrupt state
- * 
- *  \param[in] none
- *  \return none
- */ 
-void  csi_usb_clear_hp_interrupt_state(void)
-{
-    tUsbSoftCtrl.byHpInterrupt = 0;
-}
-
-/** \brief USB get set hp volume state
- * 
- *  \param[in] none
- *  \return error code \ref csi_error_t
- */
-csi_error_t  csi_usb_get_set_hp_volume_state(void)
-{
-    return (tUsbSoftCtrl.bySpeakerVolAdj == 1) ? CSI_OK:CSI_ERROR;
-}
-
-/** \brief USB get set mic volume state
- * 
- *  \param[in] none
- *  \return error code \ref csi_error_t
- */
-csi_error_t  csi_usb_get_set_mic_volume_state(void)
-{
-    return (tUsbSoftCtrl.byMicVolAdj == 1) ? CSI_OK:CSI_ERROR;
-}
-
-/** \brief USB get hp mute state
- * 
- *  \param[in] none
- *  \return error code \ref csi_error_t
- */
-csi_error_t  csi_usb_get_hp_mute_state(void)
-{
-	return (tUsbEp0Ctrl.bySpeakerMuteValue == 1) ? CSI_OK:CSI_ERROR; 
-}
-
-/** \brief USB get mic mute state
- * 
- *  \param[in] none
- *  \return error code \ref csi_error_t
- */
-csi_error_t  csi_usb_get_mic_mute_state(void)
-{
-	return (tUsbEp0Ctrl.byMicMuteValue == 1) ? CSI_OK:CSI_ERROR; 
-}
-
-/** \brief USB clear hp volume state
- * 
- *  \param[in] none
- *  \return none
- */ 
-void  csi_usb_clear_set_hp_volume_state(void)
-{
-	tUsbSoftCtrl.bySpeakerVolAdj = 0;
-}
-
-/** \brief USB clear mic volume state
- * 
- *  \param[in] none
- *  \return none
- */ 
-void  csi_usb_clear_mic_volume_state(void)
-{
-	tUsbSoftCtrl.byMicVolAdj = 0;
-}
-
-/** \brief USB get hp volume 
- * 
- *  \param[in] none
- *  \return hp volume
- */ 
-uint16_t  csi_usb_get_hp_volume(void)
-{
-	return tUsbSoftCtrl.hwUsbSetHpVolume;
-}
-
-/** \brief USB get mic volume 
- * 
- *  \param[in] none
- *  \return mic volume
- */ 
-uint16_t  csi_usb_get_mic_volume(void)
-{
-	return tUsbSoftCtrl.hwUsbSetMicVolume;
-}
 
 /** \brief USB set product string 
  * 
@@ -229,10 +112,10 @@ void csi_usb_set_product_string(char * pbuf,uint8_t byLength)
 	uint8_t i,data_len,val;
 	for(i=2;i<58;i++)
 	{
-		string_index2_table[i] = 0x00;
+		byHidStringProdcut[i] = 0x00;
 	}
-	string_index2_table[0] = 0x3a;
-	string_index2_table[1] = 0x03;
+	byHidStringProdcut[0] = 0x3a;
+	byHidStringProdcut[1] = 0x03;
 	if(byLength > 28)
 	{
 		byLength = 28;
@@ -247,9 +130,9 @@ void csi_usb_set_product_string(char * pbuf,uint8_t byLength)
 		}else{
 			break;
 		}
-		string_index2_table[2 + i*2] = val;
+		byHidStringProdcut[2 + i*2] = val;
 	}
-	string_index2_table[0] = data_len*2 + 2;
+	byHidStringProdcut[0] = data_len*2 + 2;
 
 }
 
@@ -268,30 +151,33 @@ uint32_t csi_usb_report_ep1_data(csp_usb_t *ptUsbBase,uint8_t * pbyBuf,uint32_t 
 	flag = 0;
 	// if(!usb_config_ok) return 0;
 
-	star_epdata = tUsbEpFifoAddr.pbyEpTxFifoStar[1] ;
-	end_epdata = tUsbEpFifoAddr.pbyEpTxFifoStar[2] ;
-
-    if(tUsbSoftCtrl.hwMicFifoRdCntBack != ptUsbBase->CFIFO2_RD_PTR)	
-    {       // err
-        tUsbSoftCtrl.wMicFifoErrNum ++;
-        flag |= 0x02;
-    }
-
-	if(!(ptUsbBase->EP1TX_CTL & 0x01)) // for audio
+	if(tUsbEp0Ctrl.byUsbConfig)
 	{
-		user_epdata = star_epdata;
-		user_epdata += ptUsbBase->CFIFO2_RD_PTR;
-		for(i=0;i<wLength;i++)
-		{
-			*user_epdata++ = *pbyBuf++;
-			if(user_epdata >= end_epdata)
-			{
-				user_epdata = star_epdata;
-			}
+		star_epdata = tUsbEpFifoAddr.pbyEpTxFifoStar[1] ;
+		end_epdata  = tUsbEpFifoAddr.pbyEpTxFifoStar[2] ;
+
+		if(tUsbSoftCtrl.hwMicFifoRdCntBack != ptUsbBase->CFIFO2_RD_PTR)	
+		{       // err
+			tUsbSoftCtrl.wMicFifoErrNum ++;
+			flag |= 0x02;
 		}
-		csp_usb_ep1tx_cnt(ptUsbBase, wLength);
-		csp_usb_ep1tx_txen(ptUsbBase);
-		flag |= 0x01;
+
+		if(!(ptUsbBase->EP1TX_CTL & 0x01)) // for audio
+		{
+			user_epdata = star_epdata;
+			user_epdata += ptUsbBase->CFIFO2_RD_PTR;
+			for(i=0;i<wLength;i++)
+			{
+				*user_epdata++ = *pbyBuf++;
+				if(user_epdata >= end_epdata)
+				{
+					user_epdata = star_epdata;
+				}
+			}
+			csp_usb_ep1tx_cnt(ptUsbBase, wLength);
+			csp_usb_ep1tx_txen(ptUsbBase);
+			flag |= 0x01;
+		}
 	}
 	return flag;
 }
@@ -305,37 +191,47 @@ uint32_t csi_usb_report_ep1_data(csp_usb_t *ptUsbBase,uint8_t * pbyBuf,uint32_t 
 uint32_t csi_usb_read_ep1_data(uint32_t * pwBuf,uint32_t wMaxLen)
 {
 	uint32_t *p_user_data,*p_star_data,*p_end_data;
-	uint32_t i,one_packet_len,hp_fifo_len,hp_packet_wr_ptr;
-
+//	uint32_t i,one_packet_len,hp_fifo_len,hp_packet_wr_ptr;
+	uint32_t i, wDataLength = 0;
 	// if(!usb_config_ok) return 0;
 	p_star_data = (uint32_t *)tUsbEpFifoAddr.pbyEpRxFifoStar[1] ;
 	p_end_data = (uint32_t *)tUsbEpFifoAddr.pbyEpRxFifoStar[2] ;
-    hp_fifo_len = (uint32_t)(tUsbEpFifoAddr.pbyEpRxFifoStar[2] - tUsbEpFifoAddr.pbyEpRxFifoStar[1]) ;
-    one_packet_len = tUsbSoftCtrl.hwHpFifoWrCntBack;
-    hp_packet_wr_ptr = tUsbSoftCtrl.hwHpFifoWrPtrBack;
-
-    if((one_packet_len == 0) || ((one_packet_len%4) != 0) || (one_packet_len > (wMaxLen*4)))
-    {
-        return 0;
-    }
-
-    if(hp_packet_wr_ptr < one_packet_len)
-    {
-        hp_packet_wr_ptr += hp_fifo_len ;
-    }
-    hp_packet_wr_ptr -= one_packet_len;
-
-    one_packet_len /= 4;
-    p_user_data = p_star_data + (hp_packet_wr_ptr/4);
-    for(i=0;i<one_packet_len;i++)
-    {
-        *pwBuf++ = *p_user_data++;
-        if(p_user_data >= p_end_data)
-        {
-            p_user_data = p_star_data;
-        }
-    }
-    return one_packet_len;
+//    hp_fifo_len = (uint32_t)(tUsbEpFifoAddr.pbyEpRxFifoStar[2] - tUsbEpFifoAddr.pbyEpRxFifoStar[1]) ;
+	
+	wDataLength = csp_usb_get_ep1rx_cnt(USBD);
+	
+	for (i = 0; i< wDataLength; i++)
+	{
+		 *pwBuf++ = *p_star_data++;
+	}
+	return wDataLength;
+//    one_packet_len = tUsbSoftCtrl.hwHpFifoWrCntBack;
+//    hp_packet_wr_ptr = tUsbSoftCtrl.hwHpFifoWrPtrBack;
+//	
+//	one_packet_len = csp_usb_get_ep1rx_cnt(USBD);
+//	
+//    if((one_packet_len == 0) || ((one_packet_len%4) != 0) || (one_packet_len > (wMaxLen*4)))
+//    {
+//        return 0;
+//    }
+//
+//    if(hp_packet_wr_ptr < one_packet_len)
+//    {
+//        hp_packet_wr_ptr += hp_fifo_len ;
+//    }
+//    hp_packet_wr_ptr -= one_packet_len;
+//
+//    one_packet_len /= 4;
+//    p_user_data = p_star_data + (hp_packet_wr_ptr/4);
+//    for(i=0;i<one_packet_len;i++)
+//    {
+//        *pwBuf++ = *p_user_data++;
+//        if(p_user_data >= p_end_data)
+//        {
+//            p_user_data = p_star_data;
+//        }
+//    }
+//    return one_packet_len;
 }
 
 /** \brief usb report ep4 data

@@ -15,6 +15,13 @@
   <MonitorProgress>
     <DebugLaunch>40</DebugLaunch>
   </MonitorProgress>
+  <ToolsConfig>
+    <Compiler>
+      <Name>XTGccElfNewlib</Name>
+      <Version>latest</Version>
+    </Compiler>
+  </ToolsConfig>
+  <PackPathes>$(ProjectPath)/../components|$(ProjectPath)/../board|$(ProjectPath)/../components/components/func_test|$(ProjectPath)/../components/components/func_test/components/USB_AUDIO|$(ProjectPath)/../components/components/func_test/components/USB_HID|</PackPathes>
   <BuildConfigs>
     <BuildConfig Name="BuildSet">
       <Target>
@@ -88,25 +95,28 @@
       <Output>
         <OutputName>$(ProjectName)</OutputName>
         <Type>Executable</Type>
-        <CreateHexFile>no</CreateHexFile>
-        <CreateBinFile>no</CreateBinFile>
+        <CreateHexFile>yes</CreateHexFile>
+        <CreateBinFile>yes</CreateBinFile>
         <Preprocessor>no</Preprocessor>
-        <Disassmeble>yes</Disassmeble>
+        <Disassmeble>no</Disassmeble>
         <CallGraph>no</CallGraph>
-        <Map>yes</Map>
+        <Map>no</Map>
       </Output>
       <User>
         <BeforeCompile>
           <RunUserProg>no</RunUserProg>
           <UserProgName/>
+          <IsBatchScript>no</IsBatchScript>
         </BeforeCompile>
         <BeforeMake>
           <RunUserProg>no</RunUserProg>
           <UserProgName/>
+          <IsBatchScript>no</IsBatchScript>
         </BeforeMake>
         <AfterMake>
           <RunUserProg>no</RunUserProg>
           <UserProgName/>
+          <IsBatchScript>no</IsBatchScript>
         </AfterMake>
         <Tools/>
       </User>
@@ -145,7 +155,7 @@
         <OtherFlags/>
         <AutoLDFile>yes</AutoLDFile>
         <LinkType>start-group</LinkType>
-        <IncludeAllLibs>no</IncludeAllLibs>
+        <IncludeAllLibs>yes</IncludeAllLibs>
       </Linker>
       <Debug>
         <LoadApplicationAtStartup>yes</LoadApplicationAtStartup>
@@ -153,31 +163,34 @@
         <StopAt>yes</StopAt>
         <StopAtText>main</StopAtText>
         <InitFile>$(ProjectPath)/script/gdb.init</InitFile>
+        <PreInit/>
         <AfterLoadFile/>
-        <AutoRun>yes</AutoRun>
+        <AutoRun>no</AutoRun>
         <ResetType>Hard Reset</ResetType>
         <SoftResetVal>0</SoftResetVal>
         <ResetAfterLoad>no</ResetAfterLoad>
         <AfterResetFile/>
         <Dumpcore>no</Dumpcore>
         <DumpcoreText>$(ProjectPath)/$(ProjectName).cdkcore</DumpcoreText>
+        <SVCFile/>
         <ConfigICE>
           <IP>localhost</IP>
           <PORT>1025</PORT>
           <CPUNumber>0</CPUNumber>
-          <Clock>300</Clock>
+          <Clock>1000</Clock>
           <Delay>10</Delay>
           <NResetDelay>100</NResetDelay>
           <WaitReset>50</WaitReset>
           <DDC>yes</DDC>
           <TRST>no</TRST>
+          <PreReset>no</PreReset>
           <DebugPrint>no</DebugPrint>
           <Connect>Normal</Connect>
           <ResetType>Soft Reset</ResetType>
           <SoftResetVal>0</SoftResetVal>
           <RTOSType>Bare Metal</RTOSType>
-          <DownloadToFlash>no</DownloadToFlash>
-          <ResetAfterConnect>yes</ResetAfterConnect>
+          <DownloadToFlash>yes</DownloadToFlash>
+          <ResetAfterConnect>no</ResetAfterConnect>
           <GDBName/>
           <GDBServerType>Local</GDBServerType>
           <OtherFlags/>
@@ -210,28 +223,36 @@
       </Debug>
       <Flash>
         <InitFile>$(ProjectPath)/script/flash.init</InitFile>
-        <Erase>Erase Sectors</Erase>
+        <PreInit/>
+        <Erase>Erase Full Chip</Erase>
         <Algorithms Path=""/>
-        <Program>no</Program>
+        <Program>yes</Program>
         <Verify>no</Verify>
         <ResetAndRun>no</ResetAndRun>
         <ResetType>Soft Reset</ResetType>
         <SoftResetVal/>
+        <FlashIndex>no</FlashIndex>
+        <FlashIndexVal>0</FlashIndexVal>
         <External>no</External>
         <Command/>
         <Arguments/>
       </Flash>
     </BuildConfig>
   </BuildConfigs>
-  <PackPathes>$(ProjectPath)/../../A3F011_CPU0|$(ProjectPath)/../components|$(ProjectPath)/../board|</PackPathes>
   <DebugSessions>
-    <watchExpressions>ePinName:1;_end_stack:1;tClkConfig:1;CPU1_BT:1</watchExpressions>
-    <memoryExpressions>0xe6c;0x200008c0;;</memoryExpressions>
-    <statistics>;;32;;MHZ;</statistics>
-    <peripheralTabs/>
+    <watchExpressions>ePinName:1;_end_stack:1;tClkConfig:1;CPU1_BT:1;GPIOD:1;wUsbDeviceStatus:1;USBD:1;tUsbSetup:1;tUsbEp0Ctrl:1;usb_temp_rxbuf:1;tUsbSoftCtrl:1;byHidStringSerial:1;SYSCON:1;wUsbDeviceStatus:1;g_byRcvFlag:1;usb_temp_rxbuf:1;tUsbEpFifoAddr:1;byHidConfigDescriptor:1;byKeyBuf:1;wFreq:4;g_tClkConfig:0;wTargetSclk:4</watchExpressions>
+    <memoryExpressions>0x40460000;0x44000100;0x44000000;0x20009d20</memoryExpressions>
+    <statistics>;;32;;MHZ;;up</statistics>
+    <peripheralTabs>
+      <Tab disFormat="Hex">AUDIO CODEC</Tab>
+      <Tab disFormat="Hex">FVR</Tab>
+      <Tab disFormat="Hex">USB</Tab>
+      <Tab disFormat="Hex">SYSCON</Tab>
+    </peripheralTabs>
     <WatchDisplayFormat>1</WatchDisplayFormat>
     <LocalDisplayFormat>1</LocalDisplayFormat>
     <debugLayout/>
-    <memoryTabColSizeExpressions>100:8;100:8;100:8;100:8;</memoryTabColSizeExpressions>
+    <memoryTabColSizeExpressions>100:8;100:4;100:8;100:8;</memoryTabColSizeExpressions>
+    <QuickWatchDisplayFormat>1</QuickWatchDisplayFormat>
   </DebugSessions>
 </Project>

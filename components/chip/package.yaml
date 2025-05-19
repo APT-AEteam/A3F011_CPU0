@@ -54,7 +54,7 @@ hw_info:
   chip_name: ""
   board_name: ""
   ld_script: ""
-  flash_program: ""
+  flash_program: APT32F173_FLASHDOWN_3_17.elf
 #flash_program: APT32F102_FLASHDOWN.elf
 ## chip component(多处理器)
 # hw_info:
@@ -90,6 +90,7 @@ build_config:
   include:
     - include
     - drivers/sys
+    - usb_midware/inc/
   internal_include: 
   cflag: -Og  -g3  -ffunction-sections -Wno-unused-function
   cxxflag: -Og  -g3  -ffunction-sections -Wno-unused-function
@@ -104,6 +105,10 @@ source_file:
   - drivers/*.c
   - drivers/sys/*.c
   - drivers/sys/*.S
+  - usb_midware/usb_init.c
+  - usb_midware/usb_sil.c
+  - usb_midware/usb_mem.c
+  - usb_midware/usb_desc.c
 ## 第五部分：配置信息
 # def_config:                              # 组件的可配置项
 #   CONFIG_DEBUG: y

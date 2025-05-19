@@ -1,0 +1,41 @@
+name: func_test
+version: v1.0.0
+description: for internal validation
+tag: ""
+keywords: 
+author:
+  name: APT AE Team
+license: ""
+homepage: 
+type: common
+depends: 
+depends_forward: 
+yoc_version: 
+hw_info:
+  cpu_id: ""
+  cpu_name: ""
+  vendor_name: ""
+  chip_name: ""
+  board_name: ""
+  ld_script: ""
+  flash_program: ""
+build_config:
+  include:
+    - ../../../components/chip/usb_midware/inc/
+  internal_include:
+    - source/usb/inc/
+  cflag: -O0
+  cxxflag: -O0
+  asmflag: ""
+  define: 
+  libs: 
+  libpath: 
+source_file:
+  - source/qspi_test.c
+  - source/flash_test.c
+  - source/cpu_test.c
+  - source/usb/usb_prop.c
+  - source/usb/usb_pwr.c
+  - source/usb/usb_hwconfig.c
+def_config: 
+install: 

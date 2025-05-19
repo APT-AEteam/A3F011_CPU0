@@ -10,9 +10,9 @@
 */
 
 #include <sys_clk.h>
-#include <drv/usbd.h>
-#include <drv/usbd_descriptor.h>
-#include <drv/usbd_audio.h>
+#include "usbd.h"
+#include "usbd_descriptor.h"
+#include "usbd_audio.h"
 
 extern csi_usb_setup_t        tUsbSetup;
 extern csi_usb_ep0_ctrl_t     tUsbEp0Ctrl;
@@ -37,7 +37,8 @@ volatile char device_desc_table[18] =     //  18
 };
 
  /*
- * DEVICE QUALIFIER
+ * DEVICE QUALIFIER: describes information about a high-speed capable device that would
+change if the device were operating at the other speed
  * If a full-speed only device receives a GetDescriptor() request for a device_qualifier, 
  * it must respond with a request error. Then, 
  * the host must not make a request for an other_speed_configuration descriptor.

@@ -23,24 +23,27 @@
 extern "C" {
 #endif
 
-#define EP0_MAX_PACKET_SIZE  		32
+#define EP0_MAX_PACKET_SIZE  		64
 #define DVIDL       0x83//0x06
 #define DVIDH       0x04//0x32
 
-#define DPIDL       0xDF//0x02
-#define DPIDH       0x11//0x10
+#define DPIDL       0x51 //0xDF//0x02
+#define DPIDH       0x57 //0x11//0x10
 
 #define   USB_ENUM_STEP_DEVICE_DESC			0x0001
 #define   USB_ENUM_STEP_CONFIG_DESC			0x0002
 #define   USB_ENUM_STEP_LANGUAGE_ID			0x0004
 #define   USB_ENUM_STEP_MANUFAC_STRING		0x0008
 #define   USB_ENUM_STEP_PRODUCT_STRING		0x0010
+
 #define   USB_ENUM_STEP_INF0_REPORT		    0x0020
 #define   USB_ENUM_STEP_INF1_REPORT		    0x0040
 #define   USB_ENUM_STEP_INF2_REPORT		    0x0080
 #define   USB_ENUM_STEP_INF3_REPORT		    0x0100
 #define   USB_ENUM_STEP_INF4_REPORT		    0x0200
 #define   USB_ENUM_STEP_INF5_REPORT		    0x0400
+#define   USB_ENUM_STEP_HIDREPORT_DESC		0x0800	
+#define   USB_ENUM_STEP_SERIAL_STRING		0x1000
 
 typedef union 
 {
@@ -70,8 +73,8 @@ typedef struct
 {
     usb_phy_osc_e eUsbPhyMode;
     uint32_t   wFifoBaseAddress;
-    uint16_t   hwFifoOutLen[7];     // ep out fifo length,byte
-    uint16_t   hwFifoInLen[7];      // ep in fifo length,byte
+    uint16_t   hwFifoOutLen[7];     // ep0~6 out fifo length,byte
+    uint16_t   hwFifoInLen[7];      // ep0~6 in fifo length,byte
     uint16_t   hwHpVolumeInit;
     uint16_t   hwMicVolumeInit;
 }csi_usb_config_t;
@@ -108,36 +111,6 @@ typedef struct
     uint8_t  bySetReport;
     uint8_t  byReportId;
     uint8_t  byReportInterfaceNumber;
-
-    uint8_t  bySetMicSampleFreq;
-    uint8_t  byMicSampleFreqH;
-    uint8_t  byMicSampleFreqM;
-    uint8_t  byMicSampleFreqL;
-
-    uint8_t  bySetSpeakerSampleFreq;
-    uint8_t  bySpeakerSampleFreqH;
-    uint8_t  bySpeakerSampleFreqM;
-    uint8_t  bySpeakerSampleFreqL;
-
-    uint8_t  bySetBassBoost;
-    uint8_t  byBassBoost;
-
-    uint8_t  bySetSelectorUnit;
-    uint8_t  bySelectorUnit;
-
-    uint8_t  bySetSpeakerVol;
-    uint8_t  bySpeakerVolValueH;
-    uint8_t  bySpeakerVolValueL;
-
-    uint8_t  bySetSpeakerMute;
-    uint8_t  bySpeakerMuteValue;
-
-    uint8_t  bySetMicVol;
-    uint8_t  byMicVolValueH;
-    uint8_t  byMicVolValueL;
-
-    uint8_t  bySetMicMute;
-    uint8_t  byMicMuteValue;
 
     uint8_t  byKeyLedStae;
 }csi_usb_ep0_ctrl_t;
@@ -181,6 +154,14 @@ typedef struct
  */  
 csi_error_t  csi_usb_init(csp_usb_t *ptUsbBase,csi_usb_config_t ptUsbCfg);
 
+
+/** \brief usb reset
+ * 
+ *  \param[in] ptUsbBase: pointer of usb register structure
+ *  \return none
+ */ 
+void csi_usb_reset(csp_usb_t *ptUsbBase);
+
 /** \brief usb dp pull up disable 
  * 
  *  \param[in] ptUsbBase: pointer of usb register structure
@@ -196,12 +177,6 @@ void csi_usb_dp_pull_up_disable(csp_usb_t *ptUsbBase);
  */  
 void csi_usb_clk_config(csp_usb_t *ptUsbBase,csi_usb_config_t ptUsbCfg);
 
-/** \brief power on init usb  
- * 
- *  \param[in] ptUsbBase: pointer of usb register structure
- *  \return none
- */ 
-void usb_audio_samp_demo(csp_usb_t *ptUsbBase);
 
 /** \brief usb dp pull up enable 
  * 
@@ -231,6 +206,15 @@ void csi_usb_fetch_descriptor(csp_usb_t *ptUsbBase);
  *  \return none
  */ 
 void csi_usb_ep0_tx_rx_ready(csp_usb_t *ptUsbBase,uint8_t byCnt);
+
+
+/** \brief power on init usb  
+ * 
+ *  \param[in] ptUsbBase: pointer of usb register structure
+ *  \param[in] ptUsbCfg: pointer of usb parameter config structure
+ *  \return error code \ref csi_error_t
+ */  
+csi_error_t  csi_usb_hid_init(csp_usb_t *ptUsbBase,csi_usb_config_t ptUsbCfg);
 
 #ifdef __cplusplus
 }

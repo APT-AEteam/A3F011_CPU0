@@ -10,12 +10,12 @@
 */
 
 #include "sys_clk.h"
-#include "drv/usbd.h"
-#include "drv/usbd_descriptor.h"
-#include "drv/usbd_audio.h"
-#include "drv/irq.h"
-#include "drv/pin.h"
-#include "drv/tick.h"
+#include "usbd.h"
+#include "usbd_descriptor.h"
+#include "usbd_audio.h"
+#include "irq.h"
+#include "pin.h"
+#include "tick.h"
 
 /* Private macro------------------------------------------------------*/
 /* externs function---------------------------------------------------*/
@@ -54,7 +54,7 @@ csi_error_t  csi_usb_init(csp_usb_t *ptUsbBase,csi_usb_config_t ptUsbCfg)
 	tRet = CSI_OK;
     csi_usb_config_init();
 	csi_usb_clk_config(ptUsbBase,ptUsbCfg); 
-	csp_usb_sram_addr(ptUsbBase, ptUsbCfg.wFifoBaseAddress);     
+	csp_usb_set_pma_addr(ptUsbBase, ptUsbCfg.wFifoBaseAddress);     
     tUsbEp0Ctrl.pbyEp0RxFifoBase = (uint8_t *)ptUsbCfg.wFifoBaseAddress;
 	tUsbEpFifoAddr.pbyEpRxFifoStar[0] = (uint8_t *)ptUsbCfg.wFifoBaseAddress;
 
@@ -130,8 +130,8 @@ csi_error_t  csi_usb_init(csp_usb_t *ptUsbBase,csi_usb_config_t ptUsbCfg)
 
     csp_usb_en(ptUsbBase);
 	csp_usb_int_enable(ptUsbBase, USB_SOF_INT|USB_RST_INT|USB_SUS_INT|USB_SETUP_INT,ENABLE);
-    ptUsbBase->EP_TX_IF =  0x00; 
-    ptUsbBase->EP_RX_IF =  0x00; 
+    ptUsbBase->EP_TXISR =  0x00; 
+    ptUsbBase->EP_RXISR =  0x00; 
    
 	csi_irq_enable((uint32_t *)ptUsbBase);
     return tRet;
@@ -217,8 +217,8 @@ void csi_usb_read_ep0_rx_fifo(uint8_t *p_buf,uint8_t len)
  */ 
 void csi_usb_reset(csp_usb_t *ptUsbBase)	//01
 {
-	csp_usb_clear_reset_flag(ptUsbBase);
-
+	//csp_usb_clear_reset_flag(ptUsbBase);
+	csp_usb_clear_all_flag(ptUsbBase);
 	ptUsbBase->EP0TX_CTL |= 0xc0;
 	ptUsbBase->EP0TX_CTL &= 0xc4;	    //  do not change toggle
 	ptUsbBase->EP1TX_CTL = 0;
@@ -237,8 +237,8 @@ void csi_usb_reset(csp_usb_t *ptUsbBase)	//01
 	ptUsbBase->EP5RX_CTL = 0;
 	ptUsbBase->EP6RX_CTL = 0;
 
-	ptUsbBase->EP_RX_IF = 0;
-	ptUsbBase->EP_TX_IF = 0;
+	ptUsbBase->EP_RXISR = 0;
+	ptUsbBase->EP_TXISR = 0;
 	memset(&tUsbSoftCtrl,0,sizeof(csi_usb_soft_ctrl_t));	
 }
 
@@ -276,7 +276,7 @@ void csi_usb_ep0_rx(csp_usb_t *ptUsbBase)
         
 	csp_usb_ep_rxif(ptUsbBase, USB_EPTXIF0,DISABLE);  // clear interrupt flag
 
-    ui_rx_length = csp_usb_ep0rx_get_cnt(ptUsbBase);
+    ui_rx_length = csp_usb_get_ep0rx_cnt(ptUsbBase);
     if(ui_rx_length > 16)
     {
         ui_rx_length = 16;
@@ -1133,7 +1133,7 @@ void csi_usb_set_report(csp_usb_t *ptUsbBase)
 	}
 	tUsbEp0Ctrl.bySetReport = 1;
 	csi_usb_ep0_tx_rx_ready(ptUsbBase,0);
-	csp_usb_ep0rx_cnt(ptUsbBase, ui_length);
+	csp_usb_set_ep0rx_cnt(ptUsbBase, ui_length);
 }
 
 /** \brief usb set television one
@@ -1162,7 +1162,7 @@ void csi_usb_set_television_one(csp_usb_t *ptUsbBase)
 	}
 	tUsbEp0Ctrl.bySetReport = 1;
 	csi_usb_ep0_tx_rx_ready(ptUsbBase,0);
-	csp_usb_ep0rx_cnt(ptUsbBase, ui_length);
+	csp_usb_set_ep0rx_cnt(ptUsbBase, ui_length);
 }
 
 
@@ -1503,7 +1503,7 @@ void csi_usb_dp_pull_up_enable(csp_usb_t *ptUsbBase)
  */
 void csi_usb_dp_pull_up_disable(csp_usb_t *ptUsbBase)
 {
-	ptUsbBase->USB_CTL &= 0xffffff3f;    // Bit[6]:DPPU   Bit[7]:DPPU_LO
+	ptUsbBase->USB_CR &= 0xffffff3f;    // Bit[6]:DPPU   Bit[7]:DPPU_LO
 	tUsbSoftCtrl.hwUsbEnumStep = 0x00;
 }
 

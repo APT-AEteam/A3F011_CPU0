@@ -20,20 +20,20 @@
 /// \brief BT reg description      
  typedef struct
  {
-	 __IOM uint32_t USB_CTL;	    //0x0000	Configure and enable USB Device.
+	 __IOM uint32_t USB_CR;	    //0x0000	Configure and enable USB Device.
 	 __IOM uint32_t USB_ADDR;	//0x0004	USB base address.
-	 __IOM uint32_t EP_SEL;	    //0x0008	Endpoint selection.
-	 __IOM uint32_t IDEL_SEL;	//0x000C	Select delay time of ACK.
-	 __IOM uint32_t EP_POINTER;	//0x0010	Pointer of endpoint ,Low 8 bit.
-	 __IOM uint32_t EP_POINTERH;	//0x0014	Pointer of endpoint ,High 2 bit.
-	 __IOM uint32_t FIFO_SET;	//0x0018	Base address and size of Endpoint.
+	 __IOM uint32_t USB_EPSEL;	//0x0008	Endpoint selection.
+	 __IOM uint32_t USB_IDLE;	//0x000C	Select delay time of ACK.
+	 __IOM uint32_t FIFO_OFFSETL;	//0x0010	Pointer of endpoint ,Low 8 bit.
+	 __IOM uint32_t FIFO_OFFSETH;	//0x0014	Pointer of endpoint ,High 2 bit.
+	 __IOM uint32_t FIFO_BASEADDR;	//0x0018	Base address and size of Endpoint.
 	 __IOM uint32_t USB_ISO;    //0x001C	Configuration of Endpoint for isochronous transfer.
-	 __IOM uint32_t USB_IE;	    //0x0020	USBD interrupt enable.
-	 __IOM uint32_t EP_TX_IF;	//0x0024	Transmit endpoint interrupt flag.
-	 __IOM uint32_t EP_RX_IF;	//0x0028	Receive endpoint interrupt flag.
-	 __IOM uint32_t USB_IV;	    //0x002C	USBD interrupt vector.
-	 __IOM uint32_t USB_SOFL;	//0x0030	SOF frame number ,low 8 bit.
-	 __IOM uint32_t USB_SOFH;	//0x0034	SOF frame number ,high 2 bit.
+	 __IOM uint32_t USB_IMR;	    //0x0020	USBD interrupt enable.
+	 __IOM uint32_t EP_TXISR;	//0x0024	Transmit endpoint interrupt flag.
+	 __IOM uint32_t EP_RXISR;	//0x0028	Receive endpoint interrupt flag.
+	 __IM uint32_t 	USB_ISR;	    //0x002C	USBD interrupt vector.
+	 __IM uint32_t USB_FRAMEL;	//0x0030	SOF frame number ,low 8 bit.
+	 __IM uint32_t USB_FRAMEH;	//0x0034	SOF frame number ,high 2 bit.
 	 __IOM uint32_t EP0RX_CTL;	//0x0038	Receive control for Endpoint 0.
 	 __IOM uint32_t EP0RX_CNT;	//0x003C	Receive data count for Endpoint 0, unit is byte.
 	 __IOM uint32_t EP1RX_CTL;	//0x0040	Receive control for Endpoint 1.
@@ -62,11 +62,11 @@
 	 __IOM uint32_t EP5TX_CNT;	//0x009C	Transmit data count for Endpoint 5, unit is byte.
 	 __IOM uint32_t EP6TX_CTL;	//0x00A0	Transmit control for Endpoint 6.
 	 __IOM uint32_t EP6TX_CNT;	//0x00A4	Transmit data count for Endpoint 6, unit is byte.
-	 __IOM uint32_t SRAM_ADDR;	//0x00A8	SRAM base address for all the endpoints.
-	 __IOM uint32_t CFIFO0_RD_PTR;	//0x00AC	Read pointer of Circular FIFO0 for TX endpoint.
-	 __IOM uint32_t CFIFO1_WR_PTR;	//0x00B0	Write pointer of Circular FIFO1 for RX endpoint.
-	 __IOM uint32_t CFIFO2_RD_PTR;	//0x00B4	Read pointer of Circular FIFO2 for TX endpoint.
-	 __IOM uint32_t CFIFO3_WR_PTR;	//0x00B8	Write pointer of Circular FIFO3 for RX endpoint.
+	 __IOM uint32_t PMA_ADDR;	//0x00A8	SRAM base address for all the endpoints.
+	 __IM uint32_t CFIFO0_RD_PTR;	//0x00AC	Read pointer of Circular FIFO0 for TX endpoint.
+	 __IM uint32_t CFIFO1_WR_PTR;	//0x00B0	Write pointer of Circular FIFO1 for RX endpoint.
+	 __IM uint32_t CFIFO2_RD_PTR;	//0x00B4	Read pointer of Circular FIFO2 for TX endpoint.
+	 __IM uint32_t CFIFO3_WR_PTR;	//0x00B8	Write pointer of Circular FIFO3 for RX endpoint.
 
 } csp_usb_t; 
 
@@ -134,7 +134,7 @@ typedef enum
 	USB_EP_5,
 	USB_EP_6
        
-}usb_ep_sel_e;
+}usb_USB_EPSEL_e;
 
 typedef enum
 {
@@ -192,7 +192,7 @@ typedef enum
 }usb_iso_ep_e;
 
 /******************************************************************************
-* ADDR : USB IE
+* USB IE
 ******************************************************************************/
 typedef enum
 {
@@ -220,11 +220,16 @@ typedef enum
 }usb_ep_txrxif_e;
 
 /******************************************************************************
-* ADDR : USB EP RXCR
+*USB EP RXCR/TXCR
 ******************************************************************************/
 #define USB_EP_RXEN_POS             (0)
-#define USB_EP_RXEN_MSK	            (0x01ul << USB_EP_RXEN_POS)
+#define USB_EP_RXEN_MSK	            (0x01ul << USB_EP_EN_POS)
 #define USB_EP_RXEN_EN              (1)
+
+#define USB_EP_TXEN_POS             (0)
+#define USB_EP_TXEN_MSK	            (0x01ul << USB_EP_EN_POS)
+#define USB_EP_TXEN_EN              (1)
+
 
 #define USB_EP_STALL_POS            (1)
 #define USB_EP_STALL_MSK	        (0x01ul << USB_EP_STALL_POS)
@@ -242,63 +247,77 @@ typedef enum
 #define USB_EP_EN_MSK	            (0x01ul << USB_EP_EN_POS)
 #define USB_EP_EN_EN                (1)
 
+/******************************************************************************
+*USB EP RXCR/TXCR
+******************************************************************************/
+#define USB_CNT_MSK					(0x3FF)
+
+
+
+
+
+static inline void csp_usb_clear_all_flag(csp_usb_t *ptUsbBase)
+{
+	ptUsbBase->USB_CR &= ~(USB_SETUP_FLAG_MSK |USB_SUSPEND_FLAG_MSK |USB_RESET_FLAG_MSK);
+}
 
 
 static inline void csp_usb_clear_setup_flag(csp_usb_t *ptUsbBase)
 {
-	ptUsbBase->USB_CTL &= ~USB_SETUP_FLAG_MSK;
+	ptUsbBase->USB_CR &= ~USB_SETUP_FLAG_MSK;
 }
 
 static inline void csp_usb_clear_suspend_flag(csp_usb_t *ptUsbBase)
 {
-	ptUsbBase->USB_CTL &= ~USB_SUSPEND_FLAG_MSK;
+	ptUsbBase->USB_CR &= ~USB_SUSPEND_FLAG_MSK;
 }
 
 static inline void csp_usb_clear_reset_flag(csp_usb_t *ptUsbBase)
 {
-	ptUsbBase->USB_CTL &= ~USB_RESET_FLAG_MSK;
+	ptUsbBase->USB_CR &= ~USB_RESET_FLAG_MSK;
 }
 
 static inline void csp_usb_set_pup(csp_usb_t *ptUsbBase)
 {
-	ptUsbBase->USB_CTL = (ptUsbBase->USB_CTL & ~USB_PUP_MSK)| (USB_PUP_EN<<USB_PUP_POS);
+	ptUsbBase->USB_CR = (ptUsbBase->USB_CR & ~USB_PUP_MSK)| (USB_PUP_EN<<USB_PUP_POS);
 }
 
 static inline void csp_usb_set_pullup_lo(csp_usb_t *ptUsbBase)
 {
-	ptUsbBase->USB_CTL = (ptUsbBase->USB_CTL & ~USB_PULLUP_LO_MSK)| (USB_PULLUP_LO_EN<<USB_PULLUP_LO_POS);
+	ptUsbBase->USB_CR = (ptUsbBase->USB_CR & ~USB_PULLUP_LO_MSK)| (USB_PULLUP_LO_EN<<USB_PULLUP_LO_POS);
 }
 
 static inline void csp_usb_set_phy_suspend(csp_usb_t *ptUsbBase)
 {
-	ptUsbBase->USB_CTL = (ptUsbBase->USB_CTL & ~USB_SUSPEND_MSK)| (USB_SUSPEND_EN<<USB_SUSPEND_POS);
+	ptUsbBase->USB_CR = (ptUsbBase->USB_CR & ~USB_SUSPEND_MSK)| (USB_SUSPEND_EN<<USB_SUSPEND_POS);
 }
 
 static inline void csp_usb_en(csp_usb_t *ptUsbBase)
 {
-	ptUsbBase->USB_CTL |= (USB_CLK_EN << USB_CLK_POS);
+	ptUsbBase->USB_CR |= (USB_CLK_EN << USB_CLK_POS);
 }
 
 
-static inline void csp_usb_set_addr(csp_usb_t *ptUsbBase,uint8_t byAddr)
+static inline void csp_usb_set_addr(csp_usb_t *ptUsbBase,uint32_t wAddr)
 {
-	ptUsbBase->USB_ADDR = byAddr;
+	ptUsbBase->USB_ADDR = wAddr;
 }
 
-static inline void csp_usb_set_ep(csp_usb_t *ptUsbBase,usb_ep_sel_e eEpSel,usb_ep_inout_e eEpInout)
+
+static inline void csp_usb_set_ep(csp_usb_t *ptUsbBase,usb_USB_EPSEL_e eEpSel,usb_ep_inout_e eEpInout)
 {
-	ptUsbBase->EP_SEL = (eEpSel<< USB_EPSEL_POS)|(eEpInout << USB_INOUT_POS);
+	ptUsbBase->USB_EPSEL = (eEpSel<< USB_EPSEL_POS)|(eEpInout << USB_INOUT_POS);
 }
 
 static inline void csp_usb_set_ep_pointer(csp_usb_t *ptUsbBase,uint8_t byPointerL,uint8_t byPointerH)
 {
-	ptUsbBase->EP_POINTER  = byPointerL;
-	ptUsbBase->EP_POINTERH = byPointerH;
+	ptUsbBase->FIFO_OFFSETL  = byPointerL;
+	ptUsbBase->FIFO_OFFSETH = byPointerH;
 }
 
 static inline void csp_usb_set_fifo(csp_usb_t *ptUsbBase,uint8_t byFifo)
 {
-	ptUsbBase->FIFO_SET  = byFifo;
+	ptUsbBase->FIFO_BASEADDR  = byFifo;
 }
 
 static inline void csp_usb_set_iso_tx0(csp_usb_t *ptUsbBase,usb_iso_e eIsoEnable,usb_iso_ep_e eIsoEp)
@@ -324,42 +343,267 @@ static inline void csp_usb_set_iso_rx1(csp_usb_t *ptUsbBase,usb_iso_e eIsoEnable
 static inline void csp_usb_int_enable(csp_usb_t *ptUsbBase, usb_int_e eUsbInt,bool bEnable)
 {
 	if(bEnable)
-		ptUsbBase->USB_IE |= eUsbInt; 
+		ptUsbBase->USB_IMR |= eUsbInt; 
 	else
-		ptUsbBase->USB_IE &= ~eUsbInt; 
+		ptUsbBase->USB_IMR &= ~eUsbInt; 
 }
 
 static inline void csp_usb_sof_if(csp_usb_t *ptUsbBase)
 {
-	ptUsbBase->USB_IE = (ptUsbBase->USB_IE & (~USB_SOFIF_MSK)); 
+	ptUsbBase->USB_IMR = (ptUsbBase->USB_IMR & (~USB_SOFIF_MSK)); 
 }
 
 static inline void csp_usb_ep_txif(csp_usb_t *ptUsbBase, usb_ep_txrxif_e eUsbEpTxIf,bool bEnable)
 {
 	if(bEnable)
-		ptUsbBase->EP_TX_IF |= eUsbEpTxIf; 
+		ptUsbBase->EP_TXISR |= eUsbEpTxIf; 
 	else
-		ptUsbBase->EP_TX_IF &= ~eUsbEpTxIf; 
+		ptUsbBase->EP_TXISR &= ~eUsbEpTxIf; 
 }
 
 static inline void csp_usb_ep_rxif(csp_usb_t *ptUsbBase, usb_ep_txrxif_e eUsbEpTxIf,bool bEnable)
 {
 	if(bEnable)
-		ptUsbBase->EP_RX_IF |= eUsbEpTxIf; 
+		ptUsbBase->EP_RXISR |= eUsbEpTxIf; 
 	else
-		ptUsbBase->EP_RX_IF &= ~eUsbEpTxIf; 
+		ptUsbBase->EP_RXISR &= ~eUsbEpTxIf; 
 }
 
 static inline uint8_t csp_usb_get_isr(csp_usb_t *ptUsbBase)
 {
-	return (ptUsbBase->USB_IV&0x1f); 
+	return (ptUsbBase->USB_ISR&0x1f); 
 }
 
-static inline void csp_usb_set_frame(csp_usb_t *ptUsbBase, uint8_t byFrameL,uint8_t byFrameH)
+static inline uint16_t csp_usb_get_frame_len(csp_usb_t *ptUsbBase)
 {
-	ptUsbBase->USB_SOFL = byFrameL; 
-	ptUsbBase->USB_SOFH = byFrameH&0x07; 
+	return  (ptUsbBase->USB_FRAMEL &0xff) | ((ptUsbBase->USB_FRAMEH &0x07)<<8); 
+	
 }
+
+/*=========================================================
+ *  USB_EP[x]RXCR unified control start
+ * ========================================================*/
+static inline void csp_usb_ep_rx_enable(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0RX_CTL) + (byEpNum*2)) |= (USB_EP_RXEN_EN << USB_EP_RXEN_POS) | USB_EP_EN_EN << USB_EP_EN_POS;
+}
+
+static inline void csp_usb_ep_rx_disable(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0RX_CTL) + (byEpNum*2)) &= (~USB_EP_RXEN_MSK);
+}
+
+static inline void csp_usb_ep_rx_set_stall(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0RX_CTL) + (byEpNum*2)) |= (USB_EP_STALL_EN << USB_EP_STALL_POS);
+}
+
+static inline void csp_usb_ep_rx_clear_stall(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0RX_CTL) + (byEpNum*2))  &= ( ~USB_EP_STALL_MSK);
+}
+
+static inline void csp_usb_ep_rx_toggle_enable(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0RX_CTL) + (byEpNum*2)) |= (USB_EP_TOGGLE_EN << USB_EP_TOGGLE_POS);
+}
+
+static inline void csp_usb_ep_rx_toggle_disable(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0RX_CTL) + (byEpNum*2)) &= (~USB_EP_TOGGLE_MSK);
+}
+
+static inline void csp_usb_ep_rx_int_enable(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0RX_CTL) + (byEpNum*2)) |= (USB_EP_IE_EN << USB_EP_IE_POS);
+}
+
+static inline void csp_usb_ep_rx_int_disable(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0RX_CTL) + (byEpNum*2))  &= (~USB_EP_IE_MSK);
+}
+
+
+/*=========================================================
+ *  USB_EP[x]RXCR unified control end
+ * ========================================================*/
+ 
+/*=========================================================
+ *  USB_EP[x]RXCNT unified control start
+ * ========================================================*/
+ static inline void csp_usb_ep_set_rxcnt(csp_usb_t *ptUsbBase, uint8_t byEpNum, uint8_t byCnt)
+{
+	*(&(ptUsbBase->EP0RX_CNT) + (byEpNum*2)) = byCnt;
+}
+ 
+static inline uint8_t csp_usb_ep_get_rxcnt(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	return (*(&(ptUsbBase->EP0RX_CNT) + (byEpNum*2)));
+}
+
+static inline bool csp_usb_ep_increase_rxcnt(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+
+	uint32_t wRxCnt = csp_usb_ep_get_rxcnt(ptUsbBase, byEpNum);
+	if (wRxCnt< USB_CNT_MSK)
+		*(&(ptUsbBase->EP0TX_CNT) + (byEpNum*2)) = wRxCnt +1 ;
+	else
+		 return FALSE;
+	return TRUE;
+}
+
+static inline bool csp_usb_ep_decrease_rxcnt(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	uint32_t wRxCnt = csp_usb_ep_get_rxcnt(ptUsbBase, byEpNum);
+	if (wRxCnt> 0)
+		*(&(ptUsbBase->EP0TX_CNT) + (byEpNum*2)) = wRxCnt - 1 ;
+	else
+		 return FALSE;
+	return TRUE;
+}
+/*=========================================================
+ *  USB_EP[x]RXCNT unified control end
+ * ========================================================*/
+ 
+ /*=========================================================
+ *  USB_EP[x]TXCR unified control start
+ * ========================================================*/
+static inline void csp_usb_ep_tx_enable(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0RX_CTL) + (byEpNum*2)) |= (USB_EP_TXEN_EN << USB_EP_TXEN_POS) | USB_EP_EN_EN << USB_EP_EN_POS;
+}
+
+static inline void csp_usb_ep_tx_disable(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0RX_CTL) + (byEpNum*2)) &= (~USB_EP_TXEN_MSK);
+}
+
+static inline void csp_usb_ep_tx_set_stall(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0TX_CTL) + (byEpNum*2)) |= (USB_EP_STALL_EN << USB_EP_STALL_POS);
+}
+
+static inline void csp_usb_ep_tx_clear_stall(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0TX_CTL) + (byEpNum*2))  &= ( ~USB_EP_STALL_MSK);
+}
+
+static inline void csp_usb_ep_tx_toggle_enable(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0TX_CTL) + (byEpNum*2)) |= (USB_EP_TOGGLE_EN << USB_EP_TOGGLE_POS);
+}
+
+static inline void csp_usb_ep_tx_toggle_disable(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0TX_CTL) + (byEpNum*2)) &= (~USB_EP_TOGGLE_MSK);
+}
+
+static inline void csp_usb_ep_tx_int_enable(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0TX_CTL) + (byEpNum*2)) |= (USB_EP_IE_EN << USB_EP_IE_POS);
+}
+
+static inline void csp_usb_ep_tx_int_disable(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	*(&(ptUsbBase->EP0TX_CTL) + (byEpNum*2))  &= (~USB_EP_IE_MSK);
+}
+
+
+ /*=========================================================
+ *  USB_EP[x]TXCR unified control end
+ * ========================================================*/ 
+ 
+/*=========================================================
+ *  USB_EP[x]TXCNT unified control start
+ * ========================================================*/
+ static inline void csp_usb_ep_set_txcnt(csp_usb_t *ptUsbBase, uint8_t byEpNum, uint16_t hwCnt)
+{
+	*(&(ptUsbBase->EP0TX_CNT) + (byEpNum*2)) = hwCnt;
+}
+ 
+static inline uint8_t csp_usb_ep_get_txcnt(csp_usb_t *ptUsbBase, uint16_t byEpNum)
+{
+	return (*(&(ptUsbBase->EP0TX_CNT) + (byEpNum*2)));
+}
+
+static inline bool csp_usb_ep_increase_txcnt(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	uint32_t wTxCnt = csp_usb_ep_get_txcnt(ptUsbBase, byEpNum);
+	if (wTxCnt< USB_CNT_MSK)
+		*(&(ptUsbBase->EP0TX_CNT) + (byEpNum*2)) = wTxCnt +1 ;
+	else
+		 return FALSE;
+	return TRUE;
+}
+
+static inline bool csp_usb_ep_decrease_txcnt(csp_usb_t *ptUsbBase, uint8_t byEpNum)
+{
+	uint32_t wTxCnt = csp_usb_ep_get_txcnt(ptUsbBase, byEpNum);
+	if (wTxCnt> 0)
+		*(&(ptUsbBase->EP0TX_CNT) + (byEpNum*2)) = wTxCnt -1 ;
+	else
+		 return FALSE;
+	return TRUE;
+}
+/*=========================================================
+ *  USB_EP[x]RXCNT unified control end
+ * ========================================================*/
+ 
+ 
+
+static inline void csp_usb_set_pma_addr(csp_usb_t *ptUsbBase, uint32_t wAddr)
+{
+	ptUsbBase->PMA_ADDR = wAddr; 
+}
+
+static inline uint32_t csp_usb_get_pma_addr(csp_usb_t *ptUsbBase)
+{
+	return (ptUsbBase->PMA_ADDR);
+}
+
+
+static inline uint16_t csp_usb_get_cfifo0_rdptr(csp_usb_t *ptUsbBase)
+{
+	return ptUsbBase->CFIFO0_RD_PTR; 
+}
+
+
+static inline uint16_t csp_usb_get_cfifo1_wrptr(csp_usb_t *ptUsbBase)
+{
+	return ptUsbBase->CFIFO1_WR_PTR; 
+}
+
+static inline uint16_t csp_usb_get_cfifo2_rdptr(csp_usb_t *ptUsbBase)
+{
+	return ptUsbBase->CFIFO2_RD_PTR; 
+}
+
+static inline uint16_t csp_usb_get_cfifo3_wrptr(csp_usb_t *ptUsbBase)
+{
+	return ptUsbBase->CFIFO3_WR_PTR; 
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ /*以下为第一版驱动中对EPxRX_CTRL/CNT，EPxTX_CTRL/CNT的支持，不够简洁*/
+ 
 
 //ep0rx 
 static inline void csp_usb_ep0rx_rxen(csp_usb_t *ptUsbBase)
@@ -401,12 +645,12 @@ static inline void csp_usb_ep0rx_epen(csp_usb_t *ptUsbBase, bool bEnable)
 		ptUsbBase->EP0RX_CTL &= (~USB_EP_EN_MSK); 
 }
 
-static inline void csp_usb_ep0rx_cnt(csp_usb_t *ptUsbBase, uint16_t hwCnt)
+static inline void csp_usb_set_ep0rx_cnt(csp_usb_t *ptUsbBase, uint16_t hwCnt)
 {
 	ptUsbBase->EP0RX_CNT = hwCnt; 
 }
 
-static inline uint16_t csp_usb_ep0rx_get_cnt(csp_usb_t *ptUsbBase)
+static inline uint16_t csp_usb_get_ep0rx_cnt(csp_usb_t *ptUsbBase)
 {
 	return ptUsbBase->EP0RX_CNT; 
 }
@@ -451,12 +695,12 @@ static inline void csp_usb_ep1rx_epen(csp_usb_t *ptUsbBase, bool bEnable)
 		ptUsbBase->EP1RX_CTL &= (~USB_EP_EN_MSK); 
 }
 
-static inline void csp_usb_ep1rx_cnt(csp_usb_t *ptUsbBase, uint16_t hwCnt)
+static inline void csp_usb_set_ep1rx_cnt(csp_usb_t *ptUsbBase, uint16_t hwCnt)
 {
 	ptUsbBase->EP1RX_CNT = hwCnt; 
 }
 
-static inline uint16_t csp_usb_ep1rx_get_cnt(csp_usb_t *ptUsbBase)
+static inline uint16_t csp_usb_get_ep1rx_cnt(csp_usb_t *ptUsbBase)
 {
 	return ptUsbBase->EP1RX_CNT; 
 }
@@ -501,12 +745,12 @@ static inline void csp_usb_ep2rx_epen(csp_usb_t *ptUsbBase, bool bEnable)
 		ptUsbBase->EP2RX_CTL &= (~USB_EP_EN_MSK); 
 }
 
-static inline void csp_usb_ep2rx_cnt(csp_usb_t *ptUsbBase, uint16_t hwCnt)
+static inline void csp_usb_set_ep2rx_cnt(csp_usb_t *ptUsbBase, uint16_t hwCnt)
 {
 	ptUsbBase->EP2RX_CNT = hwCnt; 
 }
 
-static inline uint16_t csp_usb_ep2rx_get_cnt(csp_usb_t *ptUsbBase)
+static inline uint16_t csp_usb_get_ep2rx_cnt(csp_usb_t *ptUsbBase)
 {
 	return ptUsbBase->EP2RX_CNT; 
 }
@@ -551,12 +795,12 @@ static inline void csp_usb_ep3rx_epen(csp_usb_t *ptUsbBase, bool bEnable)
 		ptUsbBase->EP3RX_CTL &= (~USB_EP_EN_MSK); 
 }
 
-static inline void csp_usb_ep3rx_cnt(csp_usb_t *ptUsbBase, uint16_t hwCnt)
+static inline void csp_usb_set_ep3rx_cnt(csp_usb_t *ptUsbBase, uint16_t hwCnt)
 {
 	ptUsbBase->EP3RX_CNT = hwCnt; 
 }
 
-static inline uint16_t csp_usb_ep3rx_get_cnt(csp_usb_t *ptUsbBase)
+static inline uint16_t csp_usb_get_ep3rx_cnt(csp_usb_t *ptUsbBase)
 {
 	return ptUsbBase->EP3RX_CNT; 
 }
@@ -1062,50 +1306,7 @@ static inline uint16_t csp_usb_ep6tx_get_cnt(csp_usb_t *ptUsbBase)
 	return ptUsbBase->EP6TX_CNT; 
 }
 
-static inline void csp_usb_sram_addr(csp_usb_t *ptUsbBase, uint32_t wAddr)
-{
-	ptUsbBase->SRAM_ADDR = wAddr; 
-}
 
 
-static inline void csp_usb_cfifo0_rdptr(csp_usb_t *ptUsbBase, uint16_t hwPtr)
-{
-	ptUsbBase->CFIFO0_RD_PTR = hwPtr; 
-}
-
-static inline uint16_t csp_usb_get_cfifo0_rdptr(csp_usb_t *ptUsbBase)
-{
-	return ptUsbBase->CFIFO0_RD_PTR; 
-}
-
-static inline void csp_usb_cfifo1_wrptr(csp_usb_t *ptUsbBase, uint16_t hwPtr)
-{
-	ptUsbBase->CFIFO1_WR_PTR = hwPtr; 
-}
-
-static inline uint16_t csp_usb_get_cfifo1_wrptr(csp_usb_t *ptUsbBase)
-{
-	return ptUsbBase->CFIFO1_WR_PTR; 
-}
-
-static inline void csp_usb_cfifo2_rdptr(csp_usb_t *ptUsbBase, uint16_t hwPtr)
-{
-	ptUsbBase->CFIFO2_RD_PTR = hwPtr; 
-}
-
-static inline uint16_t csp_usb_get_cfifo2_rdptr(csp_usb_t *ptUsbBase)
-{
-	return ptUsbBase->CFIFO2_RD_PTR; 
-}
-
-static inline void csp_usb_cfifo3_wrptr(csp_usb_t *ptUsbBase, uint16_t hwPtr)
-{
-	ptUsbBase->CFIFO3_WR_PTR = hwPtr; 
-}
-
-static inline uint16_t csp_usb_get_cfifo3_wrptr(csp_usb_t *ptUsbBase)
-{
-	return ptUsbBase->CFIFO3_WR_PTR; 
-}
 
 #endif
